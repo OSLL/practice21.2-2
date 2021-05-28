@@ -1,0 +1,21 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+    - '**'
+
+jobs:
+  Tests:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Unit and Gradlew Tests
+      run: |
+        chmod +x ./gradlew
+        ./gradlew test
+    - name: Run Android Tests (and also gradlew)
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        script: ./gradlew connectedCheck
