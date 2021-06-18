@@ -5,7 +5,10 @@
  */
 class Predator(position: Point, fieldOfView: Int, speed: Int): Animal(position, fieldOfView, speed) {
     val isItPredator: Boolean = true             // Для отрисовки
-    // Функция, реализующая поведение для животного (куда животное пойдет на следующем ходу)
-    override fun move(animals: MutableList<Animal>) {
+    /* Функция, реализующая поведение для животного (куда животное пойдет на следующем ходу)
+     * Возвращает состояние животного (умерло - false/живо - true)
+     */
+    override fun move(animals: MutableList<Animal>): Boolean {
+        return true
     }
 }

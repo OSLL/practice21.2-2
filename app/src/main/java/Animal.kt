@@ -13,5 +13,5 @@ abstract class Animal(var position: Point, val fieldOfView: Int, val speed: Int)
     protected fun setPosition(X: Int, Y: Int) {
         position = Point(X, Y)
     }
-    abstract fun move(animals: MutableList<Animal>) // Функция, реализующая поведение для животного
+    abstract fun move(animals: MutableList<Animal>): Boolean // Функция, реализующая поведение для животного
 }
