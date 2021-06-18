@@ -19,21 +19,17 @@ class Predator(position: Point, fieldOfView: Int, speed: Int): Animal(position, 
             if (!isMoved) {
                 for (j in 0 until field.size) {
                     if (Point(j, i) != position) {
-                        if (field[i][j] == 2) {
-                            if (kotlin.math.abs(i - position.posY) <= fieldOfView && kotlin.math.abs(
-                                    j - position.posX
-                                ) <= fieldOfView &&
-                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(
-                                    j - position.posX
-                                ) * speed] == 0
-                            ) {
-                                // Если травоядное находится в поле видимости
+                        if (field[i][j] == 2) { // Если на координате травоядное
+                            if (kotlin.math.abs(i - position.posY) <= fieldOfView && kotlin.math.abs(j - position.posX) <= fieldOfView &&
+                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 0 ||
+                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 1) {
+                                // Если травоядное находится в поле видимости и при этом нет никаких преград, чтобы добраться до него
                                 position = Point(
                                     position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed,
                                     position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed
                                 )
                                 isMoved = true
-                                if (field[position.posY][position.posX] == 1) {
+                                if (field[position.posY][position.posX] == 2) { // Если хищник на клетке с травоядным
                                     currentAmountOfFood++
                                     return Point(position.posX, position.posY)
                                 }
@@ -44,7 +40,7 @@ class Predator(position: Point, fieldOfView: Int, speed: Int): Animal(position, 
             }
         }
 
-        if (!isMoved)
+        if (!isMoved) // Если нету травоядных в поле зрения
         {
             val dx = Random.nextInt(-1..1)
             val dy = Random.nextInt(-1..1)
