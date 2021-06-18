@@ -31,11 +31,7 @@ class StatsActivity : AppCompatActivity() {
 
         plot.addSeries(series1, series1Format)
         plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object: Format(){
-            override fun format(
-                obj: Any?,
-                toAppendTo: StringBuffer,
-                pos: FieldPosition?
-            ): StringBuffer {
+            override fun format(obj: Any?, toAppendTo: StringBuffer, pos: FieldPosition?): StringBuffer {
                 val i = Math.round((obj as Number).toFloat())
                 return toAppendTo.append(domainLabels[i])
             }
