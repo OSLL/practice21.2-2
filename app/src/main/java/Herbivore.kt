@@ -8,11 +8,13 @@ import kotlin.random.nextInt
  * speed - скорость животного (количество клеток, которое может пройти животное за один ход)
  */
 class Herbivore(position: Point, fieldOfView: Int, speed: Int): Animal(position, fieldOfView, speed, 1F) {
-    val isItPredator: Boolean = false            // Для отрисовки
+    override fun isPredator(): Boolean {
+        return false
+    }
     /* Функция, реализующая поведение для животного (куда животное пойдет на следующем ходу)
      * Возвращает координату уничтоженного растения или (-1, -1), если этого не произошло
      */
-    override fun move(field: ArrayList<ArrayList<Int>>): Point {
+    override fun move(field: Array<Array<Int>>): Point {
         var isMoved = false
 
         for (i in 0 until field.size)
@@ -21,6 +23,10 @@ class Herbivore(position: Point, fieldOfView: Int, speed: Int): Animal(position,
                     if (Point(j, i) != position) {
                         if (field[i][j] == 1) { // Если на координате растение
                             if (kotlin.math.abs(i - position.posY) <= fieldOfView && kotlin.math.abs(j - position.posX) <= fieldOfView &&
+                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed < field[0].size &&
+                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed < field[0].size &&
+                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed >= 0 &&
+                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed >= 0 &&
                                 field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 0 ||
                                 field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 1) {
                                 // Если растение находится в поле видимости и нет преград для того, чтобы пройти к нему

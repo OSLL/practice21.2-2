@@ -9,7 +9,7 @@ class Point(val posX: Int, val posY: Int)
 
 /* Class Animal */
 abstract class Animal(
-    protected var position: Point, // Координаты животного (количество клеток от левого верхнего угла)
+    var position: Point, // Координаты животного (количество клеток от левого верхнего угла)
     val fieldOfView: Int, // Область видмости (количество клеток от животного во все стороны
     val speed: Int, // Скорость животного (количество клеток, которое может пройти животное за один ход)
     var amountFoodForBreeding: Float // Количество еды, необхожимое для размножения
@@ -19,5 +19,6 @@ abstract class Animal(
     protected fun setPosition(X: Int, Y: Int) {
         position = Point(X, Y)
     }
-    abstract fun move(field: ArrayList<ArrayList<Int>>): Point // Функция, реализующая поведение для животного
+    abstract fun move(field: Array<Array<Int>>): Point // Функция, реализующая поведение для животного
+    abstract fun isPredator() : Boolean
 }

@@ -48,10 +48,14 @@ class ArrayDrawer (
                 var rectHeight: Float = rectWidth
                 for (i in (0..(array.size - 1)))
                     for (k in (0..array[i].size - 1)) {
-                        if (array[i][k] == 1)
+                        if (array[i][k] == 0)
                             painter.setColor(Color.WHITE)
-                        else
-                            painter.setColor(Color.BLUE)
+                        if (array[i][k] == 1)
+                            painter.setColor(Color.GREEN)
+                        if (array[i][k] == 2)
+                            painter.setColor(Color.BLACK)
+                        if (array[i][k] == 3)
+                            painter.setColor(Color.RED)
                         drawRect(
                             startX * width + rectWidth * i,
                             startY * height + rectHeight * k,
