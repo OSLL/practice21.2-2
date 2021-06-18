@@ -32,38 +32,48 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        var layout = findViewById<FrameLayout>(R.id.frameLayout)
-        var arrayDrawer = ArrayDrawer(this)
-
+        val layout = findViewById<FrameLayout>(R.id.frameLayout)
+        val arrayDrawer = ArrayDrawer(this)
         arrayDrawer.setPosition(0.1f, 0.1f)
         arrayDrawer.setSize(0.8f)
-        val array = Array<Array<Int>>(10) {Array(12) {0} }
-        array[4][3] = 1
-        arrayDrawer.setArrayToDraw(array)
         layout.addView(arrayDrawer)
 
 
-        var plantsList : MutableList<EdiblePlant> = mutableListOf()
-        var animalsList : MutableList<Animal> = mutableListOf()
+        val plantsList : MutableList<EdiblePlant> = mutableListOf()
+        val animalsList : MutableList<Animal> = mutableListOf()
+        val occupiedCoord : MutableList<Point> = mutableListOf()
+
         for (i in (0..9)) {
             var x = (0..99).random()
             var y = (0..99).random()
+            while (occupiedCoord.any { it == Point(x,y) }) {
+                x = (0..99).random()
+                y = (0..99).random()
+            }
             animalsList.add(Herbivore(Point(x, y), 3, 1))
         }
         for (i in (0..4)) {
             var x = (0..99).random()
             var y = (0..99).random()
+            while (occupiedCoord.any { it == Point(x,y) }) {
+                x = (0..99).random()
+                y = (0..99).random()
+            }
             animalsList.add(Predator(Point(x, y), 3, 1))
         }
         for (i in (0..19)) {
             var x = (0..99).random()
             var y = (0..99).random()
+            while (occupiedCoord.any { it == Point(x,y) }) {
+                x = (0..99).random()
+                y = (0..99).random()
+            }
             plantsList.add(EdiblePlant(Point(x, y)))
         }
 
         fun listIntoArray() : Array<Array<Int>>
         {
-            val field = Array<Array<Int>>(100) {Array(100) {0} }
+            val field = Array(100) {Array(100) {0} }
             for (plant in plantsList){
                 field[plant.position.posY][plant.position.posX] = 1
             }

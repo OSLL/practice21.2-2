@@ -17,22 +17,32 @@ class Predator(position: Point, fieldOfView: Int, speed: Int): Animal(position, 
     override fun move(field: Array<Array<Int>>): Point {
         var isMoved = false
 
-        for (i in 0 until field.size) {
+        for (i in field.indices) {
             if (!isMoved) {
-                for (j in 0 until field.size) {
+                for (j in field.indices) {
                     if (Point(j, i) != position) {
+
+                        val moveY: Int = if (i - position.posY == 0)
+                            0
+                        else
+                            (i - position.posY) / kotlin.math.abs(i - position.posY) * speed
+                        val moveX: Int = if (j - position.posX == 0)
+                            0
+                        else
+                            (j - position.posX) / kotlin.math.abs(j - position.posX) * speed
+
                         if (field[i][j] == 2) { // Если на координате травоядное
                             if (kotlin.math.abs(i - position.posY) <= fieldOfView && kotlin.math.abs(j - position.posX) <= fieldOfView &&
-                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed < field[0].size &&
-                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed < field[0].size &&
-                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed >= 0 &&
-                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed >= 0 &&
-                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 0 ||
-                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 1) {
+                                position.posX + moveX < field.size &&
+                                position.posX + moveX >= 0 &&
+                                position.posY + moveY < field.size &&
+                                position.posY + moveY >= 0 &&
+                                field[position.posY + moveY][position.posX + moveX] == 0 ||
+                                field[position.posY + moveY][position.posX + moveX] == 2) {
                                 // Если травоядное находится в поле видимости и при этом нет никаких преград, чтобы добраться до него
                                 position = Point(
-                                    position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed,
-                                    position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed
+                                    position.posX + moveX,
+                                    position.posY + moveY
                                 )
                                 isMoved = true
                                 if (field[position.posY][position.posX] == 2) { // Если хищник на клетке с травоядным

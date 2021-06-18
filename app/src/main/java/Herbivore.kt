@@ -1,4 +1,3 @@
-import java.lang.Math.abs
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -17,22 +16,32 @@ class Herbivore(position: Point, fieldOfView: Int, speed: Int): Animal(position,
     override fun move(field: Array<Array<Int>>): Point {
         var isMoved = false
 
-        for (i in 0 until field.size)
+        for (i in field.indices)
             if (!isMoved) {
-                for (j in 0 until field.size)
+                for (j in field.indices)
                     if (Point(j, i) != position) {
+
+                        val moveY: Int = if (i - position.posY == 0)
+                            0
+                        else
+                            (i - position.posY) / kotlin.math.abs(i - position.posY) * speed
+                        val moveX: Int = if (j - position.posX == 0)
+                            0
+                        else
+                            (j - position.posX) / kotlin.math.abs(j - position.posX) * speed
+
                         if (field[i][j] == 1) { // Если на координате растение
                             if (kotlin.math.abs(i - position.posY) <= fieldOfView && kotlin.math.abs(j - position.posX) <= fieldOfView &&
-                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed < field[0].size &&
-                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed < field[0].size &&
-                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed >= 0 &&
-                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed >= 0 &&
-                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 0 ||
-                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 1) {
+                                position.posX + moveX < field.size &&
+                                position.posX + moveX >= 0 &&
+                                position.posY + moveY < field.size &&
+                                position.posY + moveY >= 0 &&
+                                field[position.posY + moveY][position.posX + moveX] == 0 ||
+                                field[position.posY + moveY][position.posX + moveX] == 1) {
                                 // Если растение находится в поле видимости и нет преград для того, чтобы пройти к нему
                                 position = Point(
-                                    position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed,
-                                    position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed
+                                    position.posX + moveX,
+                                    position.posY + moveY
                                 )
                                 isMoved = true
                                 if (field[position.posY][position.posX] == 1) { // Если травоядное на клетке с растением
@@ -43,15 +52,15 @@ class Herbivore(position: Point, fieldOfView: Int, speed: Int): Animal(position,
                         }
                         if (field[i][j] == 3) // Если на координате хищник
                             if (kotlin.math.abs(i - position.posY) <= fieldOfView && kotlin.math.abs(j - position.posX) <= fieldOfView &&
-                                field[position.posY + (i - position.posY) / kotlin.math.abs(i - position.posY) * speed][position.posX + (j - position.posX) / kotlin.math.abs(j - position.posX) * speed] == 0 &&
-                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed < field[0].size &&
-                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed < field[0].size &&
-                                position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed >= 0 &&
-                                position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed >= 0) {
+                                position.posX - moveX < field[0].size &&
+                                position.posX - moveX >= 0 &&
+                                position.posY - moveY < field[0].size &&
+                                position.posY - moveY >= 0 &&
+                                field[position.posY - moveY][position.posX - moveX] == 0) {
                                 // Если хищник находится в поле видимости и нет преград для того, чтобы уйти от него
                                 position = Point(
-                                    position.posX - (j - position.posX) / kotlin.math.abs(j - position.posX) * speed,
-                                    position.posY - (i - position.posY) / kotlin.math.abs(i - position.posY) * speed
+                                    position.posX - moveX,
+                                    position.posY - moveY
                                 )
                                 isMoved = true
                                 break
