@@ -43,24 +43,6 @@ class MainActivity : AppCompatActivity() {
         val animalsList : MutableList<Animal> = mutableListOf()
         val occupiedCoord : MutableList<Point> = mutableListOf()
 
-        for (i in (0..9)) {
-            var x = (0..99).random()
-            var y = (0..99).random()
-            while (occupiedCoord.any { it == Point(x,y) }) {
-                x = (0..99).random()
-                y = (0..99).random()
-            }
-            animalsList.add(Herbivore(Point(x, y), 3, 1))
-        }
-        for (i in (0..4)) {
-            var x = (0..99).random()
-            var y = (0..99).random()
-            while (occupiedCoord.any { it == Point(x,y) }) {
-                x = (0..99).random()
-                y = (0..99).random()
-            }
-            animalsList.add(Predator(Point(x, y), 3, 1))
-        }
         for (i in (0..19)) {
             var x = (0..99).random()
             var y = (0..99).random()
@@ -68,6 +50,27 @@ class MainActivity : AppCompatActivity() {
                 x = (0..99).random()
                 y = (0..99).random()
             }
+            occupiedCoord.add(Point(x, y))
+            animalsList.add(Herbivore(Point(x, y), 3, 1))
+        }
+        for (i in (0..9)) {
+            var x = (0..99).random()
+            var y = (0..99).random()
+            while (occupiedCoord.any { it == Point(x,y) }) {
+                x = (0..99).random()
+                y = (0..99).random()
+            }
+            occupiedCoord.add(Point(x, y))
+            animalsList.add(Predator(Point(x, y), 3, 1))
+        }
+        for (i in (0..29)) {
+            var x = (0..99).random()
+            var y = (0..99).random()
+            while (occupiedCoord.any { it == Point(x,y) }) {
+                x = (0..99).random()
+                y = (0..99).random()
+            }
+            occupiedCoord.add(Point(x, y))
             plantsList.add(EdiblePlant(Point(x, y)))
         }
 
@@ -92,9 +95,43 @@ class MainActivity : AppCompatActivity() {
         fun doFrame(){
             Handler(Looper.getMainLooper()).postDelayed({
                 val field = listIntoArray()
-                for(animal in animalsList){
-                    animal.move(field)
+                val deathPositions: MutableList<Point> = mutableListOf()
+                for (animal in animalsList) {
+                    val dPos = animal.move(field)
+                    if (dPos.posX != -1 && dPos.posY != -1)
+                        deathPositions.add(dPos)
                 }
+
+                for (deathPos in deathPositions) {
+                    var isDeleted = false
+                    for (i in plantsList.indices)
+                        if (plantsList[i].position.posX == deathPos.posX && plantsList[i].position.posY == deathPos.posY) {
+                            plantsList.removeAt(i)
+                            isDeleted = true
+                            break
+                        }
+                    if (!isDeleted) {
+                        for (i in animalsList.indices)
+                            if (animalsList[i].position.posX == deathPos.posX && animalsList[i].position.posY == deathPos.posY && !animalsList[i].isPredator()) {
+                                animalsList.removeAt(i)
+                                break
+                            }
+                    }
+                }
+
+                val breedingIndices = mutableListOf<Int>()
+                for (i in animalsList.indices)
+                    if (animalsList[i].currentAmountOfFood >= animalsList[i].amountFoodForBreeding) {
+                        animalsList[i].currentAmountOfFood -= animalsList[i].amountFoodForBreeding.toInt()
+                        breedingIndices.add(i)
+                    }
+
+                for (i in breedingIndices)
+                    if (animalsList[i].isPredator())
+                        animalsList.add(Predator(Point(animalsList[i].position.posX, animalsList[i].position.posY), 3, 1))
+                    else
+                        animalsList.add(Herbivore(Point(animalsList[i].position.posX, animalsList[i].position.posY), 3, 1))
+
                 arrayDrawer.setArrayToDraw(field)
                 arrayDrawer.invalidate()
                 doFrame()
