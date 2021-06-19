@@ -1,6 +1,5 @@
 package com.makentoshe.androidgithubcitemplate
 
-import Animal
 import EdiblePlant
 import Herbivore
 import Point
@@ -30,43 +29,51 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
         val arrayDrawer = ArrayDrawer(this)
         arrayDrawer.setPosition(0.1f, 0.1f)
         arrayDrawer.setSize(0.8f)
         layout.addView(arrayDrawer)
 
+        val plantsList: MutableList<EdiblePlant> = mutableListOf()
+        val predatorsList: MutableList<Predator> = mutableListOf()
+        val herbivoreList: MutableList<Herbivore> = mutableListOf()
 
-        val plantsList : MutableList<EdiblePlant> = mutableListOf()
-        val animalsList : MutableList<Animal> = mutableListOf()
-        val occupiedCoord : MutableList<Point> = mutableListOf()
+        val occupiedCoord: MutableList<Point> = mutableListOf()
 
-        for (i in (0..19)) {
+        val field = Array(100) { Array(100) { 0 } }
+
+        val deathPositions: MutableList<Point> = mutableListOf()
+        val breedingIndicesPredator = mutableListOf<Int>()
+        val breedingIndicesHerbivore = mutableListOf<Int>()
+
+        // Adding herbivores
+        for (i in (0..25)) {
             var x = (0..99).random()
             var y = (0..99).random()
-            while (occupiedCoord.any { it == Point(x,y) }) {
+            while (occupiedCoord.any { it.posX == x && it.posY == y }) {
                 x = (0..99).random()
                 y = (0..99).random()
             }
             occupiedCoord.add(Point(x, y))
-            animalsList.add(Herbivore(Point(x, y), 3, 1))
+            herbivoreList.add(Herbivore(Point(x, y), 3, 1))
         }
-        for (i in (0..9)) {
+        // Adding predators
+        for (i in (0..10)) {
             var x = (0..99).random()
             var y = (0..99).random()
-            while (occupiedCoord.any { it == Point(x,y) }) {
+            while (occupiedCoord.any { it.posX == x && it.posY == y }) {
                 x = (0..99).random()
                 y = (0..99).random()
             }
             occupiedCoord.add(Point(x, y))
-            animalsList.add(Predator(Point(x, y), 3, 1))
+            predatorsList.add(Predator(Point(x, y), 3, 1))
         }
-        for (i in (0..29)) {
+        // adding plants
+        for (i in (0..30)) {
             var x = (0..99).random()
             var y = (0..99).random()
-            while (occupiedCoord.any { it == Point(x,y) }) {
+            while (occupiedCoord.any { it.posX == x && it.posY == y }) {
                 x = (0..99).random()
                 y = (0..99).random()
             }
@@ -74,30 +81,28 @@ class MainActivity : AppCompatActivity() {
             plantsList.add(EdiblePlant(Point(x, y)))
         }
 
-        fun listIntoArray() : Array<Array<Int>>
-        {
-            val field = Array(100) {Array(100) {0} }
-            for (plant in plantsList){
+        fun listIntoArray() {
+            for (i in 0..99)
+                for (j in 0..99)
+                    field[i][j] = 0
+            for (plant in plantsList) {
                 field[plant.position.posY][plant.position.posX] = 1
             }
-            for (animal in animalsList){
-                if (animal.isPredator())
-                    field[animal.position.posY][animal.position.posX] = 3
-                else
-                    field[animal.position.posY][animal.position.posX] = 2
-            }
-
-            return field
+            for (predator in predatorsList)
+                field[predator.position.posY][predator.position.posX] = 3
+            for (herbivore in herbivoreList)
+                field[herbivore.position.posY][herbivore.position.posX] = 2
         }
 
-
-
-        fun doFrame(){
+        fun doFrame() {
             Handler(Looper.getMainLooper()).postDelayed({
-                val field = listIntoArray()
-                val deathPositions: MutableList<Point> = mutableListOf()
-                for (animal in animalsList) {
-                    val dPos = animal.move(field)
+                for (herbivore in herbivoreList) {
+                    val dPos = herbivore.move(herbivoreList, predatorsList, plantsList)
+                    if (dPos.posX != -1 && dPos.posY != -1)
+                        deathPositions.add(dPos)
+                }
+                for (predator in predatorsList) {
+                    val dPos = predator.move(herbivoreList, predatorsList, plantsList)
                     if (dPos.posX != -1 && dPos.posY != -1)
                         deathPositions.add(dPos)
                 }
@@ -111,34 +116,42 @@ class MainActivity : AppCompatActivity() {
                             break
                         }
                     if (!isDeleted) {
-                        for (i in animalsList.indices)
-                            if (animalsList[i].position.posX == deathPos.posX && animalsList[i].position.posY == deathPos.posY && !animalsList[i].isPredator()) {
-                                animalsList.removeAt(i)
+                        for (i in herbivoreList.indices)
+                            if (herbivoreList[i].position.posX == deathPos.posX && herbivoreList[i].position.posY == deathPos.posY) {
+                                herbivoreList.removeAt(i)
                                 break
                             }
                     }
                 }
 
-                val breedingIndices = mutableListOf<Int>()
-                for (i in animalsList.indices)
-                    if (animalsList[i].currentAmountOfFood >= animalsList[i].amountFoodForBreeding) {
-                        animalsList[i].currentAmountOfFood -= animalsList[i].amountFoodForBreeding.toInt()
-                        breedingIndices.add(i)
+                for (i in predatorsList.indices)
+                    if (predatorsList[i].currentAmountOfFood >= predatorsList[i].amountFoodForBreeding) {
+                        predatorsList[i].currentAmountOfFood -= predatorsList[i].amountFoodForBreeding
+                        breedingIndicesPredator += i
+                    }
+                for (i in herbivoreList.indices)
+                    if (herbivoreList[i].currentAmountOfFood >= herbivoreList[i].amountFoodForBreeding){
+                        herbivoreList[i].currentAmountOfFood -= herbivoreList[i].amountFoodForBreeding
+                        breedingIndicesHerbivore += i
                     }
 
-                for (i in breedingIndices)
-                    if (animalsList[i].isPredator())
-                        animalsList.add(Predator(Point(animalsList[i].position.posX, animalsList[i].position.posY), 3, 1))
-                    else
-                        animalsList.add(Herbivore(Point(animalsList[i].position.posX, animalsList[i].position.posY), 3, 1))
+                for (i in breedingIndicesPredator)
+                    predatorsList += Predator(Point((0..99).random(), (0..99).random()), 3, 1)
+                for (i in breedingIndicesHerbivore)
+                    herbivoreList += Herbivore(Point((0..99).random(), (0..99).random()), 3, 1)
+
+                deathPositions.clear()
+                breedingIndicesPredator.clear()
+                breedingIndicesHerbivore.clear()
+
+                listIntoArray()
 
                 arrayDrawer.setArrayToDraw(field)
                 arrayDrawer.invalidate()
                 doFrame()
-            }, (1000f).toLong())
+            }, (30f).toLong())
         }
         doFrame()
-
 
     }
 }
