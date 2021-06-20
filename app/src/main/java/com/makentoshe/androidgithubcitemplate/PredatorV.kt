@@ -4,12 +4,12 @@ import kotlin.math.abs
 import kotlin.math.atan
 
 class PredatorV(
-    var position: Point,          // Положение животного относительно левого верхнего угла поля
-    private val fieldOfView: Float,           // Область, в которой животное видит объекты (размер поля - 100)
-    private val speed: Float,             // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
-    var size: Float,              // Размеры животного относительно базовой модельки
-    var orientation: Float,       // Угол поворота животного относительно горизонтальной оси
-    val pointsForBreeding: Float // Количество очков, необходимых для размножения
+    var position: Point,            // Положение животного относительно левого верхнего угла поля
+    private val fieldOfView: Float, // Область, в которой животное видит объекты (размер поля - 100)
+    private val speed: Float,       // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
+    var size: Float,                // Размеры животного относительно базовой модельки
+    var orientation: Float,         // Угол поворота животного относительно горизонтальной оси
+    val pointsForBreeding: Float    // Количество очков, необходимых для размножения
 ) {
     var currentPoints = 0F          // Текущие очки
     private val const = 1           // Константа для подсчёта очков относительно веса
@@ -201,7 +201,7 @@ class PredatorV(
                 position.y + moveY < 100 &&
                 position.y + moveY >= 0
             ) {
-
+                orientation = atan(moveY / moveX)
                 position = Point(
                     position.x + moveX,
                     position.y + moveY
