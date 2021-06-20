@@ -3,8 +3,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
 
@@ -14,12 +12,12 @@ class ArrayDrawer (
     defaultAttrs : Int = 0
 ) : View(context, attrs, defaultAttrs){
 
-    var startX : Float = 0f
-    var startY : Float = 0f
+    private var startX : Float = 0f
+    private var startY : Float = 0f
 
-    var arrayWidth : Float = 1f
+    private var arrayWidth : Float = 1f
 
-    var array: Array <Array <Int>> = arrayOf(arrayOf())
+    private var array: Array <Array <Int>> = arrayOf(arrayOf())
 
 
     fun setSize(newWidth : Float){
@@ -44,22 +42,26 @@ class ArrayDrawer (
 
     override fun onDraw(canvas: Canvas) {
         canvas.apply {
-                var rectWidth: Float = width * arrayWidth / array.size
-                var rectHeight: Float = rectWidth
-                for (i in (0..(array.size - 1)))
-                    for (k in (0..array[i].size - 1)) {
-                        if (array[i][k] == 1)
-                            painter.setColor(Color.WHITE)
-                        else
-                            painter.setColor(Color.BLUE)
-                        drawRect(
-                            startX * width + rectWidth * i,
-                            startY * height + rectHeight * k,
-                            startX * width + rectWidth * (i + 1) + 1f,
-                            startY * height + rectHeight * (k + 1) + 1f,
-                            painter
-                        )
-                    }
-               }
+            val rectWidth: Float = width * arrayWidth / array.size
+            val rectHeight: Float = rectWidth
+            for (i in array.indices)
+                for (k in array[i].indices) {
+                    if (array[i][k] == 0)
+                        painter.color = Color.WHITE
+                    if (array[i][k] == 1)
+                        painter.color = Color.GREEN
+                    if (array[i][k] == 2)
+                        painter.color = Color.BLACK
+                    if (array[i][k] == 3)
+                        painter.color = Color.RED
+                    drawRect(
+                        startX * width + rectWidth * i,
+                        startY * height + rectHeight * k,
+                        startX * width + rectWidth * (i + 1) + 1f,
+                        startY * height + rectHeight * (k + 1) + 1f,
+                        painter
+                    )
+                }
+        }
     }
 }

@@ -5,21 +5,22 @@ import kotlin.math.atan
 
 class HerbivoreV(
     var position: Point,          // Положение животного относительно левого верхнего угла поля
-    val fieldOfView: Float,           // Область, в которой животное видит объекты (размер поля - 100)
-    val speed: Float,             // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
+    private val fieldOfView: Float,           // Область, в которой животное видит объекты (размер поля - 100)
+    private val speed: Float,             // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
     var size: Float,              // Размеры животного относительно базовой модельки
     var orientation: Float,       // Угол поворота животного относительно горизонтальной оси
     val pointsForBreeding: Float, // Количество очков. необходимых для размножения
     val afraidOfPredator: Boolean // (Только для травоядных) приоритет ходьбы (идти к растению или бежать от животного)
 ) {
+    var currentPoints = 0F // Текущие очки
 
     /* Основная функция класса, отвечающая за поведение
- * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
- */
+     * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
+     */
     fun move(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
-        predators: MutableList<PredatorV>, // Список всех хищников
-        plants: MutableList<PlantV> // Список всех растений
+        predators: MutableList<PredatorV>,   // Список всех хищников
+        plants: MutableList<PlantV>          // Список всех растений
     ): Point {
         var isMoved = false
 
@@ -122,31 +123,34 @@ class HerbivoreV(
                         orientation = atan(moveY / moveX)
                         position = Point(position.x + moveX, position.y + moveY)
                         isMoved = true
-                    }
 
-                    for (plant1 in plants) {
-                        var isXCollided = false
-                        var isYCollided = false
-                        if (moveX > 0 &&
-                            position.x + size + moveX > plant1.position.x - plant1.size
-                        )
-                            isXCollided = true
-                        if (moveX < 0 &&
-                            position.x - size + moveX < plant1.position.x + plant1.size
-                        )
-                            isXCollided = true
+                        for (plant1 in plants) {
+                            var isXCollided = false
+                            var isYCollided = false
+                            if (moveX > 0 &&
+                                position.x + size + moveX > plant1.position.x - plant1.size
+                            )
+                                isXCollided = true
+                            if (moveX < 0 &&
+                                position.x - size + moveX < plant1.position.x + plant1.size
+                            )
+                                isXCollided = true
 
-                        if (moveY > 0 &&
-                            position.y + size + moveY > plant1.position.y - plant1.size
-                        )
-                            isYCollided = true
-                        if (moveY < 0 &&
-                            position.y - size + moveY < plant1.position.y + plant1.size
-                        )
-                            isYCollided = true
+                            if (moveY > 0 &&
+                                position.y + size + moveY > plant1.position.y - plant1.size
+                            )
+                                isYCollided = true
+                            if (moveY < 0 &&
+                                position.y - size + moveY < plant1.position.y + plant1.size
+                            )
+                                isYCollided = true
 
-                        if (isXCollided && isYCollided)
-                            return plant1.position
+
+                            if (isXCollided && isYCollided) {
+                                currentPoints += plant1.pointsForEating
+                                return plant1.position
+                            }
+                        }
                     }
                     break
                 }
@@ -252,31 +256,33 @@ class HerbivoreV(
                         orientation = atan(moveY / moveX)
                         position = Point(position.x + moveX, position.y + moveY)
                         isMoved = true
-                    }
 
-                    for (plant in plants) {
-                        var isXCollided = false
-                        var isYCollided = false
-                        if (moveX > 0 &&
-                            position.x + size + moveX > plant.position.x - plant.size
-                        )
-                            isXCollided = true
-                        if (moveX < 0 &&
-                            position.x - size + moveX < plant.position.x + plant.size
-                        )
-                            isXCollided = true
+                        for (plant in plants) {
+                            var isXCollided = false
+                            var isYCollided = false
+                            if (moveX > 0 &&
+                                position.x + size + moveX > plant.position.x - plant.size
+                            )
+                                isXCollided = true
+                            if (moveX < 0 &&
+                                position.x - size + moveX < plant.position.x + plant.size
+                            )
+                                isXCollided = true
 
-                        if (moveY > 0 &&
-                            position.y + size + moveY > plant.position.y - plant.size
-                        )
-                            isYCollided = true
-                        if (moveY < 0 &&
-                            position.y - size + moveY < plant.position.y + plant.size
-                        )
-                            isYCollided = true
+                            if (moveY > 0 &&
+                                position.y + size + moveY > plant.position.y - plant.size
+                            )
+                                isYCollided = true
+                            if (moveY < 0 &&
+                                position.y - size + moveY < plant.position.y + plant.size
+                            )
+                                isYCollided = true
 
-                        if (isXCollided && isYCollided)
-                            return plant.position
+                            if (isXCollided && isYCollided) {
+                                currentPoints += plant.pointsForEating
+                                return plant.position
+                            }
+                        }
                     }
                     break
                 }

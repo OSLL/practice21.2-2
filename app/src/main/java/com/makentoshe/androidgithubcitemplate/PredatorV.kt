@@ -5,20 +5,22 @@ import kotlin.math.atan
 
 class PredatorV(
     var position: Point,          // Положение животного относительно левого верхнего угла поля
-    val fieldOfView: Float,           // Область, в которой животное видит объекты (размер поля - 100)
-    val speed: Float,             // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
+    private val fieldOfView: Float,           // Область, в которой животное видит объекты (размер поля - 100)
+    private val speed: Float,             // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
     var size: Float,              // Размеры животного относительно базовой модельки
     var orientation: Float,       // Угол поворота животного относительно горизонтальной оси
-    val pointsForBreeding: Float // Количество очков. необходимых для размножения
+    val pointsForBreeding: Float // Количество очков, необходимых для размножения
 ) {
+    var currentPoints = 0F          // Текущие очки
+    private val const = 1           // Константа для подсчёта очков относительно веса
 
     /* Основная функция класса, отвечающая за поведение
-    * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
-    */
+     * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
+     */
     fun move(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
-        predators: MutableList<PredatorV>, // Список всех хищников
-        plants: MutableList<PlantV> // Список всех растений
+        predators: MutableList<PredatorV>,   // Список всех хищников
+        plants: MutableList<PlantV>          // Список всех растений
     ): Point {
         var isMoved = false
 
@@ -121,31 +123,33 @@ class PredatorV(
                         orientation = atan(moveY / moveX)
                         position = Point(position.x + moveX, position.y + moveY)
                         isMoved = true
-                    }
 
-                    for (herbivore1 in herbivores) {
-                        var isXCollided = false
-                        var isYCollided = false
-                        if (moveX > 0 &&
-                            position.x + size + moveX > herbivore1.position.x - herbivore1.size
-                        )
-                            isXCollided = true
-                        if (moveX < 0 &&
-                            position.x - size + moveX < herbivore1.position.x + herbivore1.size
-                        )
-                            isXCollided = true
+                        for (herbivore1 in herbivores) {
+                            var isXCollided = false
+                            var isYCollided = false
+                            if (moveX > 0 &&
+                                position.x + size + moveX > herbivore1.position.x - herbivore1.size
+                            )
+                                isXCollided = true
+                            if (moveX < 0 &&
+                                position.x - size + moveX < herbivore1.position.x + herbivore1.size
+                            )
+                                isXCollided = true
 
-                        if (moveY > 0 &&
-                            position.y + size + moveY > herbivore1.position.y - herbivore1.size
-                        )
-                            isYCollided = true
-                        if (moveY < 0 &&
-                            position.y - size + moveY < herbivore1.position.y + herbivore1.size
-                        )
-                            isYCollided = true
+                            if (moveY > 0 &&
+                                position.y + size + moveY > herbivore1.position.y - herbivore1.size
+                            )
+                                isYCollided = true
+                            if (moveY < 0 &&
+                                position.y - size + moveY < herbivore1.position.y + herbivore1.size
+                            )
+                                isYCollided = true
 
-                        if (isXCollided && isYCollided)
-                            return herbivore1.position
+                            if (isXCollided && isYCollided) {
+                                currentPoints += herbivore.size * const
+                                return herbivore1.position
+                            }
+                        }
                     }
                     break
                 }
