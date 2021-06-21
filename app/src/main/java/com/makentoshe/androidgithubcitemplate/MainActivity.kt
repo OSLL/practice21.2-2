@@ -3,9 +3,6 @@ package com.makentoshe.androidgithubcitemplate
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
 
@@ -26,18 +23,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
         val fieldView = FieldView(this)
+
         fieldView.setPosition(0.1f, 0.1f)
         fieldView.setSize(0.8f)
         fieldView.setPixelWidth(100)
 
-        var field = Field(this, fieldView)
-        field.fillLists(10, 30, 30)
+        val field = Field(fieldView)
 
+        field.fillLists(5, 20, 20)
         layout.addView(fieldView)
-
         field.doFrame(10f)
 
     }
