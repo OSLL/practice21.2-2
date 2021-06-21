@@ -35,36 +35,38 @@ class SettingsActivity : AppCompatActivity() {
 
         sbmtBtnPredNum.setOnClickListener{
                 editor.apply{
-                    putString("PredNum", predTxt.text.toString())
+                    putInt("PredNum", predTxt.text.toString().toInt())
                 }.apply()
         }
 
         //Количество травоядных
         sbmtBtnHerbNum.setOnClickListener{
             editor.apply{
-                putString("HerbNum", herbTxt.text.toString())
+                putInt("HerbNum", herbTxt.text.toString().toInt())
             }.apply()
         }
 
         //Отношение изменения скорости к соответствующему изменению эффективности
         sbmtBtnVelEff.setOnClickListener{
             editor.apply{
-                putString("VelEff", velEffTxt.text.toString())
+                putFloat("VelEff", velEffTxt.text.toString().toFloat())
             }.apply()
         }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Пример доступа к полученным значениям (каждое в формате строки)
-        //Примечания: Даже после закрытия приложения данные, сохранённые нажатием Submit, остаются в памяти до следующего изменения.
+        //Пример доступа к полученным значениям
+        //Примечания: Даже после закрытия приложения данные, сохранённые нажатием Submit, остаются в памяти до следующего изменения или перезагрузки телефона.
         //            В ЛЮБОМ МЕСТЕ в программе можно реализовать следующий код и получить значения!
 
         val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         Toast.makeText(this,
-            "Predators:" + shPrload.getString("PredNum", null) +
-                "\nHerbivores:" + shPrload.getString("HerbNum", null) +
-                "\nVelocity/Efficiency:" + shPrload.getString("VelEff", null),
-                Toast.LENGTH_SHORT).show() //null - параметр по умолчанию
+            "Predators:" + shPrload.getInt("PredNum", 5).toString() +
+            "\nHerbivores:" + shPrload.getInt("HerbNum", 5).toString() +
+            "\nVelocity/Efficiency:" + shPrload.getFloat("VelEff", 1f).toString()
+            + "\nDefault check:" + shPrload.getString("DeCh", "default")
+            ,
+            Toast.LENGTH_SHORT).show() //null - параметр по умолчанию
 
     }
 }
