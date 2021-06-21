@@ -11,6 +11,9 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+
         val backBtn = findViewById<Button>(R.id.BackBtn1)
 
         backBtn.setOnClickListener {
@@ -30,6 +33,12 @@ class SettingsActivity : AppCompatActivity() {
         //   (например: количество хищников и травоядных, коэффициент связи увеличения СКОРОСТИ и увеличения РАСХОДА ЭНЕРГИИ)
         val shPrSave = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val editor = shPrSave.edit()
+
+        //Обеспечиваем вывод в editText'ах актуальных настроек
+        predTxt.setText(shPrload.getInt("PredNum", 5).toString())
+        herbTxt.setText(shPrload.getInt("HerbNum", 5).toString())
+        velEffTxt.setText(shPrload.getFloat("VelEff", 1f).toString())
+
 
         //Количество хищников
 
@@ -58,13 +67,12 @@ class SettingsActivity : AppCompatActivity() {
         //Пример доступа к полученным значениям
         //Примечания: Даже после закрытия приложения данные, сохранённые нажатием Submit, остаются в памяти до следующего изменения или перезагрузки телефона.
         //            В ЛЮБОМ МЕСТЕ в программе можно реализовать следующий код и получить значения!
-
-        val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        // Важная строка в начале: [   val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)   ]
         Toast.makeText(this,
             "Predators:" + shPrload.getInt("PredNum", 5).toString() +
             "\nHerbivores:" + shPrload.getInt("HerbNum", 5).toString() +
             "\nVelocity/Efficiency:" + shPrload.getFloat("VelEff", 1f).toString()
-            + "\nDefault check:" + shPrload.getString("DeCh", "default")
+            + "\nDefault check:" + shPrload.getString("DeCh", "default text")
             ,
             Toast.LENGTH_SHORT).show() //null - параметр по умолчанию
 
