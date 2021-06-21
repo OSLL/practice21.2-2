@@ -6,16 +6,17 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 
-class ArrayDrawer (
+class FieldView (
     context : Context,
     attrs : AttributeSet? = null,
     defaultAttrs : Int = 0
 ) : View(context, attrs, defaultAttrs){
 
-    private var startX : Float = 0f
-    private var startY : Float = 0f
+    var startX : Float = 0f
+    var startY : Float = 0f
 
-    private var arrayWidth : Float = 1f
+    private var fieldWidth : Float = 1f
+    private var pixelWidth = 100
 
 
     var predatorsList = mutableListOf<PredatorV>()
@@ -24,12 +25,16 @@ class ArrayDrawer (
 
 
     fun setSize(newWidth : Float){
-        arrayWidth = newWidth
+        fieldWidth = newWidth
     }
 
     fun setPosition(newX : Float, newY : Float){
         startX = newX
         startY = newY
+    }
+
+    fun setPixelWidth(amount : Int){
+        pixelWidth = amount;
     }
 
     fun setListsToDraw (
@@ -41,6 +46,8 @@ class ArrayDrawer (
         plantsList = plants
     }
 
+
+
     private val painter = Paint().apply{
         color = Color.YELLOW
         style = Paint.Style.FILL
@@ -50,7 +57,7 @@ class ArrayDrawer (
 
     override fun onDraw(canvas: Canvas) {
         canvas.apply {
-            val rectWidth: Float = width * arrayWidth / 100f
+            val rectWidth: Float = width * fieldWidth / pixelWidth.toFloat()
             val rectHeight: Float = rectWidth
 
             painter.color = Color.GREEN
