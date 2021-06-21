@@ -34,10 +34,11 @@ class MainActivity : AppCompatActivity() {
         fieldView.setPixelWidth(100)
 
         var field = Field(this, fieldView)
+        field.fillLists(10, 30, 30)
 
         layout.addView(fieldView)
 
-        field.doFrame(100f)
+        field.doFrame(10f)
 
     }
 }

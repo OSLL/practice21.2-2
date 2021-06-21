@@ -27,7 +27,7 @@ class Field(
             predatorsList.add(
                 PredatorV(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
-                    (30..100).random().toFloat() / 10,
+                    (60..200).random().toFloat() / 10,
                     (10..30).random().toFloat() / 10,
                     (5..20).random().toFloat() / 10,
                     0F,
@@ -40,7 +40,7 @@ class Field(
             herbivoresList.add(
                 HerbivoreV(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
-                    (30..100).random().toFloat() / 10,
+                    (60..200).random().toFloat() / 10,
                     (10..30).random().toFloat() / 10,
                     (5..20).random().toFloat() / 10,
                     0F,

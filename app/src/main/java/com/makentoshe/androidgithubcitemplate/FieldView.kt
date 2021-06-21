@@ -63,10 +63,10 @@ class FieldView (
             painter.color = Color.GREEN
             for (plant in plantsList) {
                 drawRect(
-                    startX * width + rectWidth * plant.position.x,
-                    startY * height + rectHeight * plant.position.y,
-                    startX * width + rectWidth * (plant.position.x + 1),
-                    startY * height + rectHeight * (plant.position.y + 1),
+                    startX * width + rectWidth * (plant.position.x - plant.size),
+                    startY * height + rectHeight * (plant.position.y - plant.size),
+                    startX * width + rectWidth * (plant.position.x + plant.size),
+                    startY * height + rectHeight * (plant.position.y + plant.size),
                     painter
                 )
             }
@@ -74,10 +74,10 @@ class FieldView (
             painter.color = Color.BLACK
             for(herbivore in herbivoresList){
                 drawRect(
-                    startX * width + rectWidth * herbivore.position.x,
-                    startY * height + rectHeight * herbivore.position.y,
-                    startX * width + rectWidth * (herbivore.position.x + 1),
-                    startY * height + rectHeight * (herbivore.position.y + 1),
+                    startX * width + rectWidth * (herbivore.position.x - herbivore.size),
+                    startY * height + rectHeight * (herbivore.position.y - herbivore.size),
+                    startX * width + rectWidth * (herbivore.position.x + herbivore.size),
+                    startY * height + rectHeight * (herbivore.position.y + herbivore.size),
                     painter
                 )
             }
@@ -85,10 +85,10 @@ class FieldView (
             painter.color = Color.RED
             for(predator in predatorsList){
                 drawRect(
-                    startX * width + rectWidth * predator.position.x,
-                    startY * height + rectHeight * predator.position.y,
-                    startX * width + rectWidth * (predator.position.x + 1),
-                    startY * height + rectHeight * (predator.position.y + 1),
+                    startX * width + rectWidth * (predator.position.x - predator.size),
+                    startY * height + rectHeight * (predator.position.y - predator.size),
+                    startX * width + rectWidth * (predator.position.x + predator.size),
+                    startY * height + rectHeight * (predator.position.y + predator.size),
                     painter
                 )
             }
