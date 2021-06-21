@@ -22,6 +22,42 @@ class Field(
 
 
 
+    fun fillLists(predatorsCount : Int, herbivoresCount : Int, plantsCount : Int) {
+        for (i in 0 until predatorsCount)
+            predatorsList.add(
+                PredatorV(
+                    Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                    (30..100).random().toFloat() / 10,
+                    (10..30).random().toFloat() / 10,
+                    (5..20).random().toFloat() / 10,
+                    0F,
+                    2F
+                )
+            )
+        for (i in 0 until herbivoresCount) {
+            val rnd01 = (0..1).random()
+            val afraidOfPredator = rnd01 == 1
+            herbivoresList.add(
+                HerbivoreV(
+                    Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                    (30..100).random().toFloat() / 10,
+                    (10..30).random().toFloat() / 10,
+                    (5..20).random().toFloat() / 10,
+                    0F,
+                    2F,
+                    afraidOfPredator
+                )
+            )
+        }
+        for (i in 0 until plantsCount)
+            plantsList.add(
+                PlantV(
+                    Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                    (5..20).random().toFloat() / 10,
+                    (5..30).random().toFloat() / 10
+                )
+            )
+    }
 
 
     fun doFrame(tickLength : Float) {
