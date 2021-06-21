@@ -19,6 +19,10 @@ class Field(
     private val breedingIndicesHerbivore = mutableListOf<Int>()
 
     private var time = System.currentTimeMillis()
+    private var go = true
+    public var speed = 1f
+
+    private var tickLength = 100f
 
 
     fun fillLists(predatorsCount : Int, herbivoresCount : Int, plantsCount : Int) {
@@ -59,13 +63,35 @@ class Field(
     }
 
 
-    fun doFrame(tickLength : Float) {
+    fun stopProcess()
+    {
+        go = false
+    }
+
+    fun startProcess(){
+        go = true
+        doFrame()
+    }
+
+    fun setTick(tick : Float){
+        tickLength = tick
+    }
+
+    fun speedDecrease(){
+        if (speed >= 0.2)
+            speed /= 1.2f
+    }
+    fun speedIncrease(){
+        if (speed < 5f)
+            speed *= 1.2f
+    }
+
+    fun doFrame() {
         Handler(Looper.getMainLooper()).postDelayed({
-            val deltaTime = System.currentTimeMillis() - time
+            val deltaTime = ((System.currentTimeMillis() - time) * speed).toLong()
 
             if (deltaTime > 500) {
                 time = System.currentTimeMillis()
-
                 deathPlantsIndices.sortDescending()
                 deathHerbivoresIndices.sortDescending()
 
@@ -130,8 +156,9 @@ class Field(
 
             fieldView.setListsToDraw(predatorsList, herbivoresList, plantsList)
             fieldView.invalidate()
-            doFrame(tickLength)
-        }, (tickLength).toLong())
+            if(go)
+                doFrame()
+        }, (tickLength * speed).toLong())
     }
 
 

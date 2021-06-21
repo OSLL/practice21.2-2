@@ -114,7 +114,6 @@ class FieldView (
             path.addCircle(0f, 0f, 200f, Path.Direction.CW)
             path.transform(matrix)
             canvas.drawPath(path, painter)
-            canvas.restore()
         }
     }
 }

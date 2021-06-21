@@ -3,8 +3,11 @@ package com.makentoshe.androidgithubcitemplate
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.ToggleButton
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +16,11 @@ class MainActivity : AppCompatActivity() {
 
         val settingsBtn = findViewById<Button>(R.id.SettingsBtn)
         val statsBtn = findViewById<Button>(R.id.StatsBtn)
+        val speedPlusBtn = findViewById<Button>(R.id.SpeedBtn2)
+        val speedMinusBtn = findViewById<Button>(R.id.SpeedBtn1)
+        val stopButton = findViewById<ToggleButton>(R.id.StartBtn)
+        val speedText = findViewById<TextView>(R.id.speedText)
+        speedText.text = "1.0x"
 
         settingsBtn.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
@@ -32,9 +40,26 @@ class MainActivity : AppCompatActivity() {
 
         val field = Field(fieldView)
 
+        stopButton.setOnClickListener{
+            Log.d("aaa", "${stopButton.isActivated}")
+            if(stopButton.text == "Start")
+                field.stopProcess()
+            else
+                field.startProcess()
+        }
+
+        speedPlusBtn.setOnClickListener{
+            field.speedIncrease()
+            speedText.text = "${field.speed}x"
+        }
+        speedMinusBtn.setOnClickListener{
+            field.speedDecrease()
+            speedText.text = "${field.speed}x"
+        }
+
         field.fillLists(5, 20, 20)
         layout.addView(fieldView)
-        field.doFrame(10f)
-
+        field.setTick(10f)
+        field.startProcess()
     }
 }
