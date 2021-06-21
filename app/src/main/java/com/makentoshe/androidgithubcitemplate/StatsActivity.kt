@@ -24,6 +24,8 @@ class StatsActivity : AppCompatActivity() {
 
         val domainLabels = arrayOf<Number>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         val series1Number = arrayOf<Number>(1, 4, 8, 12, 16, 32, 26, 29, 10, 13)
+
+
         val series1 : XYSeries = SimpleXYSeries(Arrays.asList(* series1Number), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
         val series1Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null )
         val plot = findViewById<XYPlot>(R.id.plot)
@@ -47,5 +49,6 @@ class StatsActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+        PanZoom.attach(plot)
     }
 }
