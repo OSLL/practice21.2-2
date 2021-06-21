@@ -17,7 +17,10 @@ class ArrayDrawer (
 
     private var arrayWidth : Float = 1f
 
-    private var array: Array <Array <Int>> = arrayOf(arrayOf())
+
+    var predatorsList = mutableListOf<PredatorV>()
+    var herbivoresList = mutableListOf<HerbivoreV>()
+    var plantsList = mutableListOf<PlantV>()
 
 
     fun setSize(newWidth : Float){
@@ -29,8 +32,13 @@ class ArrayDrawer (
         startY = newY
     }
 
-    fun setArrayToDraw (newArray : Array <Array <Int>>){
-        array = newArray
+    fun setListsToDraw (
+        predators : MutableList<PredatorV>,
+        herbivores : MutableList<HerbivoreV>,
+        plants : MutableList<PlantV>){
+        predatorsList = predators
+        herbivoresList = herbivores
+        plantsList = plants
     }
 
     private val painter = Paint().apply{
@@ -42,26 +50,41 @@ class ArrayDrawer (
 
     override fun onDraw(canvas: Canvas) {
         canvas.apply {
-            val rectWidth: Float = width * arrayWidth / array.size
+            val rectWidth: Float = width * arrayWidth / 100f
             val rectHeight: Float = rectWidth
-            for (i in array.indices)
-                for (k in array[i].indices) {
-                    if (array[i][k] == 0)
-                        painter.color = Color.WHITE
-                    if (array[i][k] == 1)
-                        painter.color = Color.GREEN
-                    if (array[i][k] == 2)
-                        painter.color = Color.BLACK
-                    if (array[i][k] == 3)
-                        painter.color = Color.RED
-                    drawRect(
-                        startX * width + rectWidth * i,
-                        startY * height + rectHeight * k,
-                        startX * width + rectWidth * (i + 1) + 1f,
-                        startY * height + rectHeight * (k + 1) + 1f,
-                        painter
-                    )
-                }
+
+            painter.color = Color.GREEN
+            for (plant in plantsList) {
+                drawRect(
+                    startX * width + rectWidth * plant.position.x,
+                    startY * height + rectHeight * plant.position.y,
+                    startX * width + rectWidth * (plant.position.x + 1),
+                    startY * height + rectHeight * (plant.position.y + 1),
+                    painter
+                )
+            }
+
+            painter.color = Color.BLACK
+            for(herbivore in herbivoresList){
+                drawRect(
+                    startX * width + rectWidth * herbivore.position.x,
+                    startY * height + rectHeight * herbivore.position.y,
+                    startX * width + rectWidth * (herbivore.position.x + 1),
+                    startY * height + rectHeight * (herbivore.position.y + 1),
+                    painter
+                )
+            }
+
+            painter.color = Color.RED
+            for(predator in predatorsList){
+                drawRect(
+                    startX * width + rectWidth * predator.position.x,
+                    startY * height + rectHeight * predator.position.y,
+                    startX * width + rectWidth * (predator.position.x + 1),
+                    startY * height + rectHeight * (predator.position.y + 1),
+                    painter
+                )
+            }
         }
     }
 }

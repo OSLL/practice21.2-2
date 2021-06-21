@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         arrayDrawer.setPosition(0.1f, 0.1f)
         arrayDrawer.setSize(0.8f)
-        val array = Array(100) { Array(100) { 1 } }
-        arrayDrawer.setArrayToDraw(array)
         layout.addView(arrayDrawer)
 
         val predatorsList = mutableListOf<PredatorV>()
@@ -97,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 breedingIndicesPredator.clear()
                 breedingIndicesHerbivore.clear()
 
-                arrayDrawer.setArrayToDraw(array)
+                arrayDrawer.setListsToDraw(predatorsList, herbivoresList, plantsList)
                 arrayDrawer.invalidate()
                 doFrame()
             }, (100f).toLong())
