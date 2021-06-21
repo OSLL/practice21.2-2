@@ -29,6 +29,9 @@ class SettingsActivity : AppCompatActivity() {
         val sbmtBtnVelEff = findViewById<Button>(R.id.VEBtn)
         val velEffTxt = findViewById<EditText>(R.id.editText3)
 
+        val sbmtBtnPoForPl = findViewById<Button>(R.id.PfPBtn)
+        val poForPlTxt = findViewById<EditText>(R.id.editText4)
+
         //  При нажатии на сохранялку "Submit ..."(SbmtBtn...): в SharedPreferences остаются строки с целыми числовыми параметрами со своими Ключами(тэгами)
         //   (например: количество хищников и травоядных, коэффициент связи увеличения СКОРОСТИ и увеличения РАСХОДА ЭНЕРГИИ)
         val shPrSave = getSharedPreferences("Settings", Context.MODE_PRIVATE)
@@ -38,6 +41,8 @@ class SettingsActivity : AppCompatActivity() {
         predTxt.setText(shPrload.getInt("PredNum", 5).toString())
         herbTxt.setText(shPrload.getInt("HerbNum", 5).toString())
         velEffTxt.setText(shPrload.getFloat("VelEff", 1f).toString())
+        poForPlTxt.setText(shPrload.getFloat("PoForPl", 1f).toString())
+
 
 
         //Количество хищников
@@ -61,6 +66,12 @@ class SettingsActivity : AppCompatActivity() {
                 putFloat("VelEff", velEffTxt.text.toString().toFloat())
             }.apply()
         }
+        //Очки за съедение растения
+        sbmtBtnPoForPl.setOnClickListener{
+            editor.apply{
+                putFloat("PoForPl", poForPlTxt.text.toString().toFloat())
+            }.apply()
+        }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,9 +82,9 @@ class SettingsActivity : AppCompatActivity() {
         Toast.makeText(this,
             "Predators:" + shPrload.getInt("PredNum", 5).toString() +
             "\nHerbivores:" + shPrload.getInt("HerbNum", 5).toString() +
-            "\nVelocity/Efficiency:" + shPrload.getFloat("VelEff", 1f).toString()
-            + "\nDefault check:" + shPrload.getString("DeCh", "default text")
-            ,
+            "\nVelocity/Efficiency:" + shPrload.getFloat("VelEff", 1f).toString() +
+            "\nPoints for plant:" + shPrload.getFloat("PoForPl", 1f).toString() +
+            "\nDefault check:" + shPrload.getString("DeCh", "default text"),
             Toast.LENGTH_SHORT).show() //null - параметр по умолчанию
 
     }
