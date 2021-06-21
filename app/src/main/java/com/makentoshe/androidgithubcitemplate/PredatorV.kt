@@ -1,14 +1,11 @@
 package com.makentoshe.androidgithubcitemplate
 
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.atan
-import kotlin.math.sign
+import kotlin.math.*
 
 class PredatorV(
-    var position: Point,            // Положение животного относительно левого верхнего угла поля
+    var pos: Point,                 // Положение животного относительно левого верхнего угла поля
     private val fieldOfView: Float, // Область, в которой животное видит объекты (размер поля - 100)
-    private val speed: Float,       // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
+    private val speed: Float,       // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
     var size: Float,                // Размеры животного относительно базовой модельки
     var orientation: Float,         // Угол поворота животного относительно горизонтальной оси
     val pointsForBreeding: Float    // Количество очков, необходимых для размножения
@@ -16,14 +13,10 @@ class PredatorV(
     var currentPoints = 0F          // Текущие очки
     private val const = 1           // Константа для подсчёта очков относительно веса
 
-    private var moveX = 0F
-    private var moveY = 0F
-    private var oldPosition = position
+    private var moveX = 0F          // Запомненное перемещение по X (для плавного движения)
+    private var moveY = 0F          // Запомненное перемещение по Y (для плавного движения)
+    private var oldPosition = pos   // Позиция до перемещения (для плавного движения)
 
-    class ReturnData(
-        val isMoved: Boolean,
-        val index: Int
-    )
 
     /* Основная функция класса, отвечающая за поведение
      * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
@@ -33,57 +26,38 @@ class PredatorV(
         predators: MutableList<PredatorV>,   // Список всех хищников
         plants: MutableList<PlantV>          // Список всех растений
     ): Int {
-        var isMoved = false
+        oldPosition = pos
 
-        oldPosition = position
+        val retData = herbivoresCheck(herbivores, predators, plants)
 
-        val retData = herbivoresCheck(herbivores, predators, plants, isMoved)
-        isMoved = retData.isMoved
-
-        if (!isMoved) // Если нету травоядных в поле зрения
+        if (!retData.isMoved) // Если нету травоядных в поле зрения
         {
-            val switch = (0..1).random()
-            val moveX: Float
-            val moveY: Float
+            val dlen = (100..(speed * 100).toInt()).random() / 100f
+            val angle = (0..(2 * PI * 100).toInt()).random() / 100f
 
-            if (switch == 0) {
-                moveX = (-1..1).random() * speed
-                moveY = (-1000..1000).random().toFloat() / 1000
-            } else {
-                moveY = (-1..1).random() * speed
-                moveX = (-1000..1000).random().toFloat() / 1000
-            }
+            val dx = dlen * cos(angle)
+            val dy = dlen * sin(angle)
 
             var isPlantCollisionFound = false
             for (plant in plants)
-                if ((position.x + size + moveX in (plant.position.x - plant.size)..(plant.position.x + plant.size) &&
-                            position.y + size + moveY in (plant.position.y - plant.size)..(plant.position.y + plant.size)) ||
-                    (position.x + moveX == plant.position.x && position.y + moveY == plant.position.y)
-                )
+                if (length(pos.x + dx - plant.pos.x, pos.y + dy - plant.pos.y) < plant.size + size)
                     isPlantCollisionFound = true
 
-
             if (!isPlantCollisionFound &&
-                position.x + moveX < 100 &&
-                position.x + moveX >= 0 &&
-                position.y + moveY < 100 &&
-                position.y + moveY >= 0
+                pos.x + dx < 100 &&
+                pos.x + dx >= 0 &&
+                pos.y + dy < 100 &&
+                pos.y + dy >= 0
             ) {
-                if (moveX > 0)
-                    orientation = atan(moveY / moveX)
-                if (moveX < 0)
-                    orientation = PI.toFloat() + atan(moveY / moveX)
-                if (moveX == 0F)
-                    orientation = PI.toFloat() / 2 * sign(moveY)
+                orientation = angle
 
-                this.moveX = moveX
-                this.moveY = moveY
-                oldPosition = position
-
-                position = Point(
-                    position.x + moveX,
-                    position.y + moveY
-                )
+                moveX = dx
+                moveY = dy
+                pos = Point(pos.x + moveX, pos.y + moveY)
+            }
+            else {
+                moveX = 0f
+                moveY = 0f
             }
         }
         return retData.index
@@ -92,116 +66,104 @@ class PredatorV(
     private fun herbivoresCheck(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
         predators: MutableList<PredatorV>,   // Список всех хищников
-        plants: MutableList<PlantV>,          // Список всех растений
-        isMoved1: Boolean
+        plants: MutableList<PlantV>          // Список всех растений
     ): ReturnData {
-        var isMoved = isMoved1
+        val minDst = MinDistanceWithIndex(1000f, -1f, -1, 1000f)
 
-        for (herbivore in herbivores)
-            if (!isMoved) {
-                val x = herbivore.position.x
-                val y = herbivore.position.y
-                var moveX: Float
-                var moveY: Float
+        for (herbivore in herbivores) {
+            val lx = herbivore.pos.x - pos.x
+            val ly = herbivore.pos.y - pos.y
+            val len = length(lx, ly)
 
-                if (abs(x - position.x) > abs(y - position.y)) {
-                    moveX = if (x - position.x == 0F)
-                        0F
-                    else
-                        (x - position.x) / abs(x - position.x) * speed
+            if (len >= fieldOfView)
+                continue
 
-                    moveY = if (x - position.x == 0F)
-                        if (y - position.y == 0F)
-                            0F
-                        else
-                            (y - position.y) / abs(y - position.y) * speed
-                    else
-                        (y - position.y) / abs(x - position.x) * speed
-                } else {
-                    moveY = if (y - position.y == 0F)
-                        0F
-                    else
-                        (y - position.y) / abs(y - position.y) * speed
-
-                    moveX = if (y - position.y == 0F)
-                        if (x - position.x == 0F)
-                            0F
-                        else
-                            (x - position.x) / abs(x - position.x) * speed
-                    else
-                        (x - position.x) / abs(y - position.y) * speed
-                }
-
-                if (abs(x - position.x) < speed && abs(y - position.y) < speed) {
-                    moveX = x - position.x
-                    moveY = y - position.y
-                }
-
-                if (abs(x - position.x) < fieldOfView &&
-                    abs(y - position.y) < fieldOfView &&
-                    position.x + moveX < 100 &&
-                    position.x + moveX >= 0 &&
-                    position.y + moveY < 100 &&
-                    position.y + moveY >= 0
-                ) {
-
-                    var isPredatorCollisionFound = false
-                    for (predator1 in predators)
-                        if ((position.x + moveX in (predator1.position.x - size)..(predator1.position.x + size) &&
-                                    position.y + moveY in (predator1.position.y - size)..(predator1.position.y + size)) ||
-                            (position.x + moveX == predator1.position.x && position.y + moveY == predator1.position.y)
-                        )
-                            isPredatorCollisionFound = true
-
-                    var isPlantCollisionFound = false
-                    for (plant in plants)
-                        if ((position.x + moveX in (plant.position.x - size)..(plant.position.x + size) &&
-                                    position.y + moveY in (plant.position.y - size)..(plant.position.y + size)) ||
-                            (position.x + moveX == plant.position.x && position.y + moveY == plant.position.y)
-                        )
-                            isPlantCollisionFound = true
-
-
-                    if (!isPredatorCollisionFound && !isPlantCollisionFound) {
-                        if (moveX > 0)
-                            orientation = atan(moveY / moveX)
-                        if (moveX < 0)
-                            orientation = PI.toFloat() + atan(moveY / moveX)
-                        if (moveX == 0F)
-                            orientation = PI.toFloat() / 2 * sign(moveY)
-
-                        this.moveX = moveX
-                        this.moveY = moveY
-                        oldPosition = position
-
-                        position = Point(position.x + moveX, position.y + moveY)
-                        isMoved = true
-
-                        for (herbivore1 in herbivores)
-                            if (position.x in (herbivore1.position.x - size)..(herbivore1.position.x + size) &&
-                                position.y in (herbivore1.position.y - size)..(herbivore1.position.y + size) ||
-                                (position.x == herbivore1.position.x && position.y == herbivore1.position.y)
-                            ) {
-                                currentPoints += herbivore1.size * const
-                                return ReturnData(isMoved, herbivores.indexOf(herbivore1))
-                            }
-                    }
-                    break
-                }
+            val angle = when {
+                lx > 0 -> atan(ly / lx)
+                lx < 0 -> atan(ly / lx) + PI.toFloat()
+                else -> sign(ly) * PI.toFloat() / 2
             }
-        return ReturnData(isMoved, -1)
+            var dx = speed * cos(angle)
+            var dy = speed * sin(angle)
+
+            val dlen: Float
+
+            if (abs(lx) < abs(dx) && abs(ly) < abs(dy)) {
+                dx = lx
+                dy = ly
+                dlen = length(dx, dy)
+            } else
+                dlen = speed
+
+            dx += pos.x
+            dy += pos.y
+
+            if (dx < 0 || dx >= 100f || dy < 0 || dy >= 100f)
+                continue
+
+            var isPredatorCollisionFound = false
+            for (predator in predators)
+                if (length(dx - predator.pos.x, dy - predator.pos.y) < size + predator.size)
+                    isPredatorCollisionFound = true
+
+            var isPlantCollisionFound = false
+            for (plant in plants)
+                if (length(dx - plant.pos.x, dy - plant.pos.y) < size + plant.size)
+                    isPlantCollisionFound = true
+
+            if (isPlantCollisionFound || isPredatorCollisionFound)
+                continue
+
+            if (minDst.len > len) {
+                minDst.len = len
+                minDst.value = dlen
+                minDst.angle = angle
+                minDst.index = herbivores.indexOf(herbivore)
+            }
+        }
+
+        if (minDst.index == -1)
+            return ReturnData(false, -1)
+
+        val herbivore = herbivores[minDst.index]
+
+        moveX = minDst.value * cos(minDst.angle)
+        moveY = minDst.value * sin(minDst.angle)
+        pos = Point(
+            pos.x + moveX,
+            pos.y + moveY
+        )
+
+        orientation = minDst.angle
+
+        if (minDst.value < speed) {
+            currentPoints += herbivore.size * const
+            return ReturnData(true, minDst.index)
+        }
+
+        return ReturnData(true, -1)
+    }
+
+    private class MinDistanceWithIndex(var value: Float, var angle: Float, var index: Int, var len: Float)
+
+    private class ReturnData(
+        val isMoved: Boolean,
+        val index: Int
+    )
+
+    private fun length(dX: Float, dY: Float): Float {
+        return sqrt(dX * dX + dY * dY)
     }
 
     fun rollBack() {
-        position = oldPosition
+        pos = oldPosition
     }
 
     fun move(current_dt: Long, max_dt: Int) {
-        if (current_dt <= max_dt) {
-            position = Point(
+        if (current_dt <= max_dt)
+            pos = Point(
                 oldPosition.x + moveX * current_dt / max_dt,
                 oldPosition.y + moveY * current_dt / max_dt
             )
-        }
     }
 }
