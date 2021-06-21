@@ -1,10 +1,12 @@
 package com.makentoshe.androidgithubcitemplate
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import com.androidplot.xy.*
 
 
@@ -17,67 +19,79 @@ import java.util.*
 class StatsActivity : AppCompatActivity() {
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
 
+        //кнопка перехода на главную страницу
+
         val backBtn = findViewById<Button>(R.id.BackBtn2)
-        //first plot
-        val domainLabelsHerbivore = arrayOf<Number>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-        val series1NumberHerbivore = arrayOf<Number>(20, 24, 28, 22, 26, 22, 26, 29, 23, 23)
-
-        val series1 : XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberHerbivore), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
-        val series1Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null )
-        val plot1 = findViewById<XYPlot>(R.id.plot)
-        var n = 20
-        series1Format.setInterpolationParams(CatmullRomInterpolator.Params(15, CatmullRomInterpolator.Type.Centripetal))
-
-        plot1.addSeries(series1, series1Format)
-        plot1.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object: Format(){
-            override fun format(obj: Any?, toAppendTo: StringBuffer, pos: FieldPosition?): StringBuffer {
-                val i = Math.round((obj as Number).toFloat())
-                return toAppendTo.append(domainLabelsHerbivore[i])
-            }
-
-            override fun parseObject(source: String?, pos: ParsePosition?): Any? {
-                return null
-            }
-
-        }
         backBtn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        PanZoom.attach(plot1)
+        fun DrawGraphics(timeArray: Array<Int>, herbivoreArray: Array<Int>, predatorArray: Array<Int>) {
+            //first plot
+            val domainLabelsHerbivore = timeArray
+            val series1NumberHerbivore = herbivoreArray
 
-        //second plot
+            val series1: XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberHerbivore), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
+            val series1Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null)
+            val plot1 = findViewById<XYPlot>(R.id.plot)
+            series1Format.setInterpolationParams(CatmullRomInterpolator.Params(15, CatmullRomInterpolator.Type.Centripetal))
 
-        val domainLabelsPredator = arrayOf<Number>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
-        val series1NumberPredator = arrayOf<Number>(20, 24, 28, 22, 26, 22, 26, 29, 23, 23)
+            plot1.addSeries(series1, series1Format)
+            plot1.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
+                override fun format(obj: Any?, toAppendTo: StringBuffer, pos: FieldPosition?): StringBuffer {
+                    val i = Math.round((obj as Number).toFloat())
+                    return toAppendTo.append(domainLabelsHerbivore[i])
+                }
 
-        val series2 : XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberPredator), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
-        val series2Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null )
-        val plot2 = findViewById<XYPlot>(R.id.plot2)
-
-        series2Format.setInterpolationParams(CatmullRomInterpolator.Params(15, CatmullRomInterpolator.Type.Centripetal))
-        series2Format.setInterpolationParams(CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal))
-
-        plot2.addSeries(series2, series2Format)
-        plot2.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object: Format(){
-            override fun format(obj: Any?, toAppendTo: StringBuffer, pos: FieldPosition?): StringBuffer {
-                val i = Math.round((obj as Number).toFloat())
-                return toAppendTo.append(domainLabelsPredator[i])
+                override fun parseObject(source: String?, pos: ParsePosition?): Any? {
+                    return null
+                }
             }
+            PanZoom.attach(plot1)
 
-            override fun parseObject(source: String?, pos: ParsePosition?): Any? {
-                return null
+            //second plot
+
+            val domainLabelsPredator = timeArray
+            val series1NumberPredator = predatorArray
+
+            val series2: XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberPredator), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
+            val series2Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null)
+            val plot2 = findViewById<XYPlot>(R.id.plot2)
+
+            series2Format.setInterpolationParams(CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal))
+
+
+            plot2.addSeries(series2, series2Format)
+            plot2.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
+                override fun format(
+                    obj: Any?,
+                    toAppendTo: StringBuffer,
+                    pos: FieldPosition?
+                ): StringBuffer {
+                    val i = Math.round((obj as Number).toFloat())
+                    return toAppendTo.append(domainLabelsPredator[i])
+                }
+
+                override fun parseObject(source: String?, pos: ParsePosition?): Any? {
+                    return null
+                }
             }
+            PanZoom.attach(plot2)
+        }
+        //Quantity of minions
 
+        fun Quantity(){
+            var qntOfHerbivores : Int = 20
+            var qntOfPredators : Int = 4
+            var herbivores = findViewById<TextView>(R.id.textView2)
+            herbivores.setText("Quantity of herbivores:$qntOfHerbivores")
+            var predators = findViewById<TextView>(R.id.textView3)
+            predators.setText("Quantity of predators:$qntOfPredators")
         }
-        backBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-        PanZoom.attach(plot2)
     }
 }

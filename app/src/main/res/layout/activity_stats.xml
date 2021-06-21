@@ -31,13 +31,18 @@
         android:layout_height="288dp"
         app:domainTitle="time"
         app:rangeTitle="N of predator"
-        app:title="quantity of predarors" />
+        app:title="quantity of predators" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="45dp"
-        android:layout_height="127dp"
-        android:text= ""
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:text="Quantity of herbivores:" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:text="Quantity of predators:"
         />
 
 
