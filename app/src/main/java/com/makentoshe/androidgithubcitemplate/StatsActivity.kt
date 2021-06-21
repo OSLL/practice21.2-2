@@ -29,8 +29,8 @@ class StatsActivity : AppCompatActivity() {
         val series1 : XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberHerbivore), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
         val series1Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null )
         val plot1 = findViewById<XYPlot>(R.id.plot)
-
-        series1Format.setInterpolationParams(CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal))
+        var n = 20
+        series1Format.setInterpolationParams(CatmullRomInterpolator.Params(15, CatmullRomInterpolator.Type.Centripetal))
 
         plot1.addSeries(series1, series1Format)
         plot1.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object: Format(){
@@ -52,14 +52,15 @@ class StatsActivity : AppCompatActivity() {
 
         //second plot
 
-        val domainLabelsPredator = arrayOf<Number>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        val domainLabelsPredator = arrayOf<Number>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
         val series1NumberPredator = arrayOf<Number>(20, 24, 28, 22, 26, 22, 26, 29, 23, 23)
 
         val series2 : XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberPredator), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
         val series2Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null )
         val plot2 = findViewById<XYPlot>(R.id.plot2)
 
-        series2Format.setInterpolationParams(CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal))
+        series2Format.setInterpolationParams(CatmullRomInterpolator.Params(15, CatmullRomInterpolator.Type.Centripetal))
+        series2Format.setInterpolationParams(CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal))
 
         plot2.addSeries(series2, series2Format)
         plot2.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object: Format(){
