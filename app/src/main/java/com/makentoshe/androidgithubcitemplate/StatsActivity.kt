@@ -31,6 +31,7 @@ class StatsActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
         fun DrawGraphics(timeArray: Array<Int>, herbivoreArray: Array<Int>, predatorArray: Array<Int>) {
             //first plot
             val domainLabelsHerbivore = timeArray
@@ -85,11 +86,18 @@ class StatsActivity : AppCompatActivity() {
         }
         //Quantity of minions
 
-        fun Quantity(){
-            var qntOfHerbivores : Int = 20
-            var qntOfPredators : Int = 4
+        fun Quantity(herbivoreArray: Array<Int>, predatorArray: Array<Int>){
+            var i: Int = 0
+            var qntOfHerbivores : Int = 0
+            var qntOfPredators : Int = 0
+
+            for(i in herbivoreArray)
+                qntOfHerbivores = herbivoreArray[i]
             var herbivores = findViewById<TextView>(R.id.textView2)
             herbivores.setText("Quantity of herbivores:$qntOfHerbivores")
+            i = 0
+            for (i in predatorArray)
+                qntOfPredators = predatorArray[i]
             var predators = findViewById<TextView>(R.id.textView3)
             predators.setText("Quantity of predators:$qntOfPredators")
         }
