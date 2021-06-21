@@ -1,7 +1,9 @@
 package com.makentoshe.androidgithubcitemplate
 
+import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan
+import kotlin.math.sign
 
 class PredatorV(
     var position: Point,            // Положение животного относительно левого верхнего угла поля
@@ -14,22 +16,93 @@ class PredatorV(
     var currentPoints = 0F          // Текущие очки
     private val const = 1           // Константа для подсчёта очков относительно веса
 
+    private var moveX = 0F
+    private var moveY = 0F
+    private var oldPosition = position
+
+    class ReturnData(
+        val isMoved: Boolean,
+        val index: Int
+    )
+
     /* Основная функция класса, отвечающая за поведение
      * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
      */
-    fun move(
+    fun setDirection(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
         predators: MutableList<PredatorV>,   // Список всех хищников
         plants: MutableList<PlantV>          // Список всех растений
-    ): Point {
+    ): Int {
         var isMoved = false
+
+        oldPosition = position
+
+        val retData = herbivoresCheck(herbivores, predators, plants, isMoved)
+        isMoved = retData.isMoved
+
+        if (!isMoved) // Если нету травоядных в поле зрения
+        {
+            val switch = (0..1).random()
+            val moveX: Float
+            val moveY: Float
+
+            if (switch == 0) {
+                moveX = (-1..1).random() * speed
+                moveY = (-1000..1000).random().toFloat() / 1000
+            } else {
+                moveY = (-1..1).random() * speed
+                moveX = (-1000..1000).random().toFloat() / 1000
+            }
+
+            var isPlantCollisionFound = false
+            for (plant in plants)
+                if ((position.x + size + moveX in (plant.position.x - plant.size)..(plant.position.x + plant.size) &&
+                            position.y + size + moveY in (plant.position.y - plant.size)..(plant.position.y + plant.size)) ||
+                    (position.x + moveX == plant.position.x && position.y + moveY == plant.position.y)
+                )
+                    isPlantCollisionFound = true
+
+
+            if (!isPlantCollisionFound &&
+                position.x + moveX < 100 &&
+                position.x + moveX >= 0 &&
+                position.y + moveY < 100 &&
+                position.y + moveY >= 0
+            ) {
+                if (moveX > 0)
+                    orientation = atan(moveY / moveX)
+                if (moveX < 0)
+                    orientation = PI.toFloat() + atan(moveY / moveX)
+                if (moveX == 0F)
+                    orientation = PI.toFloat() / 2 * sign(moveY)
+
+                this.moveX = moveX
+                this.moveY = moveY
+                oldPosition = position
+
+                position = Point(
+                    position.x + moveX,
+                    position.y + moveY
+                )
+            }
+        }
+        return retData.index
+    }
+
+    private fun herbivoresCheck(
+        herbivores: MutableList<HerbivoreV>, // Список всех травоядных
+        predators: MutableList<PredatorV>,   // Список всех хищников
+        plants: MutableList<PlantV>,          // Список всех растений
+        isMoved1: Boolean
+    ): ReturnData {
+        var isMoved = isMoved1
 
         for (herbivore in herbivores)
             if (!isMoved) {
                 val x = herbivore.position.x
                 val y = herbivore.position.y
-                val moveX: Float
-                val moveY: Float
+                var moveX: Float
+                var moveY: Float
 
                 if (abs(x - position.x) > abs(y - position.y)) {
                     moveX = if (x - position.x == 0F)
@@ -59,6 +132,11 @@ class PredatorV(
                         (x - position.x) / abs(y - position.y) * speed
                 }
 
+                if (abs(x - position.x) < speed && abs(y - position.y) < speed) {
+                    moveX = x - position.x
+                    moveY = y - position.y
+                }
+
                 if (abs(x - position.x) < fieldOfView &&
                     abs(y - position.y) < fieldOfView &&
                     position.x + moveX < 100 &&
@@ -68,162 +146,62 @@ class PredatorV(
                 ) {
 
                     var isPredatorCollisionFound = false
-                    for (predator1 in predators) {
-                        var isXCollided = false
-                        var isYCollided = false
-                        if (moveX > 0 &&
-                            position.x + size + moveX > predator1.position.x - predator1.size &&
-                            predator1.position.x - predator1.size > position.x - size
+                    for (predator1 in predators)
+                        if ((position.x + moveX in (predator1.position.x - size)..(predator1.position.x + size) &&
+                                    position.y + moveY in (predator1.position.y - size)..(predator1.position.y + size)) ||
+                            (position.x + moveX == predator1.position.x && position.y + moveY == predator1.position.y)
                         )
-                            isXCollided = true
-                        if (moveX < 0 &&
-                            position.x - size + moveX < predator1.position.x + predator1.size &&
-                            predator1.position.x + predator1.size < position.x + size
-                        )
-                            isXCollided = true
-
-                        if (moveY > 0 &&
-                            position.y + size + moveY > predator1.position.y - predator1.size &&
-                            predator1.position.y - predator1.size > position.y - size
-                        )
-                            isYCollided = true
-                        if (moveY < 0 &&
-                            position.y - size + moveY < predator1.position.y + predator1.size &&
-                            predator1.position.y + predator1.size < position.y + size
-                        )
-                            isYCollided = true
-
-                        if (isXCollided && isYCollided)
                             isPredatorCollisionFound = true
-                    }
 
                     var isPlantCollisionFound = false
-                    for (plant in plants) {
-                        var isXCollided = false
-                        var isYCollided = false
-                        if (moveX > 0 &&
-                            position.x + size + moveX > plant.position.x - plant.size &&
-                            plant.position.x - plant.size > position.x - size
+                    for (plant in plants)
+                        if ((position.x + moveX in (plant.position.x - size)..(plant.position.x + size) &&
+                                    position.y + moveY in (plant.position.y - size)..(plant.position.y + size)) ||
+                            (position.x + moveX == plant.position.x && position.y + moveY == plant.position.y)
                         )
-                            isXCollided = true
-                        if (moveX < 0 &&
-                            position.x - size + moveX < plant.position.x + plant.size &&
-                            plant.position.x + plant.size < position.x + size
-                        )
-                            isXCollided = true
-
-                        if (moveY > 0 &&
-                            position.y + size + moveY > plant.position.y - plant.size &&
-                            plant.position.y - plant.size > position.y - size
-                        )
-                            isYCollided = true
-                        if (moveY < 0 &&
-                            position.y - size + moveY < plant.position.y + plant.size &&
-                            plant.position.y + plant.size < position.y + size
-                        )
-                            isYCollided = true
-
-                        if (isXCollided && isYCollided)
                             isPlantCollisionFound = true
-                    }
+
 
                     if (!isPredatorCollisionFound && !isPlantCollisionFound) {
-                        orientation = atan(moveY / moveX)
+                        if (moveX > 0)
+                            orientation = atan(moveY / moveX)
+                        if (moveX < 0)
+                            orientation = PI.toFloat() + atan(moveY / moveX)
+                        if (moveX == 0F)
+                            orientation = PI.toFloat() / 2 * sign(moveY)
+
+                        this.moveX = moveX
+                        this.moveY = moveY
+                        oldPosition = position
+
                         position = Point(position.x + moveX, position.y + moveY)
                         isMoved = true
 
-                        for (herbivore1 in herbivores) {
-                            var isXCollided = false
-                            var isYCollided = false
-                            if (moveX > 0 &&
-                                position.x + size + moveX > herbivore1.position.x - herbivore1.size &&
-                                herbivore1.position.x - herbivore1.size > position.x - size
-                            )
-                                isXCollided = true
-                            if (moveX < 0 &&
-                                position.x - size + moveX < herbivore1.position.x + herbivore1.size &&
-                                herbivore1.position.x + herbivore1.size < position.x + size
-                            )
-                                isXCollided = true
-
-                            if (moveY > 0 &&
-                                position.y + size + moveY > herbivore1.position.y - herbivore1.size &&
-                                herbivore1.position.y - herbivore1.size > position.y - size
-                            )
-                                isYCollided = true
-                            if (moveY < 0 &&
-                                position.y - size + moveY < herbivore1.position.y + herbivore1.size &&
-                                herbivore1.position.y + herbivore1.size < position.y + size
-                            )
-                                isYCollided = true
-
-                            if (isXCollided && isYCollided) {
-                                currentPoints += herbivore.size * const
-                                return herbivore1.position
+                        for (herbivore1 in herbivores)
+                            if (position.x in (herbivore1.position.x - size)..(herbivore1.position.x + size) &&
+                                position.y in (herbivore1.position.y - size)..(herbivore1.position.y + size) ||
+                                (position.x == herbivore1.position.x && position.y == herbivore1.position.y)
+                            ) {
+                                currentPoints += herbivore1.size * const
+                                return ReturnData(isMoved, herbivores.indexOf(herbivore1))
                             }
-                        }
                     }
                     break
                 }
             }
+        return ReturnData(isMoved, -1)
+    }
 
-        if (!isMoved) // Если нету травоядных в поле зрения
-        {
-            val switch = (0..1).random()
-            val moveX: Float
-            val moveY: Float
+    fun rollBack() {
+        position = oldPosition
+    }
 
-            if (switch == 0) {
-                moveX = (-1..1).random() * speed
-                moveY = (-1000..1000).random().toFloat() / 1000
-            } else {
-                moveY = (-1..1).random() * speed
-                moveX = (-1000..1000).random().toFloat() / 1000
-            }
-
-            var isPlantCollisionFound = false
-            for (plant in plants) {
-                var isXCollided = false
-                var isYCollided = false
-                if (moveX > 0 &&
-                    position.x + size + moveX > plant.position.x - plant.size &&
-                    plant.position.x - plant.size > position.x - size
-                )
-                    isXCollided = true
-                if (moveX < 0 &&
-                    position.x - size + moveX < plant.position.x + plant.size &&
-                    plant.position.x + plant.size < position.x + size
-                )
-                    isXCollided = true
-
-                if (moveY > 0 &&
-                    position.y + size + moveY > plant.position.y - plant.size &&
-                    plant.position.y - plant.size > position.y - size
-                )
-                    isYCollided = true
-                if (moveY < 0 &&
-                    position.y - size + moveY < plant.position.y + plant.size &&
-                    plant.position.y + plant.size < position.y + size
-                )
-                    isYCollided = true
-
-                if (isXCollided && isYCollided)
-                    isPlantCollisionFound = true
-            }
-
-            if (!isPlantCollisionFound &&
-                position.x + moveX < 100 &&
-                position.x + moveX >= 0 &&
-                position.y + moveY < 100 &&
-                position.y + moveY >= 0
-            ) {
-                orientation = atan(moveY / moveX)
-                position = Point(
-                    position.x + moveX,
-                    position.y + moveY
-                )
-            }
+    fun move(current_dt: Long, max_dt: Int) {
+        if (current_dt <= max_dt) {
+            position = Point(
+                oldPosition.x + moveX * current_dt / max_dt,
+                oldPosition.y + moveY * current_dt / max_dt
+            )
         }
-        return Point(-1F, -1F)
     }
 }
