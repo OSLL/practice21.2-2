@@ -31,7 +31,14 @@ class StatsActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+        //тестовые массивы
 
+        val time : Array<Int> = arrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+        val h : Array<Int> = arrayOf(20, 22, 24, 23, 26, 27, 25, 24, 25, 26)
+        val p: Array<Int> = arrayOf(4, 5, 6, 8, 10, 9, 11, 8, 7, 9, 10, 8, 8)
+
+
+        // функция отрисовки нрафиков
         fun DrawGraphics(timeArray: Array<Int>, herbivoreArray: Array<Int>, predatorArray: Array<Int>) {
             //first plot
             val domainLabelsHerbivore = timeArray
@@ -87,19 +94,16 @@ class StatsActivity : AppCompatActivity() {
         //Quantity of minions
 
         fun Quantity(herbivoreArray: Array<Int>, predatorArray: Array<Int>){
-            var i: Int = 0
-            var qntOfHerbivores : Int = 0
-            var qntOfPredators : Int = 0
+            var qntOfHerbivores : Int = herbivoreArray.last()
+            var qntOfPredators : Int = predatorArray.last()
 
-            for(i in herbivoreArray)
-                qntOfHerbivores = herbivoreArray[i]
             var herbivores = findViewById<TextView>(R.id.textView2)
-            herbivores.setText("Quantity of herbivores:$qntOfHerbivores")
-            i = 0
-            for (i in predatorArray)
-                qntOfPredators = predatorArray[i]
+            herbivores.setText("Quantity of herbivores: $qntOfHerbivores")
             var predators = findViewById<TextView>(R.id.textView3)
-            predators.setText("Quantity of predators:$qntOfPredators")
+            predators.setText("Quantity of predators: $qntOfPredators")
         }
+
+        DrawGraphics(time, h, p)
+        Quantity(h, p)
     }
 }
