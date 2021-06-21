@@ -3,8 +3,6 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.graphics.translationMatrix
-import androidx.core.graphics.withMatrix
 
 class FieldView (
     context : Context,
@@ -67,10 +65,10 @@ class FieldView (
             painter.color = Color.GREEN
             for (plant in plantsList) {
                 drawRect(
-                    startX * width + rectWidth * (plant.position.x - plant.size),
-                    startY * height + rectHeight * (plant.position.y - plant.size),
-                    startX * width + rectWidth * (plant.position.x + plant.size),
-                    startY * height + rectHeight * (plant.position.y + plant.size),
+                    startX * width + rectWidth * (plant.pos.x - plant.size),
+                    startY * height + rectHeight * (plant.pos.y - plant.size),
+                    startX * width + rectWidth * (plant.pos.x + plant.size),
+                    startY * height + rectHeight * (plant.pos.y + plant.size),
                     painter
                 )
             }
@@ -79,16 +77,16 @@ class FieldView (
             for(herbivore in herbivoresList)
             {
                 matrix.reset()
-                matrix.preTranslate(startX * width + rectWidth * herbivore.position.x,
-                    startY * height + rectHeight * herbivore.position.y)
+                matrix.preTranslate(startX * width + rectWidth * herbivore.pos.x,
+                    startY * height + rectHeight * herbivore.pos.y)
                 matrix.preRotate(herbivore.orientation / 3.14159f * 180f + 90f)
                 drawAnimal(canvas, herbivore.size / 2, matrix)
             }
             painter.color = Color.RED
             for(predator in predatorsList){
                 matrix.reset()
-                matrix.preTranslate(startX * width + rectWidth * predator.position.x,
-                    startY * height + rectHeight * predator.position.y)
+                matrix.preTranslate(startX * width + rectWidth * predator.pos.x,
+                    startY * height + rectHeight * predator.pos.y)
                 matrix.preRotate(predator.orientation / 3.14159f * 180f + 90f)
                 drawAnimal(canvas, predator.size / 2, matrix)
             }
