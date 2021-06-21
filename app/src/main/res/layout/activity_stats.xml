@@ -25,18 +25,18 @@
         style="@style/APDefacto.Light"
         android:layout_width="match_parent"
         android:layout_height="288dp"
-        app:domainTitle="domain"
-        app:rangeTitle="rang"
-        app:title="XY PLOT Simple" />
+        app:domainTitle="Time"
+        app:rangeTitle="N of herbivore"
+        app:title="quantity of herbivores" />
 
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot2"
         style="@style/APDefacto.Light"
         android:layout_width="match_parent"
         android:layout_height="288dp"
-        app:domainTitle="domain"
-        app:rangeTitle="rang"
-        app:title="XY PLOT Simple" />
+        app:domainTitle="time"
+        app:rangeTitle="N of predator"
+        app:title="quantity of predarors" />
 
     <Button
         android:id="@+id/BackBtn2"
