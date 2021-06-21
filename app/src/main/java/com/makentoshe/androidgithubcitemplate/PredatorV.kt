@@ -68,24 +68,28 @@ class PredatorV(
                 ) {
 
                     var isPredatorCollisionFound = false
-                    for (predator in predators) {
+                    for (predator1 in predators) {
                         var isXCollided = false
                         var isYCollided = false
                         if (moveX > 0 &&
-                            position.x + size + moveX > predator.position.x - predator.size
+                            position.x + size + moveX > predator1.position.x - predator1.size &&
+                            predator1.position.x - predator1.size > position.x - size
                         )
                             isXCollided = true
                         if (moveX < 0 &&
-                            position.x - size + moveX < predator.position.x + predator.size
+                            position.x - size + moveX < predator1.position.x + predator1.size &&
+                            predator1.position.x + predator1.size < position.x + size
                         )
                             isXCollided = true
 
                         if (moveY > 0 &&
-                            position.y + size + moveY > predator.position.y - predator.size
+                            position.y + size + moveY > predator1.position.y - predator1.size &&
+                            predator1.position.y - predator1.size > position.y - size
                         )
                             isYCollided = true
                         if (moveY < 0 &&
-                            position.y - size + moveY < predator.position.y + predator.size
+                            position.y - size + moveY < predator1.position.y + predator1.size &&
+                            predator1.position.y + predator1.size < position.y + size
                         )
                             isYCollided = true
 
@@ -98,20 +102,24 @@ class PredatorV(
                         var isXCollided = false
                         var isYCollided = false
                         if (moveX > 0 &&
-                            position.x + size + moveX > plant.position.x - plant.size
+                            position.x + size + moveX > plant.position.x - plant.size &&
+                            plant.position.x - plant.size > position.x - size
                         )
                             isXCollided = true
                         if (moveX < 0 &&
-                            position.x - size + moveX < plant.position.x + plant.size
+                            position.x - size + moveX < plant.position.x + plant.size &&
+                            plant.position.x + plant.size < position.x + size
                         )
                             isXCollided = true
 
                         if (moveY > 0 &&
-                            position.y + size + moveY > plant.position.y - plant.size
+                            position.y + size + moveY > plant.position.y - plant.size &&
+                            plant.position.y - plant.size > position.y - size
                         )
                             isYCollided = true
                         if (moveY < 0 &&
-                            position.y - size + moveY < plant.position.y + plant.size
+                            position.y - size + moveY < plant.position.y + plant.size &&
+                            plant.position.y + plant.size < position.y + size
                         )
                             isYCollided = true
 
@@ -128,20 +136,24 @@ class PredatorV(
                             var isXCollided = false
                             var isYCollided = false
                             if (moveX > 0 &&
-                                position.x + size + moveX > herbivore1.position.x - herbivore1.size
+                                position.x + size + moveX > herbivore1.position.x - herbivore1.size &&
+                                herbivore1.position.x - herbivore1.size > position.x - size
                             )
                                 isXCollided = true
                             if (moveX < 0 &&
-                                position.x - size + moveX < herbivore1.position.x + herbivore1.size
+                                position.x - size + moveX < herbivore1.position.x + herbivore1.size &&
+                                herbivore1.position.x + herbivore1.size < position.x + size
                             )
                                 isXCollided = true
 
                             if (moveY > 0 &&
-                                position.y + size + moveY > herbivore1.position.y - herbivore1.size
+                                position.y + size + moveY > herbivore1.position.y - herbivore1.size &&
+                                herbivore1.position.y - herbivore1.size > position.y - size
                             )
                                 isYCollided = true
                             if (moveY < 0 &&
-                                position.y - size + moveY < herbivore1.position.y + herbivore1.size
+                                position.y - size + moveY < herbivore1.position.y + herbivore1.size &&
+                                herbivore1.position.y + herbivore1.size < position.y + size
                             )
                                 isYCollided = true
 
@@ -162,10 +174,10 @@ class PredatorV(
             val moveY: Float
 
             if (switch == 0) {
-                moveX = speed
+                moveX = (-1..1).random() * speed
                 moveY = (-1000..1000).random().toFloat() / 1000
             } else {
-                moveY = speed
+                moveY = (-1..1).random() * speed
                 moveX = (-1000..1000).random().toFloat() / 1000
             }
 
@@ -174,20 +186,24 @@ class PredatorV(
                 var isXCollided = false
                 var isYCollided = false
                 if (moveX > 0 &&
-                    position.x + size + moveX > plant.position.x - plant.size
+                    position.x + size + moveX > plant.position.x - plant.size &&
+                    plant.position.x - plant.size > position.x - size
                 )
                     isXCollided = true
                 if (moveX < 0 &&
-                    position.x - size + moveX < plant.position.x + plant.size
+                    position.x - size + moveX < plant.position.x + plant.size &&
+                    plant.position.x + plant.size < position.x + size
                 )
                     isXCollided = true
 
                 if (moveY > 0 &&
-                    position.y + size + moveY > plant.position.y - plant.size
+                    position.y + size + moveY > plant.position.y - plant.size &&
+                    plant.position.y - plant.size > position.y - size
                 )
                     isYCollided = true
                 if (moveY < 0 &&
-                    position.y - size + moveY < plant.position.y + plant.size
+                    position.y - size + moveY < plant.position.y + plant.size &&
+                    plant.position.y + plant.size < position.y + size
                 )
                     isYCollided = true
 

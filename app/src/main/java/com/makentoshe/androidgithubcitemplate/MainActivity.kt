@@ -41,6 +41,49 @@ class MainActivity : AppCompatActivity() {
         val breedingIndicesPredator = mutableListOf<Int>()
         val breedingIndicesHerbivore = mutableListOf<Int>()
 
+        var predatorsCount = 10
+        var herbivoresCount = 10
+        var plantsCount = 20
+
+
+        fun fillLists() {
+            for (i in 0 until predatorsCount)
+                predatorsList.add(
+                    PredatorV(
+                        Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                        (30..100).random().toFloat() / 10,
+                        (10..30).random().toFloat() / 10,
+                        (5..20).random().toFloat() / 10,
+                        0F,
+                        2F
+                    )
+                )
+            for (i in 0 until herbivoresCount) {
+                val rnd01 = (0..1).random()
+                val afraidOfPredator = rnd01 == 1
+                herbivoresList.add(
+                    HerbivoreV(
+                        Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                        (30..100).random().toFloat() / 10,
+                        (10..30).random().toFloat() / 10,
+                        (5..20).random().toFloat() / 10,
+                        0F,
+                        2F,
+                        afraidOfPredator
+                    )
+                )
+            }
+            for (i in 0 until plantsCount)
+                plantsList.add(
+                    PlantV(
+                        Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                        (5..20).random().toFloat() / 10,
+                        (5..30).random().toFloat() / 10
+                    )
+                )
+        }
+        fillLists()
+
         fun doFrame() {
             Handler(Looper.getMainLooper()).postDelayed({
                 for (herbivore in herbivoresList) {
@@ -87,9 +130,19 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 for (i in breedingIndicesPredator)
-                    predatorsList += PredatorV(Point((0..99).random().toFloat(), (0..99).random().toFloat()), 3F, 1F, 1F, 0F, 2F)
+                    predatorsList += PredatorV(
+                        Point(
+                            (0..99).random().toFloat(),
+                            (0..99).random().toFloat()
+                        ), 3F, 1F, 1F, 0F, 2F
+                    )
                 for (i in breedingIndicesHerbivore)
-                    herbivoresList += HerbivoreV(Point((0..99).random().toFloat(), (0..99).random().toFloat()), 3F, 1F, 1F, 0F, 2F, true)
+                    herbivoresList += HerbivoreV(
+                        Point(
+                            (0..99).random().toFloat(),
+                            (0..99).random().toFloat()
+                        ), 3F, 1F, 1F, 0F, 2F, true
+                    )
 
                 deathPositions.clear()
                 breedingIndicesPredator.clear()
