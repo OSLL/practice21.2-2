@@ -5,6 +5,9 @@ package com.makentoshe.androidgithubcitemplate
  */
 class Point(val x: Float, val y: Float)
 
-class PlantV(val position: Point,        // Положение растения относительно левого верхнего угла
+class PlantV(val pos: Point,        // Положение растения относительно левого верхнего угла
              val size: Float,            // Размер растения (Размер поля - 100)
-             val pointsForEating: Float) // Кол-во очков, дающееся за съедение этого растения
+             basePointsForEating: Float) // Кол-во очков, дающееся за съедение этого растения
+{
+    val pointsForEating = basePointsForEating * size
+}
