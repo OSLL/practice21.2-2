@@ -13,6 +13,8 @@ class HerbivoreV(
 ) {
     var currentPoints = 0F                 // Текущие очки
 
+    val enegryConsumptionPerUnit = 0.0002f * size * size * speed * fieldOfView / pointsForBreeding
+
     private var moveX = 0F                 // Запомненное перемещение по X (для плавного движения)
     private var moveY = 0F                 // Запомненное перемещение по Y (для плавного движения)
     private var oldPosition = pos          // Позиция до перемещения (для плавного движения)
@@ -58,6 +60,8 @@ class HerbivoreV(
                 moveX = dx
                 moveY = dy
                 pos = Point(pos.x + dx, pos.y + dy)
+
+                currentPoints -= enegryConsumptionPerUnit * dlen
             }
             else {
                 moveX = 0f
@@ -139,6 +143,7 @@ class HerbivoreV(
             pos.y + moveY
         )
 
+        currentPoints -= enegryConsumptionPerUnit * minDst.value
         orientation = minDst.angle
 
         if (minDst.value < speed) {
@@ -219,6 +224,7 @@ class HerbivoreV(
             pos.y + moveY
         )
 
+        currentPoints -= enegryConsumptionPerUnit * minDst.value
         orientation = minDst.angle
 
         for (plant in plants)

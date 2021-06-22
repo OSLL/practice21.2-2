@@ -13,6 +13,8 @@ class PredatorV(
     var currentPoints = 0F          // Текущие очки
     private val const = 1           // Константа для подсчёта очков относительно веса
 
+    val enegryConsumptionPerUnit = 0.001f * size * size * speed * fieldOfView / pointsForBreeding
+
     private var moveX = 0F          // Запомненное перемещение по X (для плавного движения)
     private var moveY = 0F          // Запомненное перемещение по Y (для плавного движения)
     private var oldPosition = pos   // Позиция до перемещения (для плавного движения)
@@ -54,6 +56,8 @@ class PredatorV(
                 moveX = dx
                 moveY = dy
                 pos = Point(pos.x + moveX, pos.y + moveY)
+
+                currentPoints -= enegryConsumptionPerUnit * dlen
             }
             else {
                 moveX = 0f
@@ -133,6 +137,8 @@ class PredatorV(
             pos.x + moveX,
             pos.y + moveY
         )
+
+        currentPoints -= enegryConsumptionPerUnit * minDst.value
 
         orientation = minDst.angle
 
