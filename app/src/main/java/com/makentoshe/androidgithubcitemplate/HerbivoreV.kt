@@ -18,6 +18,8 @@ class HerbivoreV(
     private var moveX = 0F                 // Запомненное перемещение по X (для плавного движения)
     private var moveY = 0F                 // Запомненное перемещение по Y (для плавного движения)
     private var oldPosition = pos          // Позиция до перемещения (для плавного движения)
+    private var oldAngle = orientation
+    private var dangle = orientation - oldAngle
 
 
     /* Основная функция класса, отвечающая за поведение
@@ -31,6 +33,7 @@ class HerbivoreV(
         var retData: ReturnData
 
         oldPosition = pos
+        oldAngle = orientation
 
         if (!afraidOfPredator) {
             retData = plantsCheck(herbivores, predators, plants)
@@ -248,8 +251,12 @@ class HerbivoreV(
 
     fun rollBack() {
         pos = oldPosition
+        dangle = orientation - oldAngle
+        if (dangle > PI)
+            dangle -= 2 * PI.toFloat()
+        orientation = oldAngle
     }
-
+    
     fun move(current_dt: Long, max_dt: Int) {
         if (current_dt <= max_dt) {
             pos = Point(
@@ -257,5 +264,8 @@ class HerbivoreV(
                 oldPosition.y + moveY * current_dt / max_dt
             )
         }
+    }
+    fun rotate(current_dt: Long, max_dt: Int) {
+        orientation = oldAngle + dangle * current_dt / max_dt
     }
 }

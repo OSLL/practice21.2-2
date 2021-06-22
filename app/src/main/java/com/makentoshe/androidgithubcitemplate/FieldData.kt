@@ -14,9 +14,20 @@ class FieldData {
 
     private val deathFromHungerIndicesPredators = mutableListOf<Int>()
 
-    public var timeStats = TimeStatistic()
+    var timeStats = TimeStatistic()
 
     var time = System.currentTimeMillis()
+
+    var movesPerTick = 40    // Измеряется в количестве тиков
+    var rotatesPerTIck = 50  // Измеряется в количестве тиков
+
+    private var moveTime = 200
+    private var rotateTime = 300
+
+    fun setTime(tickLength: Int) {
+        moveTime = movesPerTick * tickLength
+        rotateTime = movesPerTick * tickLength
+    }
 
     fun fillLists(predatorsCount: Int, herbivoresCount: Int, plantsCount: Int) {
         for (i in 0 until predatorsCount)
@@ -55,9 +66,10 @@ class FieldData {
             )
     }
 
-    fun update(deltaTime: Long) {
-
-        if (deltaTime > 500) {
+    var isFirstMove = true
+    var isFirstRotate = true
+    fun update(deltaTime: Long, tickLength: Int) {
+        if (deltaTime > moveTime + rotateTime && !isFirstMove) {
             time = System.currentTimeMillis()
 
             for (i in predatorsList.indices)
@@ -77,7 +89,7 @@ class FieldData {
             for (i in deathHerbivoresIndices)
                 herbivoresList.removeAt(i)
             for (i in deathFromHungerIndicesPredators)
-                if (predatorsList.size != 0)
+                if (predatorsList.size > i)
                     predatorsList.removeAt(i)
 
             for (i in predatorsList.indices)
@@ -135,13 +147,40 @@ class FieldData {
                 predator.rollBack()
 
             timeStats.addTo(timeStats.herbivoresAmount, herbivoresList.size)
-            timeStats.addTo(timeStats.herbivoresAmount, predatorsList.size)
-            timeStats.addTo(timeStats.herbivoresAmount, plantsList.size)
+            timeStats.addTo(timeStats.predatorsAmount, predatorsList.size)
+            timeStats.addTo(timeStats.plantsAmount, plantsList.size)
+
+            isFirstMove = true
+            isFirstRotate = true
+
         } else {
-            for (herbivore in herbivoresList)
-                herbivore.move(deltaTime, 500)
-            for (predator in predatorsList)
-                predator.move(deltaTime, 500)
+            if (deltaTime <= rotateTime) {
+                for (herbivore in herbivoresList)
+                    herbivore.rotate(deltaTime, rotateTime)
+                for (predator in predatorsList)
+                    predator.rotate(deltaTime, rotateTime)
+            } else {
+                if (isFirstRotate) {
+                    for (herbivore in herbivoresList)
+                        herbivore.rotate(rotateTime.toLong(), rotateTime)
+                    for (predator in predatorsList)
+                        predator.rotate(rotateTime.toLong(), rotateTime)
+                    isFirstRotate = false
+                } else {
+                    if (deltaTime <= rotateTime + moveTime) {
+                        for (herbivore in herbivoresList)
+                            herbivore.move(deltaTime - rotateTime, moveTime)
+                        for (predator in predatorsList)
+                            predator.move(deltaTime - rotateTime, moveTime)
+                    } else {
+                        for (herbivore in herbivoresList)
+                            herbivore.move(moveTime.toLong(), moveTime)
+                        for (predator in predatorsList)
+                            predator.move(moveTime.toLong(), moveTime)
+                        isFirstMove = false
+                    }
+                }
+            }
         }
     }
 }

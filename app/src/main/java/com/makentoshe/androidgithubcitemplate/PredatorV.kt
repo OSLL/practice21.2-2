@@ -18,6 +18,8 @@ class PredatorV(
     private var moveX = 0F          // Запомненное перемещение по X (для плавного движения)
     private var moveY = 0F          // Запомненное перемещение по Y (для плавного движения)
     private var oldPosition = pos   // Позиция до перемещения (для плавного движения)
+    private var oldAngle = orientation
+    private var dangle = orientation - oldAngle
 
 
     /* Основная функция класса, отвечающая за поведение
@@ -29,6 +31,7 @@ class PredatorV(
         plants: MutableList<PlantV>          // Список всех растений
     ): Int {
         oldPosition = pos
+        oldAngle = orientation
 
         val retData = herbivoresCheck(herbivores, predators, plants)
 
@@ -163,6 +166,10 @@ class PredatorV(
 
     fun rollBack() {
         pos = oldPosition
+        dangle = orientation - oldAngle
+        if (dangle > PI)
+            dangle -= 2 * PI.toFloat()
+        orientation = oldAngle
     }
 
     fun move(current_dt: Long, max_dt: Int) {
@@ -171,5 +178,8 @@ class PredatorV(
                 oldPosition.x + moveX * current_dt / max_dt,
                 oldPosition.y + moveY * current_dt / max_dt
             )
+    }
+    fun rotate(current_dt: Long, max_dt: Int) {
+        orientation = oldAngle + dangle * current_dt / max_dt
     }
 }
