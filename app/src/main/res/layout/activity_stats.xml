@@ -19,7 +19,7 @@
         android:id="@+id/plot"
         style="@style/APDefacto.Light"
         android:layout_width="match_parent"
-        android:layout_height="288dp"
+        android:layout_height="250dp"
         app:domainTitle="Time"
         app:rangeTitle="N of herbivore"
         app:title="quantity of herbivores" />
@@ -28,7 +28,7 @@
         android:id="@+id/plot2"
         style="@style/APDefacto.Light"
         android:layout_width="match_parent"
-        android:layout_height="288dp"
+        android:layout_height="250dp"
         app:domainTitle="time"
         app:rangeTitle="N of predator"
         app:title="quantity of predators" />
@@ -36,7 +36,7 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="29dp"
+        android:layout_height="28dp"
         android:text="Quantity of herbivores:"
         android:textSize="20sp"
         app:autoSizeMaxTextSize="24sp" />
@@ -44,7 +44,7 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="28dp"
         android:text="Quantity of predators:"
         android:textSize="20sp" />
 
