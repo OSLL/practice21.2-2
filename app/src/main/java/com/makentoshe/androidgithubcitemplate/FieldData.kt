@@ -14,6 +14,8 @@ class FieldData {
 
     private val deathFromHungerIndicesPredators = mutableListOf<Int>()
 
+    public var timeStats = TimeStatistic()
+
     var time = System.currentTimeMillis()
 
     fun fillLists(predatorsCount: Int, herbivoresCount: Int, plantsCount: Int) {
@@ -131,6 +133,10 @@ class FieldData {
                 herbivore.rollBack()
             for (predator in predatorsList)
                 predator.rollBack()
+
+            timeStats.addTo(timeStats.herbivoresAmount, herbivoresList.size)
+            timeStats.addTo(timeStats.herbivoresAmount, predatorsList.size)
+            timeStats.addTo(timeStats.herbivoresAmount, plantsList.size)
         } else {
             for (herbivore in herbivoresList)
                 herbivore.move(deltaTime, 500)
