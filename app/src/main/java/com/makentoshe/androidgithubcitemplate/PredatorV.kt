@@ -11,7 +11,7 @@ class PredatorV(
     var orientation: Float,                 // Угол поворота животного относительно горизонтальной оси
     val pointsForBreeding: Float            // Количество очков, необходимых для размножения
 ) {
-    private val rotationSpeed = baseRotationSpeed / size
+    private val rotationSpeed = baseRotationSpeed / size / size
 
     var currentPoints = 0F                  // Текущие очки
     private val const = 1                   // Константа для подсчёта очков относительно веса
@@ -184,8 +184,14 @@ class PredatorV(
                     }
                 }
             }
-        } else
+        } else {
             rotate(dt)
+
+            val newX = pos.x + speed * cos(orientation) * dt
+            val newY = pos.y + speed * sin(orientation) * dt
+            if (newX in (size..99f - size) && newY in (size..99f - size))
+                pos = Point(newX, newY)
+        }
         return -1
     }
 
@@ -205,8 +211,9 @@ class PredatorV(
         }
 
         for (i in 0..rotationSpeed.toInt())
-            if (orientation !in (oldAngle + dangle - 2 * criticalAngle..oldAngle + dangle + 2 * criticalAngle) && needToRotate)
+            if (orientation !in (oldAngle + dangle - 2 * criticalAngle..oldAngle + dangle + 2 * criticalAngle) && needToRotate) {
                 orientation += dangle * dt
+            }
             else {
                 orientation = oldAngle + dangle
                 needToRotate = false

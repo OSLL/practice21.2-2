@@ -13,9 +13,10 @@ class HerbivoreV(
 ) {
     var currentPoints = 0F                  // Текущие очки
 
-    private val rotationSpeed = baseRotationSpeed / size
+    private val rotationSpeed = baseRotationSpeed / size / size
 
-    private val energyConsumptionPerUnit = 0.00002f * size * size * speed * fieldOfView / pointsForBreeding
+    private val energyConsumptionPerUnit =
+        0.00002f * size * size * speed * fieldOfView / pointsForBreeding
 
     private var time = System.currentTimeMillis()
 
@@ -23,7 +24,6 @@ class HerbivoreV(
     private var oldAngle = orientation
     private var needToRotate = false
     private val criticalAngle = PI / 45
-
 
 
     /* Основная функция класса, отвечающая за поведение
@@ -86,7 +86,8 @@ class HerbivoreV(
                 val dy = speed * sin(minDst.angle) * dt
 
                 if (dx + pos.x in (0f + size)..(99f - size) &&
-                    dy + pos.y in (0f + size)..(99f - size)) {
+                    dy + pos.y in (0f + size)..(99f - size)
+                ) {
                     var isHerbivoreFound = false
                     for (herbivore in herbivores)
                         if (length(
@@ -134,7 +135,8 @@ class HerbivoreV(
                 }
 
                 if (dx + pos.x in (0f + size)..(99f - size) &&
-                    dy + pos.y in (0f + size)..(99f - size)) {
+                    dy + pos.y in (0f + size)..(99f - size)
+                ) {
                     var isHerbivoreFound = false
                     for (herbivore in herbivores)
                         if (length(
@@ -288,9 +290,14 @@ class HerbivoreV(
                     }
                 }
             }
-        }
-        else
+        } else {
             rotate(dt)
+
+            val newX = pos.x + speed * cos(orientation) * dt
+            val newY = pos.y + speed * sin(orientation) * dt
+            if (newX in (size..99f - size) && newY in (size..99f - size))
+                pos = Point(newX, newY)
+        }
         return -1
     }
 
@@ -313,8 +320,9 @@ class HerbivoreV(
         }
 
         for (i in 0..rotationSpeed.toInt())
-            if (orientation !in (oldAngle + dangle - 2 * criticalAngle..oldAngle + dangle + 2 * criticalAngle) && needToRotate)
+            if (orientation !in (oldAngle + dangle - 2 * criticalAngle..oldAngle + dangle + 2 * criticalAngle) && needToRotate) {
                 orientation += dangle * dt
+            }
             else {
                 orientation = oldAngle + dangle
                 needToRotate = false

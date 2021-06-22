@@ -13,6 +13,8 @@ class Field(
 
     private var tickLength = 100f
 
+    var time = System.currentTimeMillis()
+
     fun stopProcess() {
         go = false
     }
@@ -38,8 +40,10 @@ class Field(
 
     fun doFrame() {
         Handler(Looper.getMainLooper()).postDelayed({
+            val deltaTime = System.currentTimeMillis() - time
+            time = System.currentTimeMillis()
 
-            fieldData.update((tickLength * speed).toLong())
+            fieldData.update((deltaTime * speed).toLong())
 
             fieldView.setListsToDraw(fieldData.predatorsList, fieldData.herbivoresList, fieldData.plantsList)
             fieldView.invalidate()
