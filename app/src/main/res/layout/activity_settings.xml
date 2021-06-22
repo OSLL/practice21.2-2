@@ -15,7 +15,6 @@
         tools:context=".SettingsActivity">
 
         //Settings title
-
         <TextView
             android:id="@+id/textView2"
 
@@ -32,7 +31,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         //"Predators number:" textview
-
         <TextView
             android:id="@+id/textView3"
 
@@ -50,7 +48,6 @@
             tools:layout_editor_absoluteY="82sp" />
 
         //Predators number getter
-
         <EditText
             android:ems="10"
 
@@ -68,7 +65,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         //Submit predators number
-
         <Button
             android:backgroundTint="#9CABFF"
 
@@ -84,7 +80,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         //"Herbivores number:" text
-
         <TextView
             android:id="@+id/textView4"
 
@@ -102,7 +97,6 @@
             tools:layout_editor_absoluteY="125sp" />
 
         //Herbivores number getter
-
         <EditText
             android:ems="10"
 
@@ -120,7 +114,6 @@
             tools:layout_editor_absoluteY="109sp" />
 
         //Submit herbivores number
-
         <Button
             android:backgroundTint="#9CABFF"
 
@@ -137,7 +130,6 @@
             tools:layout_editor_absoluteY="110dp" />
 
         //"Velocity/Efficiency:" text
-
         <TextView
             android:id="@+id/textView5"
             android:layout_height="40sp"
@@ -153,7 +145,6 @@
             tools:layout_editor_absoluteY="159sp" />
 
         //Velocity/Efficiency getter
-
         <EditText
             android:ems="10"
 
@@ -168,7 +159,6 @@
             app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
         //Submit Velocity/Efficiency
-
         <Button
             android:backgroundTint="#9CABFF"
 
@@ -185,7 +175,6 @@
             tools:layout_editor_absoluteY="150dp" />
 
         //"Points for plant:" text
-
         <TextView
             android:id="@+id/textView6"
             android:layout_height="40sp"
@@ -201,7 +190,6 @@
             tools:layout_editor_absoluteY="159sp" />
 
         //Points for plant getter
-
         <EditText
             android:ems="10"
 
@@ -216,8 +204,7 @@
             app:layout_constraintStart_toStartOf="@+id/editText"
             app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
-        //Submit points for each plant
-
+        //Submit plants number
         <Button
             android:backgroundTint="#9CABFF"
 
@@ -233,8 +220,32 @@
             tools:layout_editor_absoluteX="257dp"
             tools:layout_editor_absoluteY="150dp" />
 
-        //Back button
+        //Цвет растений
+        <Button
+            android:id="@+id/PlColorBtn"
+            android:layout_width="match_parent"
+            android:layout_height="37sp"
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Set plants color"/>
+        //Цвет травоядных
+        <Button
+            android:id="@+id/HeColorBtn"
+            android:layout_width="match_parent"
+            android:layout_height="37sp"
+            app:layout_constraintTop_toBottomOf="@+id/PlColorBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Set plants color"/>
+        //Цвет хищников
+        <Button
+            android:id="@+id/PrColorBtn"
+            android:layout_width="match_parent"
+            android:layout_height="37sp"
+            app:layout_constraintTop_toBottomOf="@+id/HeColorBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Set predators color"/>
 
+        //Back button
         <Button
             android:id="@+id/BackBtn1"
 
@@ -245,7 +256,7 @@
             android:layout_marginTop="30sp"
             android:layout_width="101sp"
             android:text="Back"
-            app:layout_constraintTop_toBottomOf="@id/textView6"
+            app:layout_constraintTop_toBottomOf="@id/PrColorBtn"
 
             app:layout_constraintStart_toStartOf="parent"
 

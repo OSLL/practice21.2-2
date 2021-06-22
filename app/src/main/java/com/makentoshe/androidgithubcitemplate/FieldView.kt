@@ -1,5 +1,6 @@
 package com.makentoshe.androidgithubcitemplate
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
@@ -62,7 +63,12 @@ class FieldView (
 
             val matrix = Matrix()
 
-            painter.color = Color.GREEN
+            val shPr = context.getSharedPreferences("Settings", MODE_PRIVATE)
+            val PlantColor = shPr.getInt("PlColor", Color.GREEN)
+            val HerbivoreColor = shPr.getInt("HeColor", Color.BLACK)
+            val PredatorColor = shPr.getInt("PrColor", Color.RED)
+
+            painter.color = PlantColor
             for (plant in plantsList) {
                 drawRect(
                     startX * width + rectWidth * (plant.pos.x - plant.size),
@@ -73,7 +79,7 @@ class FieldView (
                 )
             }
 
-            painter.color = Color.BLACK
+            painter.color = HerbivoreColor
             for(herbivore in herbivoresList)
             {
                 matrix.reset()
@@ -82,7 +88,7 @@ class FieldView (
                 matrix.preRotate(herbivore.orientation / 3.14159f * 180f + 90f)
                 drawAnimal(canvas, herbivore.size / 2, matrix)
             }
-            painter.color = Color.RED
+            painter.color = PredatorColor
             for(predator in predatorsList){
                 matrix.reset()
                 matrix.preTranslate(startX * width + rectWidth * predator.pos.x,

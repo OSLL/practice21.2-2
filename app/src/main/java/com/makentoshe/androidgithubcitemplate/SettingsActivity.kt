@@ -34,7 +34,7 @@ class SettingsActivity : AppCompatActivity() {
         val sbmtBtnPlNum = findViewById<Button>(R.id.PlNumBtn)
         val plNumTxt= findViewById<EditText>(R.id.editText4)
 
-        //  При нажатии на сохранялку "Submit ..."(SbmtBtn...): в SharedPreferences остаются строки с целыми числовыми параметрами со своими Ключами(тэгами)
+        //  При нажатии на сохранялку "Submit ..."(SbmtBtn...): в SharedPreferences остаются строки с числовыми параметрами со своими Ключами(тэгами)
         //   (например: количество хищников и травоядных, коэффициент связи увеличения СКОРОСТИ и увеличения РАСХОДА ЭНЕРГИИ)
         val shPrSave = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val editor = shPrSave.edit()
@@ -46,7 +46,8 @@ class SettingsActivity : AppCompatActivity() {
         plNumTxt.setText(shPrload.getInt("PlNum", 20).toString())
 
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Настройки с полем ввода
         //Количество хищников
         sbmtBtnPredNum.setOnClickListener{
                 editor.apply{
@@ -74,7 +75,13 @@ class SettingsActivity : AppCompatActivity() {
             }.apply()
         }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Настройки с только-кнопочными интерфейсами
+        val PlColorBtn = findViewById<Button>(R.id.PlColorBtn)
+        val HeColorBtn = findViewById<Button>(R.id.HeColorBtn)
+        val PrColorBtn = findViewById<Button>(R.id.PrColorBtn)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Пример доступа к полученным значениям
         //Примечания: Даже после закрытия приложения данные, сохранённые нажатием Submit, остаются в памяти до следующего изменения или перезагрузки телефона.
