@@ -10,10 +10,10 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="45dp"
+        android:layout_width="78dp"
         android:layout_height="20dp"
         android:text="Stats:"
-         />
+        android:textSize="20sp" />
 
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot"
@@ -36,14 +36,17 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="Quantity of herbivores:" />
+        android:layout_height="29dp"
+        android:text="Quantity of herbivores:"
+        android:textSize="20sp"
+        app:autoSizeMaxTextSize="24sp" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="57dp"
+        android:layout_height="43dp"
         android:text="Quantity of predators:"
-        />
+        android:textSize="20sp" />
 
 
     <Button
