@@ -12,6 +12,8 @@ class FieldData {
     private val breedingIndicesPredator = mutableListOf<Int>()
     private val breedingIndicesHerbivore = mutableListOf<Int>()
 
+    private val deathFromHungerIndicesPredators = mutableListOf<Int>()
+
     var time = System.currentTimeMillis()
 
     fun fillLists(predatorsCount: Int, herbivoresCount: Int, plantsCount: Int) {
@@ -55,19 +57,33 @@ class FieldData {
 
         if (deltaTime > 500) {
             time = System.currentTimeMillis()
+
+            for (i in predatorsList.indices)
+                if (predatorsList[i].currentPoints <= -5)
+                    deathFromHungerIndicesPredators += i
+
+            for (i in herbivoresList.indices)
+                if (herbivoresList[i].currentPoints <= -5)
+                    deathHerbivoresIndices += i
+
             deathPlantsIndices.sortDescending()
             deathHerbivoresIndices.sortDescending()
+            deathFromHungerIndicesPredators.sortDescending()
 
             for (i in deathPlantsIndices)
                 plantsList.removeAt(i)
             for (i in deathHerbivoresIndices)
                 herbivoresList.removeAt(i)
+            for (i in deathFromHungerIndicesPredators)
+                if (predatorsList.size != 0)
+                    predatorsList.removeAt(i)
 
             for (i in predatorsList.indices)
                 if (predatorsList[i].currentPoints >= predatorsList[i].pointsForBreeding) {
                     predatorsList[i].currentPoints -= predatorsList[i].pointsForBreeding
                     breedingIndicesPredator += i
                 }
+
             for (i in herbivoresList.indices)
                 if (herbivoresList[i].currentPoints >= herbivoresList[i].pointsForBreeding) {
                     herbivoresList[i].currentPoints -= herbivoresList[i].pointsForBreeding
