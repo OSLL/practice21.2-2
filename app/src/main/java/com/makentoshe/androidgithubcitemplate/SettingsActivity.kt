@@ -2,18 +2,22 @@ package com.makentoshe.androidgithubcitemplate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import vadiole.colorpicker.ColorModel
+import vadiole.colorpicker.ColorPickerDialog
+
+//TODO: сделать настройки приятно воспринимаемыми
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)
 
         val backBtn = findViewById<Button>(R.id.BackBtn1)
 
@@ -36,14 +40,14 @@ class SettingsActivity : AppCompatActivity() {
 
         //  При нажатии на сохранялку "Submit ..."(SbmtBtn...): в SharedPreferences остаются строки с числовыми параметрами со своими Ключами(тэгами)
         //   (например: количество хищников и травоядных, коэффициент связи увеличения СКОРОСТИ и увеличения РАСХОДА ЭНЕРГИИ)
-        val shPrSave = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val editor = shPrSave.edit()
+        val shPr = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val editor = shPr.edit()
 
         //Обеспечиваем вывод в editText'ах актуальных настроек
-        predTxt.setText(shPrload.getInt("PredNum", 5).toString())
-        herbTxt.setText(shPrload.getInt("HerbNum", 5).toString())
-        velEffTxt.setText(shPrload.getFloat("VelEff", 1f).toString())
-        plNumTxt.setText(shPrload.getInt("PlNum", 20).toString())
+        predTxt.setText(shPr.getInt("PredNum", 5).toString())
+        herbTxt.setText(shPr.getInt("HerbNum", 5).toString())
+        velEffTxt.setText(shPr.getFloat("VelEff", 1f).toString())
+        plNumTxt.setText(shPr.getInt("PlNum", 20).toString())
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,9 +81,40 @@ class SettingsActivity : AppCompatActivity() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         //Настройки с только-кнопочными интерфейсами
-        val PlColorBtn = findViewById<Button>(R.id.PlColorBtn)
-        val HeColorBtn = findViewById<Button>(R.id.HeColorBtn)
-        val PrColorBtn = findViewById<Button>(R.id.PrColorBtn)
+
+        var DefaultPlColor = shPr.getInt("PlColor", Color.GREEN)
+        var DefaultHeColor = shPr.getInt("HeColor", Color.BLACK)
+        var DefaultPrColor = shPr.getInt("PrColor", Color.RED)
+
+        findViewById<Button>(R.id.PlColorBtn).setOnClickListener{
+
+            val plColorPicker = ColorPickerDialog.Builder()
+            .setInitialColor(DefaultPlColor)
+            .setColorModel(ColorModel.HSV)
+            .setColorModelSwitchEnabled(false)
+            .setButtonOkText(android.R.string.ok)
+            .setButtonCancelText(android.R.string.cancel)
+            .onColorSelected { color: Int -> DefaultPlColor = color}
+            .create()
+            plColorPicker.show(supportFragmentManager, "PlColorPicker")
+
+
+            //plColorPicker.show(supportFragmentManager, "color_picker")
+            editor.apply{
+                putInt("PlColor", DefaultPlColor)
+            }.apply()
+
+            Toast.makeText(this, "OMG, color:"+DefaultPlColor.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+        findViewById<Button>(R.id.HeColorBtn).setOnClickListener{
+
+        }
+
+        findViewById<Button>(R.id.PrColorBtn).setOnClickListener{
+
+        }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,11 +123,11 @@ class SettingsActivity : AppCompatActivity() {
         //            В ЛЮБОМ МЕСТЕ в программе можно реализовать следующий код и получить значения!
         // Важная строка в начале: [   val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)   ]
         Toast.makeText(this,
-            "Predators:" + shPrload.getInt("PredNum", 5).toString() +
-            "\nHerbivores:" + shPrload.getInt("HerbNum", 5).toString() +
-            "\nVelocity/Efficiency:" + shPrload.getFloat("VelEff", 1f).toString() +
-            "\nPlants number:" + shPrload.getInt("PlNum", 20).toString() +
-            "\nDefault check:" + shPrload.getString("DeCh", "default text"),
+            "Predators:" + shPr.getInt("PredNum", 5).toString() +
+            "\nHerbivores:" + shPr.getInt("HerbNum", 5).toString() +
+            "\nVelocity/Efficiency:" + shPr.getFloat("VelEff", 1f).toString() +
+            "\nPlants number:" + shPr.getInt("PlNum", 20).toString() +
+            "\nDefault check:" + shPr.getString("DeCh", "default text"),
             Toast.LENGTH_SHORT).show() //null - параметр по умолчанию
 
     }
