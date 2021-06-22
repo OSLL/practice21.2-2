@@ -19,14 +19,14 @@ class FieldData {
     var time = System.currentTimeMillis()
 
     var movesPerTick = 40    // Измеряется в количестве тиков
-    var rotatesPerTIck = 50  // Измеряется в количестве тиков
+    var rotatesPerTick = 50  // Измеряется в количестве тиков
 
     private var moveTime = 200
     private var rotateTime = 300
 
     fun setTime(tickLength: Int) {
         moveTime = movesPerTick * tickLength
-        rotateTime = movesPerTick * tickLength
+        rotateTime = rotatesPerTick * tickLength
     }
 
     fun fillLists(predatorsCount: Int, herbivoresCount: Int, plantsCount: Int) {
