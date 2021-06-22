@@ -1,5 +1,6 @@
 package com.makentoshe.androidgithubcitemplate
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -57,7 +58,12 @@ class MainActivity : AppCompatActivity() {
             speedText.text = "${field.speed}x"
         }
 
-        field.fillLists(5, 20, 20)
+        val shPrLoad = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val prC = shPrLoad.getInt("PredNum", 5)
+        val hC = shPrLoad.getInt("HerbNum", 20)
+        val plC = shPrLoad.getInt("PlNum", 20)
+
+        field.fillLists(prC,hC,plC)
         layout.addView(fieldView)
         field.setTick(10f)
         field.startProcess()

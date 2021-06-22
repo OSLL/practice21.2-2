@@ -20,7 +20,7 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 
-        val sbmtBtnPredNum = findViewById<Button>(R.id.PNBtn)
+        val sbmtBtnPredNum = findViewById<Button>(R.id.PrNumBtn)
         val predTxt = findViewById<EditText>(R.id.editText)
 
         val sbmtBtnHerbNum = findViewById<Button>(R.id.HNBtn)
@@ -29,8 +29,8 @@ class SettingsActivity : AppCompatActivity() {
         val sbmtBtnVelEff = findViewById<Button>(R.id.VEBtn)
         val velEffTxt = findViewById<EditText>(R.id.editText3)
 
-        val sbmtBtnPoForPl = findViewById<Button>(R.id.PfPBtn)
-        val poForPlTxt = findViewById<EditText>(R.id.editText4)
+        val sbmtBtnPlNum = findViewById<Button>(R.id.PlNumBtn)
+        val plNumTxt= findViewById<EditText>(R.id.editText4)
 
         //  При нажатии на сохранялку "Submit ..."(SbmtBtn...): в SharedPreferences остаются строки с целыми числовыми параметрами со своими Ключами(тэгами)
         //   (например: количество хищников и травоядных, коэффициент связи увеличения СКОРОСТИ и увеличения РАСХОДА ЭНЕРГИИ)
@@ -41,12 +41,11 @@ class SettingsActivity : AppCompatActivity() {
         predTxt.setText(shPrload.getInt("PredNum", 5).toString())
         herbTxt.setText(shPrload.getInt("HerbNum", 5).toString())
         velEffTxt.setText(shPrload.getFloat("VelEff", 1f).toString())
-        poForPlTxt.setText(shPrload.getFloat("PoForPl", 1f).toString())
+        plNumTxt.setText(shPrload.getInt("PlNum", 20).toString())
 
 
 
         //Количество хищников
-
         sbmtBtnPredNum.setOnClickListener{
                 editor.apply{
                     putInt("PredNum", predTxt.text.toString().toInt())
@@ -67,9 +66,9 @@ class SettingsActivity : AppCompatActivity() {
             }.apply()
         }
         //Очки за съедение растения
-        sbmtBtnPoForPl.setOnClickListener{
+        sbmtBtnPlNum.setOnClickListener{
             editor.apply{
-                putFloat("PoForPl", poForPlTxt.text.toString().toFloat())
+                putInt("PlNum", plNumTxt.text.toString().toInt())
             }.apply()
         }
 
@@ -83,7 +82,7 @@ class SettingsActivity : AppCompatActivity() {
             "Predators:" + shPrload.getInt("PredNum", 5).toString() +
             "\nHerbivores:" + shPrload.getInt("HerbNum", 5).toString() +
             "\nVelocity/Efficiency:" + shPrload.getFloat("VelEff", 1f).toString() +
-            "\nPoints for plant:" + shPrload.getFloat("PoForPl", 1f).toString() +
+            "\nPlants number:" + shPrload.getInt("PlNum", 20).toString() +
             "\nDefault check:" + shPrload.getString("DeCh", "default text"),
             Toast.LENGTH_SHORT).show() //null - параметр по умолчанию
 

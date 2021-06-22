@@ -72,7 +72,7 @@
         <Button
             android:backgroundTint="#9CABFF"
 
-            android:id="@+id/PNBtn"
+            android:id="@+id/PrNumBtn"
             android:layout_height="40sp"
             android:layout_marginStart="20sp"
             android:layout_marginTop="15sp"
@@ -132,7 +132,7 @@
 
             app:layout_constraintStart_toEndOf="@+id/editText"
 
-            app:layout_constraintTop_toBottomOf="@+id/PNBtn"
+            app:layout_constraintTop_toBottomOf="@+id/PrNumBtn"
             tools:layout_editor_absoluteX="260dp"
             tools:layout_editor_absoluteY="110dp" />
 
@@ -190,7 +190,7 @@
             android:id="@+id/textView6"
             android:layout_height="40sp"
             android:layout_width="180sp"
-            android:text="Points for plant:"
+            android:text="Plants number:"
             android:textColor="@color/cardview_dark_background"
 
             android:textSize="20sp"
@@ -210,7 +210,7 @@
             android:layout_height="40sp"
             android:layout_width="60sp"
 
-            android:text="1.0"
+            android:text="20"
 
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/editText"
@@ -221,7 +221,7 @@
         <Button
             android:backgroundTint="#9CABFF"
 
-            android:id="@+id/PfPBtn"
+            android:id="@+id/PlNumBtn"
             android:layout_height="40sp"
             android:layout_width="80sp"
             android:layout_marginStart="20sp"
