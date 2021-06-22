@@ -32,7 +32,7 @@ class Field(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                     (100..200).random().toFloat() / 10,
                     (50..60).random().toFloat() / 10,
-                    (10..30).random().toFloat() / 20,
+                    (20..30).random().toFloat() / 20,
                     0F,
                     2F
                 )
@@ -45,7 +45,7 @@ class Field(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                     (100..200).random().toFloat() / 10,
                     (50..60).random().toFloat() / 10,
-                    (10..30).random().toFloat() / 20,
+                    (20..30).random().toFloat() / 20,
                     0F,
                     2F,
                     afraidOfPredator
@@ -56,7 +56,7 @@ class Field(
             plantsList.add(
                 PlantV(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
-                    (10..30).random().toFloat() / 20,
+                    (20..30).random().toFloat() / 20,
                     (5..30).random().toFloat() / 10
                 )
             )
@@ -116,7 +116,7 @@ class Field(
                         Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                         (100..200).random().toFloat() / 10,
                         (50..60).random().toFloat() / 10,
-                        (10..30).random().toFloat() / 20,
+                        (20..30).random().toFloat() / 20,
                         0F,
                         2F
                     )
@@ -126,7 +126,7 @@ class Field(
                         Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                         (100..200).random().toFloat() / 10,
                         (50..60).random().toFloat() / 10,
-                        (10..30).random().toFloat() / 20,
+                        (20..30).random().toFloat() / 20,
                         0F,
                         2F,
                         (0..1).random() == 1
