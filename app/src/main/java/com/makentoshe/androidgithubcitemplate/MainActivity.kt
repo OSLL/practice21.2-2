@@ -10,6 +10,8 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.ToggleButton
 
+val fieldData = FieldData()
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         val hC = shPrLoad.getInt("HerbNum", 20)
         val plC = shPrLoad.getInt("PlNum", 20)
 
-        field.fillLists(prC,hC,plC)
+        fieldData.fillLists(prC,hC,plC)
         layout.addView(fieldView)
         field.setTick(10f)
         field.startProcess()
