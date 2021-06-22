@@ -3,24 +3,26 @@ package com.makentoshe.androidgithubcitemplate
 import kotlin.math.*
 
 class HerbivoreV(
-    var pos: Point,                        // Положение животного относительно левого верхнего угла поля
-    private val fieldOfView: Float,        // Область, в которой животное видит объекты (размер поля - 100)
-    private val speed: Float,              // Скорость, с которой двигается животное (единицы в секунду) (размер поля - 100)
-    private val rotationSpeed: Float,             // Скорость поворота
-    var size: Float,                       // Размеры животного относительно базовой модельки
-    var orientation: Float,                // Угол поворота животного относительно горизонтальной оси
-    val pointsForBreeding: Float           // Количество очков. необходимых для размножения
+    var pos: Point,                         // Положение животного относительно левого верхнего угла поля
+    private val fieldOfView: Float,         // Область, в которой животное видит объекты (размер поля - 100)
+    private val speed: Float,               // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
+    baseRotationSpeed: Float,   // Скорость поворота
+    var size: Float,                        // Размеры животного относительно базовой модельки
+    var orientation: Float,                 // Угол поворота животного относительно горизонтальной оси
+    val pointsForBreeding: Float            // Количество очков, необходимых для размножения
 ) {
-    var currentPoints = 0F                 // Текущие очки
+    var currentPoints = 0F                  // Текущие очки
 
-    private val enegryConsumptionPerUnit = 0.00002f * size * size * speed * fieldOfView / pointsForBreeding
+    private val rotationSpeed = baseRotationSpeed / size
+
+    private val energyConsumptionPerUnit = 0.00002f * size * size * speed * fieldOfView / pointsForBreeding
 
     private var time = System.currentTimeMillis()
 
     private var dangle = orientation
     private var oldAngle = orientation
     private var needToRotate = false
-    private val critAngle = PI / 45
+    private val criticalAngle = PI / 45
 
 
 
@@ -31,7 +33,7 @@ class HerbivoreV(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
         predators: MutableList<PredatorV>,   // Список всех хищников
         plants: MutableList<PlantV>,         // Список всех растений
-        dt: Float                             // Время после прошлого перемещения
+        dt: Float                            // Время после прошлого перемещения
     ): Int {
         if (!needToRotate) {
             var isMoved = false
@@ -83,7 +85,8 @@ class HerbivoreV(
                 val dx = speed * cos(minDst.angle) * dt
                 val dy = speed * sin(minDst.angle) * dt
 
-                if (dx + pos.x in 0f..99f && dy + pos.y in 0f..99f) {
+                if (dx + pos.x in (0f + size)..(99f - size) &&
+                    dy + pos.y in (0f + size)..(99f - size)) {
                     var isHerbivoreFound = false
                     for (herbivore in herbivores)
                         if (length(
@@ -112,26 +115,26 @@ class HerbivoreV(
                     val lx = minDst.len * cos(minDst.angle)
                     val ly = minDst.len * sin(minDst.angle)
 
-                    if (minDst.angle - orientation > PI)
-                        dangle = 2 * PI.toFloat() - (minDst.angle - orientation)
-                    else if (minDst.angle - orientation < -PI)
-                        dangle = 2 * PI.toFloat() + minDst.angle - orientation
-                    else
-                        dangle = minDst.angle - orientation
+                    dangle = when {
+                        minDst.angle - orientation > PI -> 2 * PI.toFloat() - (minDst.angle - orientation)
+                        minDst.angle - orientation < -PI -> 2 * PI.toFloat() + minDst.angle - orientation
+                        else -> minDst.angle - orientation
+                    }
                     oldAngle = orientation
-                    if (dangle > -critAngle && dangle < critAngle)
+                    if (dangle > -criticalAngle && dangle < criticalAngle)
                         orientation = minDst.angle
                     else
                         needToRotate = true
 
                     pos = Point(pos.x + lx, pos.y + ly)
 
-                    currentPoints -= enegryConsumptionPerUnit * speed * dt
+                    currentPoints -= energyConsumptionPerUnit * speed * dt
                     currentPoints += plant.pointsForEating
                     return minDst.index
                 }
 
-                if (dx + pos.x in 0f..99f && dy + pos.y in 0f..99f) {
+                if (dx + pos.x in (0f + size)..(99f - size) &&
+                    dy + pos.y in (0f + size)..(99f - size)) {
                     var isHerbivoreFound = false
                     for (herbivore in herbivores)
                         if (length(
@@ -149,52 +152,49 @@ class HerbivoreV(
                             pos.y + dy - plant.pos.y
                         ) < size + plant.size
                     ) {
-                        if (minDst.angle - orientation > PI)
-                            dangle = 2 * PI.toFloat() - (minDst.angle - orientation)
-                        else if (minDst.angle - orientation < -PI)
-                            dangle = 2 * PI.toFloat() + minDst.angle - orientation
-                        else
-                            dangle = minDst.angle - orientation
+                        dangle = when {
+                            minDst.angle - orientation > PI -> 2 * PI.toFloat() - (minDst.angle - orientation)
+                            minDst.angle - orientation < -PI -> 2 * PI.toFloat() + minDst.angle - orientation
+                            else -> minDst.angle - orientation
+                        }
                         oldAngle = orientation
-                        if (dangle > -critAngle && dangle < critAngle)
+                        if (dangle > -criticalAngle && dangle < criticalAngle)
                             orientation = minDst.angle
                         else
                             needToRotate = true
 
                         pos = Point(pos.x + dx, pos.y + dy)
 
-                        currentPoints -= enegryConsumptionPerUnit * speed * dt
+                        currentPoints -= energyConsumptionPerUnit * speed * dt
                         currentPoints += plant.pointsForEating
                         return minDst.index
                     }
 
                     if (minDstToPredator.index == -1 || minDstToPredator.len > minDst.len) {
 
-                        if (minDst.angle - orientation > PI)
-                            dangle = 2 * PI.toFloat() - (minDst.angle - orientation)
-                        else if (minDst.angle - orientation < -PI)
-                            dangle = 2 * PI.toFloat() + minDst.angle - orientation
-                        else
-                            dangle = minDst.angle - orientation
+                        dangle = when {
+                            minDst.angle - orientation > PI -> 2 * PI.toFloat() - (minDst.angle - orientation)
+                            minDst.angle - orientation < -PI -> 2 * PI.toFloat() + minDst.angle - orientation
+                            else -> minDst.angle - orientation
+                        }
                         oldAngle = orientation
-                        if (dangle > -critAngle && dangle < critAngle)
+                        if (dangle > -criticalAngle && dangle < criticalAngle)
                             orientation = minDst.angle
                         else
                             needToRotate = true
 
                         pos = Point(pos.x + dx, pos.y + dy)
 
-                        currentPoints -= enegryConsumptionPerUnit * speed * dt
+                        currentPoints -= energyConsumptionPerUnit * speed * dt
                     } else {
 
-                        if (minDstToPredator.angle - orientation > PI)
-                            dangle = 2 * PI.toFloat() - (minDstToPredator.angle - orientation)
-                        else if (minDstToPredator.angle - orientation < -PI)
-                            dangle = 2 * PI.toFloat() + minDstToPredator.angle - orientation
-                        else
-                            dangle = minDstToPredator.angle - orientation
+                        dangle = when {
+                            minDstToPredator.angle - orientation > PI -> 2 * PI.toFloat() - (minDstToPredator.angle - orientation)
+                            minDstToPredator.angle - orientation < -PI -> 2 * PI.toFloat() + minDstToPredator.angle - orientation
+                            else -> minDstToPredator.angle - orientation
+                        }
                         oldAngle = orientation
-                        if (dangle > -critAngle && dangle < critAngle)
+                        if (dangle > -criticalAngle && dangle < criticalAngle)
                             orientation = minDstToPredator.angle
                         else
                             needToRotate = true
@@ -204,7 +204,7 @@ class HerbivoreV(
                             pos.y + minDstToPredator.len * sin(minDstToPredator.angle) * dt
                         )
 
-                        currentPoints -= enegryConsumptionPerUnit * speed * dt
+                        currentPoints -= energyConsumptionPerUnit * speed * dt
                     }
 
                     isMoved = true
@@ -215,14 +215,13 @@ class HerbivoreV(
 
             if (!isMoved && minDstToPredator.index != -1) {
 
-                if (minDstToPredator.angle - orientation > PI)
-                    dangle = 2 * PI.toFloat() - (minDstToPredator.angle - orientation)
-                else if (minDstToPredator.angle - orientation < -PI)
-                    dangle = 2 * PI.toFloat() + minDstToPredator.angle - orientation
-                else
-                    dangle = minDstToPredator.angle - orientation
+                dangle = when {
+                    minDstToPredator.angle - orientation > PI -> 2 * PI.toFloat() - (minDstToPredator.angle - orientation)
+                    minDstToPredator.angle - orientation < -PI -> 2 * PI.toFloat() + minDstToPredator.angle - orientation
+                    else -> minDstToPredator.angle - orientation
+                }
                 oldAngle = orientation
-                if (dangle > -critAngle && dangle < critAngle)
+                if (dangle > -criticalAngle && dangle < criticalAngle)
                     orientation = minDstToPredator.angle
                 else
                     needToRotate = true
@@ -232,7 +231,7 @@ class HerbivoreV(
                     pos.y + minDstToPredator.len * sin(minDstToPredator.angle) * dt
                 )
 
-                currentPoints -= enegryConsumptionPerUnit * speed * dt
+                currentPoints -= energyConsumptionPerUnit * speed * dt
             } else if (!isMoved) {
                 val dlen = speed * dt
                 var angle = orientation
@@ -246,52 +245,46 @@ class HerbivoreV(
                 var dx = dlen * cos(angle)
                 var dy = dlen * sin(angle)
 
-                if (pos.x + dx < 100 &&
-                    pos.x + dx >= 0 &&
-                    pos.y + dy < 100 &&
-                    pos.y + dy >= 0
+                if (dx + pos.x in (0f + size)..(99f - size) &&
+                    dy + pos.y in (0f + size)..(99f - size)
                 ) {
-                    if (angle - orientation > PI)
-                        dangle = 2 * PI.toFloat() - (angle - orientation)
-                    else if (angle - orientation < -PI)
-                        dangle = 2 * PI.toFloat() + angle - orientation
-                    else
-                        dangle = angle - orientation
+                    dangle = when {
+                        angle - orientation > PI -> 2 * PI.toFloat() - (angle - orientation)
+                        angle - orientation < -PI -> 2 * PI.toFloat() + angle - orientation
+                        else -> angle - orientation
+                    }
                     oldAngle = orientation
-                    if (dangle > -critAngle && dangle < critAngle)
+                    if (dangle > -criticalAngle && dangle < criticalAngle)
                         orientation = angle
                     else
                         needToRotate = true
 
                     pos = Point(pos.x + dx, pos.y + dy)
 
-                    currentPoints -= enegryConsumptionPerUnit * speed * dt
+                    currentPoints -= energyConsumptionPerUnit * speed * dt
                 } else {
                     angle = PI.toFloat() - angle
                     dx = dlen * cos(angle)
                     dy = dlen * sin(angle)
                     System.currentTimeMillis()
 
-                    if (pos.x + dx < 100 &&
-                        pos.x + dx >= 0 &&
-                        pos.y + dy < 100 &&
-                        pos.y + dy >= 0
+                    if (dx + pos.x in (0f + size)..(99f - size) &&
+                        dy + pos.y in (0f + size)..(99f - size)
                     ) {
-                        if (angle - orientation > PI)
-                            dangle = 2 * PI.toFloat() - (angle - orientation)
-                        else if (angle - orientation < -PI)
-                            dangle = 2 * PI.toFloat() + angle - orientation
-                        else
-                            dangle = angle - orientation
+                        dangle = when {
+                            angle - orientation > PI -> 2 * PI.toFloat() - (angle - orientation)
+                            angle - orientation < -PI -> 2 * PI.toFloat() + angle - orientation
+                            else -> angle - orientation
+                        }
                         oldAngle = orientation
-                        if (dangle > -critAngle && dangle < critAngle)
+                        if (dangle > -criticalAngle && dangle < criticalAngle)
                             orientation = angle
                         else
                             needToRotate = true
 
                         pos = Point(pos.x + dx, pos.y + dy)
 
-                        currentPoints -= enegryConsumptionPerUnit * speed * dt
+                        currentPoints -= energyConsumptionPerUnit * speed * dt
                     }
                 }
             }
@@ -314,8 +307,13 @@ class HerbivoreV(
     private fun rotate(dt: Float) {
         time = System.currentTimeMillis()
 
+        if (orientation !in (oldAngle + dangle - 4 * PI.toFloat()..oldAngle + dangle + 4 * PI.toFloat())) {
+            orientation = oldAngle + dangle
+            needToRotate = false
+        }
+
         for (i in 0..rotationSpeed.toInt())
-            if (orientation !in (oldAngle + dangle - critAngle..oldAngle + dangle + critAngle))
+            if (orientation !in (oldAngle + dangle - 2 * criticalAngle..oldAngle + dangle + 2 * criticalAngle) && needToRotate)
                 orientation += dangle * dt
             else {
                 orientation = oldAngle + dangle

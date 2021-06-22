@@ -20,25 +20,23 @@ class FieldData {
         for (i in 0 until predatorsCount)
             predatorsList.add(
                 PredatorV(
-                    Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                    Point((2..97).random().toFloat(), (2..97).random().toFloat()),
                     (100..200).random().toFloat() / 10,
-                    (50..60).random().toFloat() / 10,
-                    (50..60).random().toFloat() / 10,
-                    (20..30).random().toFloat() / 20,
+                    (50..70).random().toFloat() / 10,
+                    (40..60).random().toFloat() / 10,
+                    (20..35).random().toFloat() / 20,
                     0F,
                     2F
                 )
             )
         for (i in 0 until herbivoresCount) {
-            val rnd01 = (0..1).random()
-            val afraidOfPredator = rnd01 == 1
             herbivoresList.add(
                 HerbivoreV(
-                    Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                    Point((2..97).random().toFloat(), (2..97).random().toFloat()),
                     (100..200).random().toFloat() / 10,
-                    (50..60).random().toFloat() / 10,
-                    (50..60).random().toFloat() / 10,
-                    (20..30).random().toFloat() / 20,
+                    (50..70).random().toFloat() / 10,
+                    (40..60).random().toFloat() / 10,
+                    (20..35).random().toFloat() / 20,
                     0F,
                     2F
                 )
@@ -47,8 +45,8 @@ class FieldData {
         for (i in 0 until plantsCount)
             plantsList.add(
                 PlantV(
-                    Point((0..99).random().toFloat(), (0..99).random().toFloat()),
-                    (20..30).random().toFloat() / 20,
+                    Point((2..97).random().toFloat(), (2..97).random().toFloat()),
+                    (10..30).random().toFloat() / 20,
                     (5..30).random().toFloat() / 10
                 )
             )
@@ -67,11 +65,11 @@ class FieldData {
         }
 
         for (i in predatorsList.indices)
-            if (predatorsList[i].currentPoints <= -5)
+            if (predatorsList[i].currentPoints <= -5 * predatorsList[i].size)
                 deathFromHungerIndicesPredators += i
 
         for (i in herbivoresList.indices)
-            if (herbivoresList[i].currentPoints <= -5)
+            if (herbivoresList[i].currentPoints <= -5 * herbivoresList[i].size)
                 deathHerbivoresIndices += i
 
         deathPlantsIndices.sortDescending()
@@ -102,22 +100,22 @@ class FieldData {
 
         for (i in breedingIndicesPredator)
             predatorsList += PredatorV(
-                Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                Point((2..97).random().toFloat(), (2..97).random().toFloat()),
                 (100..200).random().toFloat() / 10,
-                (100..160).random().toFloat() / 10,
-                (50..60).random().toFloat() / 10,
-                (20..30).random().toFloat() / 20,
+                (50..70).random().toFloat() / 10,
+                (40..60).random().toFloat() / 10,
+                (20..35).random().toFloat() / 20,
                 0F,
                 2F
             )
 
         for (i in breedingIndicesHerbivore)
             herbivoresList += HerbivoreV(
-                Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                Point((2..97).random().toFloat(), (2..97).random().toFloat()),
                 (100..200).random().toFloat() / 10,
-                (100..160).random().toFloat() / 10,
-                (50..60).random().toFloat() / 10,
-                (20..30).random().toFloat() / 20,
+                (50..70).random().toFloat() / 10,
+                (40..60).random().toFloat() / 10,
+                (20..35).random().toFloat() / 20,
                 0F,
                 2F
             )

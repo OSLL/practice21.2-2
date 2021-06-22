@@ -39,7 +39,7 @@ class Field(
     fun doFrame() {
         Handler(Looper.getMainLooper()).postDelayed({
 
-            fieldData.update(tickLength.toLong())
+            fieldData.update((tickLength * speed).toLong())
 
             fieldView.setListsToDraw(fieldData.predatorsList, fieldData.herbivoresList, fieldData.plantsList)
             fieldView.invalidate()
