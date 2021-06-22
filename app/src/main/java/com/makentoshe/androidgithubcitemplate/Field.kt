@@ -20,7 +20,7 @@ class Field(
 
     private var time = System.currentTimeMillis()
     private var go = true
-    public var speed = 1f
+    var speed = 1f
 
     private var tickLength = 100f
 
@@ -32,7 +32,7 @@ class Field(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                     (100..200).random().toFloat() / 10,
                     (50..60).random().toFloat() / 10,
-                    (5..30).random().toFloat() / 20,
+                    (10..30).random().toFloat() / 20,
                     0F,
                     2F
                 )
@@ -45,7 +45,7 @@ class Field(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                     (100..200).random().toFloat() / 10,
                     (50..60).random().toFloat() / 10,
-                    (5..30).random().toFloat() / 20,
+                    (10..30).random().toFloat() / 20,
                     0F,
                     2F,
                     afraidOfPredator
@@ -56,7 +56,7 @@ class Field(
             plantsList.add(
                 PlantV(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
-                    (5..30).random().toFloat() / 20,
+                    (10..30).random().toFloat() / 20,
                     (5..30).random().toFloat() / 10
                 )
             )
@@ -113,17 +113,23 @@ class Field(
 
                 for (i in breedingIndicesPredator)
                     predatorsList += PredatorV(
-                        Point(
-                            (0..99).random().toFloat(),
-                            (0..99).random().toFloat()
-                        ), 3F, 1F, 1F, 0F, 2F
+                        Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                        (100..200).random().toFloat() / 10,
+                        (50..60).random().toFloat() / 10,
+                        (10..30).random().toFloat() / 20,
+                        0F,
+                        2F
                     )
+
                 for (i in breedingIndicesHerbivore)
                     herbivoresList += HerbivoreV(
-                        Point(
-                            (0..99).random().toFloat(),
-                            (0..99).random().toFloat()
-                        ), 3F, 1F, 1F, 0F, 2F, true
+                        Point((0..99).random().toFloat(), (0..99).random().toFloat()),
+                        (100..200).random().toFloat() / 10,
+                        (50..60).random().toFloat() / 10,
+                        (10..30).random().toFloat() / 20,
+                        0F,
+                        2F,
+                        (0..1).random() == 1
                     )
 
                 deathHerbivoresIndices.clear()
