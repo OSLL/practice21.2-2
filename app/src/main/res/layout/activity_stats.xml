@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="78dp"
-        android:layout_height="20dp"
+        android:layout_height="27dp"
         android:text="Stats:"
         android:textSize="20sp" />
 
@@ -44,7 +44,7 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="35dp"
         android:text="Quantity of predators:"
         android:textSize="20sp" />
 
