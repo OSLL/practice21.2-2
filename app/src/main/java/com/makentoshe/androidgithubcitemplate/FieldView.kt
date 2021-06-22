@@ -62,6 +62,10 @@ class FieldView (
 
             val matrix = Matrix()
 
+            painter.style = Paint.Style.STROKE
+            drawRect(startX * width, startY * width, startX * width + fieldWidth * width, startY * height + fieldWidth * width, painter)
+            painter.style = Paint.Style.FILL
+
             painter.color = Color.GREEN
             for (plant in plantsList) {
                 drawRect(
