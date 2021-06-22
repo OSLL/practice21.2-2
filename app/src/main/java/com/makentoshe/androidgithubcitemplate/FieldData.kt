@@ -68,7 +68,7 @@ class FieldData {
 
     var isFirstMove = true
     var isFirstRotate = true
-    fun update(deltaTime: Long, tickLength: Int) {
+    fun update(deltaTime: Long) {
         if (deltaTime > moveTime + rotateTime && !isFirstMove) {
             time = System.currentTimeMillis()
 

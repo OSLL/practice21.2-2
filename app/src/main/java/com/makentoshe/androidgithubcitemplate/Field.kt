@@ -24,7 +24,7 @@ class Field(
 
     fun setTick(tick: Float) {
         tickLength = tick
-        fieldData
+        fieldData.setTime(tickLength.toInt())
     }
 
     fun speedDecrease() {
@@ -41,7 +41,7 @@ class Field(
         Handler(Looper.getMainLooper()).postDelayed({
             val deltaTime = ((System.currentTimeMillis() - fieldData.time) * speed).toLong()
 
-            fieldData.update(deltaTime, tickLength.toInt())
+            fieldData.update(deltaTime)
 
             fieldView.setListsToDraw(fieldData.predatorsList, fieldData.herbivoresList, fieldData.plantsList)
             fieldView.invalidate()
