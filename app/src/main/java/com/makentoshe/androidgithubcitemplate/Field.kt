@@ -47,7 +47,7 @@ class Field(
             fieldView.invalidate()
             if (go)
                 doFrame()
-        }, (tickLength / speed).toLong())
+        }, (tickLength).toLong())
     }
 
 
