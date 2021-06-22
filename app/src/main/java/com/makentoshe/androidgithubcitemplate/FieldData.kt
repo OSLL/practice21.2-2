@@ -23,6 +23,7 @@ class FieldData {
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                     (100..200).random().toFloat() / 10,
                     (50..60).random().toFloat() / 10,
+                    (50..60).random().toFloat() / 10,
                     (20..30).random().toFloat() / 20,
                     0F,
                     2F
@@ -35,6 +36,7 @@ class FieldData {
                 HerbivoreV(
                     Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                     (100..200).random().toFloat() / 10,
+                    (50..60).random().toFloat() / 10,
                     (50..60).random().toFloat() / 10,
                     (20..30).random().toFloat() / 20,
                     0F,
@@ -103,6 +105,7 @@ class FieldData {
                 Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                 (100..200).random().toFloat() / 10,
                 (100..160).random().toFloat() / 10,
+                (50..60).random().toFloat() / 10,
                 (20..30).random().toFloat() / 20,
                 0F,
                 2F
@@ -113,6 +116,7 @@ class FieldData {
                 Point((0..99).random().toFloat(), (0..99).random().toFloat()),
                 (100..200).random().toFloat() / 10,
                 (100..160).random().toFloat() / 10,
+                (50..60).random().toFloat() / 10,
                 (20..30).random().toFloat() / 20,
                 0F,
                 2F
