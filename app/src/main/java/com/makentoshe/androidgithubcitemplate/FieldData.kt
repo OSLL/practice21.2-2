@@ -138,4 +138,5 @@ class FieldData {
                 predator.move(deltaTime, 500)
         }
     }
+    
 }
