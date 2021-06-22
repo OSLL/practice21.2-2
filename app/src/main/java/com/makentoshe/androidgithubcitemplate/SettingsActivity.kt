@@ -1,6 +1,7 @@
 package com.makentoshe.androidgithubcitemplate
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -17,7 +18,8 @@ class SettingsActivity : AppCompatActivity() {
         val backBtn = findViewById<Button>(R.id.BackBtn1)
 
         backBtn.setOnClickListener {
-            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         val sbmtBtnPredNum = findViewById<Button>(R.id.PrNumBtn)
