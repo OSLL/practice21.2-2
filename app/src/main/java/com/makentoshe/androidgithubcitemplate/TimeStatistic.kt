@@ -1,7 +1,7 @@
 package com.makentoshe.androidgithubcitemplate
 
 class TimeStatistic {
-    public var maxSize = 50
+    public var maxSize = 20
 
     public var predatorsAmount = mutableListOf<Int>()
     public var herbivoresAmount = mutableListOf<Int>()
@@ -27,7 +27,7 @@ class TimeStatistic {
                 pass = 0
             }
             else
-                pass += 3
+                pass += 1
         else
         {
             statsWasSqueezed++
