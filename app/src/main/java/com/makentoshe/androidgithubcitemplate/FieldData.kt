@@ -135,6 +135,8 @@ class FieldData {
     }
 
     fun update(speed: Float) {
+
+        // Перемещение с добавлением индексов мёртвых объектов
         for (herbivore in herbivoresList) {
             val index = herbivore.move(herbivoresList, predatorsList, plantsList, speed)
             if (index != -1 && !deathPlantsIndices.any { index == it })
@@ -146,12 +148,13 @@ class FieldData {
                 deathHerbivoresIndices.add(index)
         }
 
+        // "Убийство" объектов по сохранённым индексам
         for (i in predatorsList.indices)
-            if (predatorsList[i].currentPoints <= -5 * predatorsList[i].size)
+            if (predatorsList[i].currentPoints <= -5)
                 deathFromHungerIndicesPredators += i
 
         for (i in herbivoresList.indices)
-            if (herbivoresList[i].currentPoints <= -5 * herbivoresList[i].size)
+            if (herbivoresList[i].currentPoints <= -5)
                 deathHerbivoresIndices += i
 
         deathPlantsIndices.sortDescending()
@@ -168,6 +171,8 @@ class FieldData {
             if (predatorsList.size > i)
                 predatorsList.removeAt(i)
 
+
+        // Размножение хищников и травоядных
         for (i in predatorsList.indices)
             if (predatorsList[i].currentPoints >= predatorsList[i].pointsForBreeding) {
                 predatorsList[i].currentPoints -= predatorsList[i].pointsForBreeding
@@ -203,7 +208,7 @@ class FieldData {
             )
 
         // Рост и размножени растений
-        if (System.currentTimeMillis() - time > rndTime) {
+        if ((System.currentTimeMillis() - time) * speed > rndTime) {
             for (i in plantsList.indices) {
                 plantsList[i].size += (1..2).random() / 10f
                 if (plantsList[i].size > 1.5) {
