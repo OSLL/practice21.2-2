@@ -1,7 +1,10 @@
 package com.makentoshe.androidgithubcitemplate
 
+import java.util.Collections.max
+
 class TimeStatistic {
-    public var maxSize = 20
+    public var maxSize = 100000
+    private var maxArraySize = 1000
 
     public var predatorsAmount = mutableListOf<Int>()
     public var herbivoresAmount = mutableListOf<Int>()
@@ -13,35 +16,22 @@ class TimeStatistic {
     private var pass = statsAmount
 
     fun toArray(list: MutableList<Int>): Array<Int> {
-        var array = Array<Int>(list.size){0}
+        var k = list.size / maxArraySize
+        if (k == 0)
+            k = 1
+        var array = Array<Int>(list.size / k){0}
         for (i in array.indices)
-            array[i] = list[i]
+            array[i] = list[i * k]
         return array
     }
 
     fun addTo(list : MutableList<Int>, number : Int){
-        pass++
-        if (list.size < maxSize)
-            if (pass % statsAmount == length) {
-                list.add(number)
-                pass = statsAmount
-            }
+        if (list.size < maxSize){
+            list.add(number)
+        }
         else
         {
-            statsWasSqueezed++
-            if (statsWasSqueezed == statsAmount){
-                statsWasSqueezed = 0
-                length *= 2
-            }
-
-            for (i in (0..(list.size / 2 - 1)))
-                list[i] = list[i * 2]
-
-            var length = list.size
-            for (i in (0..(length / 2))){
-                list.removeAt(list.size - 1)
-            }
-
+            list.removeAt(0)
             list.add(number)
         }
     }
