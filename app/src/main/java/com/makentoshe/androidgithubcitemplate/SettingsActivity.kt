@@ -80,39 +80,60 @@ class SettingsActivity : AppCompatActivity() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         //Настройки с только-кнопочными интерфейсами
 
-        var DefaultPlColor = shPr.getInt("PlColor", Color.GREEN)
-        var DefaultHeColor = shPr.getInt("HeColor", Color.BLACK)
-        var DefaultPrColor = shPr.getInt("PrColor", Color.RED)
+        var defaultPlColor = shPr.getInt("PlColor", Color.GREEN)
+        var defaultHeColor = shPr.getInt("HeColor", Color.BLACK)
+        var defaultPrColor = shPr.getInt("PrColor", Color.RED)
 
         findViewById<Button>(R.id.PlColorBtn).setOnClickListener{
 
-            var plColorPicker = ColorPickerDialog.Builder()
-            .setInitialColor(DefaultPlColor)
+            val plColorPicker = ColorPickerDialog.Builder()
+            .setInitialColor(defaultPlColor)
             .setColorModel(ColorModel.HSV)
             .setColorModelSwitchEnabled(false)
             .setButtonOkText(android.R.string.ok)
             .setButtonCancelText(android.R.string.cancel)
-            .onColorSelected { color: Int -> DefaultPlColor = color}
-
+            .onColorSelected { color: Int -> defaultPlColor = color}
             .create()
 
             plColorPicker.show(supportFragmentManager, "PlColorPicker")
 
-
-            //plColorPicker.show(supportFragmentManager, "color_picker")
             editor.apply{
-                putInt("PlColor", DefaultPlColor)
+                putInt("PlColor", defaultPlColor)
             }.apply()
-
-            Toast.makeText(this, "OMG, color:"+DefaultPlColor.toString(), Toast.LENGTH_SHORT).show()
         }
 
         findViewById<Button>(R.id.HeColorBtn).setOnClickListener{
+            val heColorPicker = ColorPickerDialog.Builder()
+                .setInitialColor(defaultHeColor)
+                .setColorModel(ColorModel.HSV)
+                .setColorModelSwitchEnabled(false)
+                .setButtonOkText(android.R.string.ok)
+                .setButtonCancelText(android.R.string.cancel)
+                .onColorSelected { color: Int -> defaultHeColor = color}
+                .create()
 
+            heColorPicker.show(supportFragmentManager, "HeColorPicker")
+
+            editor.apply{
+                putInt("HeColor", defaultHeColor)
+            }.apply()
         }
 
         findViewById<Button>(R.id.PrColorBtn).setOnClickListener{
+            val prColorPicker = ColorPickerDialog.Builder()
+                .setInitialColor(defaultPrColor)
+                .setColorModel(ColorModel.HSV)
+                .setColorModelSwitchEnabled(false)
+                .setButtonOkText(android.R.string.ok)
+                .setButtonCancelText(android.R.string.cancel)
+                .onColorSelected { color: Int -> defaultPrColor = color}
+                .create()
 
+            prColorPicker.show(supportFragmentManager, "PrColorPicker")
+
+            editor.apply{
+                putInt("PrColor", defaultPrColor)
+            }.apply()
         }
 
 
