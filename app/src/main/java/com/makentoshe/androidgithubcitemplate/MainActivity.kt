@@ -5,10 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.ToggleButton
+import android.widget.*
+import android.widget.SeekBar.OnSeekBarChangeListener
 
 val fieldData = FieldData()
 
@@ -23,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val speedMinusBtn = findViewById<Button>(R.id.SpeedBtn1)
         val stopButton = findViewById<ToggleButton>(R.id.StartBtn)
         val speedText = findViewById<TextView>(R.id.speedText)
+        val zoomBar = findViewById<SeekBar>(R.id.seekBar)
         speedText.text = "1.0x"
 
         settingsBtn.setOnClickListener {
@@ -42,22 +41,35 @@ class MainActivity : AppCompatActivity() {
 
         val field = Field(fieldView)
 
-        stopButton.setOnClickListener{
+        stopButton.setOnClickListener {
             Log.d("aaa", "${stopButton.isActivated}")
-            if(stopButton.text == "Start")
+            if (stopButton.text == "Start")
                 field.stopProcess()
             else
                 field.startProcess()
         }
 
-        speedPlusBtn.setOnClickListener{
+        speedPlusBtn.setOnClickListener {
             field.speedIncrease()
             speedText.text = "${field.speed}x"
         }
-        speedMinusBtn.setOnClickListener{
+        speedMinusBtn.setOnClickListener {
             field.speedDecrease()
             speedText.text = "${field.speed}x"
         }
+        zoomBar.setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar : SeekBar, progress : Int, fromUser : Boolean) {
+                fieldView.setZoom((seekBar.progress + 25f) / 25f)
+            }
+
+            override fun  onStartTrackingTouch(seekBar : SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar : SeekBar) {
+
+            }
+        })
 
         val shPrLoad = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val prC = shPrLoad.getInt("PredNum", 5)

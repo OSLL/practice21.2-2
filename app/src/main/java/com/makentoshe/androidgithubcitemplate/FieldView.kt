@@ -17,7 +17,7 @@ class FieldView(
     var startXReal = startX
     var startYReal = startY
 
-    private var zoom = 1f
+    private var zoom = 2f
 
     private var fieldSizeX: Float = 1f
     private var fieldSizeY: Float = 1f
@@ -55,11 +55,15 @@ class FieldView(
         strokeWidth = 2f
     }
 
+    fun setZoom(newZoom : Float){
+        zoom = newZoom
+    }
+
 
     override fun onDraw(canvas: Canvas) {
         fieldSizeY = fieldSizeX * width / height * fieldData.fieldSizeH / fieldData.fieldSizeW
         canvas.apply {
-            val rectWidth: Float = width * fieldSizeX.toFloat() / fieldData.fieldSizeW.toFloat()
+            val rectWidth: Float = width * fieldSizeX.toFloat() / fieldData.fieldSizeW.toFloat() * zoom
             val matrix = Matrix()
 
             painter.style = Paint.Style.STROKE
@@ -76,9 +80,9 @@ class FieldView(
                 startY * height,
                 startX * width + fieldSizeX * width,
                 startY * height + fieldSizeY * height,
-                startX * width,
-                startY * height,
-                fieldSizeX * width / 10,
+                startXReal * width,
+                startYReal * height,
+                fieldSizeX * width / 10 * zoom,
                 canvas
             )
             painter.style = Paint.Style.FILL
@@ -86,10 +90,10 @@ class FieldView(
             painter.color = Color.GREEN
             for (plant in plantsList) {
                 drawRect(
-                    startX * width + rectWidth * (plant.pos.x - plant.size),
-                    startY * height + rectWidth * (plant.pos.y - plant.size),
-                    startX * width + rectWidth * (plant.pos.x + plant.size),
-                    startY * height + rectWidth * (plant.pos.y + plant.size),
+                    startX * width + rectWidth * (plant.pos.x - plant.size * zoom),
+                    startY * height + rectWidth * (plant.pos.y - plant.size * zoom),
+                    startX * width + rectWidth * (plant.pos.x + plant.size * zoom),
+                    startY * height + rectWidth * (plant.pos.y + plant.size * zoom),
                     painter
                 )
             }
@@ -105,6 +109,7 @@ class FieldView(
                 drawAnimal(canvas, herbivore.size / 2, matrix)
             }
             painter.color = Color.RED
+
             for (predator in predatorsList) {
                 matrix.reset()
                 matrix.preTranslate(
@@ -123,8 +128,8 @@ class FieldView(
         canvas.apply {
             matrix.preScale(1f / 100f, 1f / 100f)
             matrix.preScale(
-                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width,
-                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width
+                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width * zoom,
+                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width * zoom
             )
 
             val path = Path()
@@ -155,12 +160,14 @@ class FieldView(
         canvas.apply {
             var xc = startX
             var yc = startY
-            while (xc <= x2) {
-                drawLine(xc, y1, xc, y2, painter)
+            while (xc < x2) {
+                if(xc > x1)
+                    drawLine(xc, y1, xc, y2, painter)
                 xc += size
             }
-            while (yc <= y2) {
-                drawLine(x1, yc, x2, yc, painter)
+            while (yc < y2) {
+                if(yc > y1)
+                    drawLine(x1, yc, x2, yc, painter)
                 yc += size
             }
         }
