@@ -56,12 +56,13 @@
             android:layout_height="40sp"
             android:layout_marginStart="10sp"
             android:layout_marginTop="14sp"
-            android:layout_width="60sp"
+            android:layout_width="0sp"
 
             android:text="5"
 
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintEnd_toStartOf="@+id/PrNumBtn"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         //Submit predators number
@@ -72,10 +73,10 @@
             android:layout_height="40sp"
             android:layout_marginStart="20sp"
             android:layout_marginTop="15sp"
-            android:layout_width="80sp"
+            android:layout_width="72sp"
             android:text="Submit"
 
-            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -103,12 +104,13 @@
             android:id="@+id/editText2"
             android:inputType="numberDecimal"
             android:layout_height="40sp"
-            android:layout_width="60sp"
+            android:layout_width="0sp"
 
             android:text="5"
 
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintEnd_toStartOf="@+id/HeNumBtn"
             app:layout_constraintTop_toBottomOf="@+id/editText"
             tools:layout_editor_absoluteX="156sp"
             tools:layout_editor_absoluteY="109sp" />
@@ -117,13 +119,13 @@
         <Button
             android:backgroundTint="#9CABFF"
 
-            android:id="@+id/HNBtn"
+            android:id="@+id/HeNumBtn"
             android:layout_height="40sp"
             android:layout_marginStart="20sp"
-            android:layout_width="80sp"
+            android:layout_width="72sp"
             android:text="Submit"
 
-            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintTop_toBottomOf="@+id/PrNumBtn"
             tools:layout_editor_absoluteX="260dp"
@@ -151,11 +153,12 @@
             android:id="@+id/editText3"
             android:inputType="numberDecimal"
             android:layout_height="40sp"
-            android:layout_width="60sp"
+            android:layout_width="0sp"
 
             android:text="1.0"
 
-            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintEnd_toStartOf="@+id/VEBtn"
             app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
         //Submit Velocity/Efficiency
@@ -164,13 +167,13 @@
 
             android:id="@+id/VEBtn"
             android:layout_height="40sp"
-            android:layout_marginStart="20sp"
-            android:layout_width="80sp"
+            android:layout_marginStart="10sp"
+            android:layout_width="72sp"
             android:text="Submit"
 
-            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
 
-            app:layout_constraintTop_toBottomOf="@+id/HNBtn"
+            app:layout_constraintTop_toBottomOf="@+id/HeNumBtn"
             tools:layout_editor_absoluteX="257dp"
             tools:layout_editor_absoluteY="150dp" />
 
@@ -196,12 +199,13 @@
             android:id="@+id/editText4"
             android:inputType="numberDecimal"
             android:layout_height="40sp"
-            android:layout_width="60sp"
+            android:layout_width="0sp"
 
             android:text="20"
 
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintEnd_toStartOf="@+id/PlNumBtn"
             app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
         //Submit plants number
@@ -210,10 +214,10 @@
 
             android:id="@+id/PlNumBtn"
             android:layout_height="40sp"
-            android:layout_width="80sp"
+            android:layout_width="72sp"
             android:layout_marginStart="20sp"
             android:text="Submit"
-            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintTop_toBottomOf="@+id/VEBtn"
 
@@ -235,7 +239,7 @@
             android:layout_height="37sp"
             app:layout_constraintTop_toBottomOf="@+id/PlColorBtn"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Set plants color"/>
+            android:text="Set herbivores color"/>
         //Цвет хищников
         <Button
             android:id="@+id/PrColorBtn"

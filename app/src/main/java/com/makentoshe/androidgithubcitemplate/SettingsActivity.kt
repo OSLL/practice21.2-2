@@ -18,10 +18,8 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         val shPr = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
         val editor = shPr.edit()
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
         //Количество хищников
             //Находим нужный editText
         val predTxt = findViewById<EditText>(R.id.editText)
@@ -37,7 +35,7 @@ class SettingsActivity : AppCompatActivity() {
         //Количество травоядных
         val herbTxt = findViewById<EditText>(R.id.editText2)
         herbTxt.setText(shPr.getInt("HerbNum", 5).toString())
-        findViewById<Button>(R.id.HNBtn).setOnClickListener{
+        findViewById<Button>(R.id.HeNumBtn).setOnClickListener{
             editor.apply{
                 putInt("HerbNum", herbTxt.text.toString().toInt())
             }.apply()
@@ -61,10 +59,11 @@ class SettingsActivity : AppCompatActivity() {
             }.apply()
         }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Выходы с экрана настроек с перезапуском MainActivity с новыми параметрами отменой действия
+    // Выходы с экрана настроек с перезапуском MainActivity с новыми параметрами
         findViewById<Button>(R.id.BackBtn1).setOnClickListener {
             finish()
         }
+    // Выходы с экрана настроек с перезапуском MainActivity с отменой действия
         findViewById<Button>(R.id.AcceptBtn1).setOnClickListener {
             fieldData.clearAll()
             fieldData.fillLists(shPr.getInt("PredNum", 5)-1, shPr.getInt("HerbNum", 5)-1, shPr.getInt("PlNum", 5)-1)
@@ -72,34 +71,27 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Настройки с только-кнопочными интерфейсами
-
+    // Настройки с только-кнопочными интерфейсами
         var defaultPlColor = shPr.getInt("PlColor", Color.GREEN)
         var defaultHeColor = shPr.getInt("HeColor", Color.BLACK)
         var defaultPrColor = shPr.getInt("PrColor", Color.RED)
 
         findViewById<Button>(R.id.PlColorBtn).setOnClickListener{
+            ColorPickerDialog.Builder()
+                .setInitialColor(defaultPlColor)
+                .setColorModel(ColorModel.HSV)
+                .setColorModelSwitchEnabled(false)
+                .setButtonOkText(android.R.string.ok)
+                .setButtonCancelText(android.R.string.cancel)
+                .onColorSelected { color: Int -> defaultPlColor = color}
+                .create()
+                .show(supportFragmentManager, "PlColorPicker")
 
-            val plColorPicker = ColorPickerDialog.Builder()
-            .setInitialColor(defaultPlColor)
-            .setColorModel(ColorModel.HSV)
-            .setColorModelSwitchEnabled(false)
-            .setButtonOkText(android.R.string.ok)
-            .setButtonCancelText(android.R.string.cancel)
-            .onColorSelected { color: Int -> defaultPlColor = color}
-            .create()
-
-            plColorPicker.show(supportFragmentManager, "PlColorPicker")
-
-            editor.apply{
-                putInt("PlColor", defaultPlColor)
-            }.apply()
+            editor.apply{ putInt("PlColor", defaultPlColor) }.apply()
         }
 
         findViewById<Button>(R.id.HeColorBtn).setOnClickListener{
-            val heColorPicker = ColorPickerDialog.Builder()
+            ColorPickerDialog.Builder()
                 .setInitialColor(defaultHeColor)
                 .setColorModel(ColorModel.HSV)
                 .setColorModelSwitchEnabled(false)
@@ -107,16 +99,13 @@ class SettingsActivity : AppCompatActivity() {
                 .setButtonCancelText(android.R.string.cancel)
                 .onColorSelected { color: Int -> defaultHeColor = color}
                 .create()
+                .show(supportFragmentManager, "HeColorPicker")
 
-            heColorPicker.show(supportFragmentManager, "HeColorPicker")
-
-            editor.apply{
-                putInt("HeColor", defaultHeColor)
-            }.apply()
+            editor.apply{ putInt("HeColor", defaultHeColor) }.apply()
         }
 
         findViewById<Button>(R.id.PrColorBtn).setOnClickListener{
-            val prColorPicker = ColorPickerDialog.Builder()
+            ColorPickerDialog.Builder()
                 .setInitialColor(defaultPrColor)
                 .setColorModel(ColorModel.HSV)
                 .setColorModelSwitchEnabled(false)
@@ -124,29 +113,9 @@ class SettingsActivity : AppCompatActivity() {
                 .setButtonCancelText(android.R.string.cancel)
                 .onColorSelected { color: Int -> defaultPrColor = color}
                 .create()
+                .show(supportFragmentManager, "PrColorPicker")
 
-            prColorPicker.show(supportFragmentManager, "PrColorPicker")
-
-            editor.apply{
-                putInt("PrColor", defaultPrColor)
-            }.apply()
+            editor.apply{ putInt("PrColor", defaultPrColor) }.apply()
         }
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //Пример доступа к полученным значениям
-        //Примечания: Даже после закрытия приложения данные, сохранённые нажатием Submit, остаются в памяти до следующего изменения или перезагрузки телефона.
-        //            В ЛЮБОМ МЕСТЕ в программе можно реализовать следующий код и получить значения!
-        // Важная строка в onCreate в начале: [   val shPr = getSharedPreferences("Settings", Context.MODE_PRIVATE)   ]
-        // Важная строка+ в начале: [   val shPr = context.getSharedPreferences("Settings", MODE_PRIVATE)   ]
-        Toast.makeText(this,
-            "Predators:" + shPr.getInt("PredNum", 5).toString() +
-            "\nHerbivores:" + shPr.getInt("HerbNum", 5).toString() +
-            "\nVelocity/Efficiency:" + shPr.getFloat("VelEff", 1f).toString() +
-            "\nPlants number:" + shPr.getInt("PlNum", 20).toString() +
-            "\nDefault check:" + shPr.getString("DeCh", "default text"),
-            Toast.LENGTH_SHORT).show() //null - параметр по умолчанию
-
     }
 }
