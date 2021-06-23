@@ -15,13 +15,6 @@ class SettingsActivity : AppCompatActivity() {
 
         val shPr = getSharedPreferences("Settings", Context.MODE_PRIVATE)
 
-        findViewById<Button>(R.id.BackBtn1).setOnClickListener {
-            finish()
-        }
-        findViewById<Button>(R.id.AcceptBtn1).setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         val editor = shPr.edit()
 
@@ -64,7 +57,17 @@ class SettingsActivity : AppCompatActivity() {
             }.apply()
         }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    // Выходы с экрана настроек с перезапуском MainActivity с новыми параметрами отменой действия
+        findViewById<Button>(R.id.BackBtn1).setOnClickListener {
+            finish()
+        }
+        findViewById<Button>(R.id.AcceptBtn1).setOnClickListener {
+            fieldData.clearAll()
+            fieldData.fillLists(shPr.getInt("PredNum", 5)-1, shPr.getInt("HerbNum", 5)-1, shPr.getInt("PlNum", 5)-1)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////
         //Пример доступа к полученным значениям
         //Примечания: Даже после закрытия приложения данные, сохранённые нажатием Submit, остаются в памяти до следующего изменения или перезагрузки телефона.
         //            В ЛЮБОМ МЕСТЕ в программе можно реализовать следующий код и получить значения!
