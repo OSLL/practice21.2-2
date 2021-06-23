@@ -250,6 +250,8 @@ class FieldData {
 
         deathHerbivoresIndices.clear()
         deathPlantsIndices.clear()
+        deathFromHungerIndicesPredators.clear()
+        
         breedingIndicesPredator.clear()
         breedingIndicesHerbivore.clear()
         breedingIndicesPlant.clear()
