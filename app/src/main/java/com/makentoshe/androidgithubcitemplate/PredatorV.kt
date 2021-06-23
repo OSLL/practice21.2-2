@@ -4,20 +4,20 @@ import kotlin.math.*
 
 class PredatorV(
     var pos: Point,                         // Положение животного относительно левого верхнего угла поля
-    private val fieldOfView: Float,         // Область, в которой животное видит объекты (размер поля - 100)
-    private val speed: Float,               // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
-    baseRotationSpeed: Float,   // Скорость поворота
+    val fieldOfView: Float,                 // Область, в которой животное видит объекты (размер поля - 100)
+    val speed: Float,                       // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
+    private val baseRotationSpeed: Float,   // Скорость поворота
     var size: Float,                        // Размеры животного относительно базовой модельки
     var orientation: Float,                 // Угол поворота животного относительно горизонтальной оси
     val pointsForBreeding: Float            // Количество очков, необходимых для размножения
 ) {
-    private val rotationSpeed = baseRotationSpeed / size / size
+    private var rotationSpeed = baseRotationSpeed / size / size
 
     var currentPoints = 0F                  // Текущие очки
     private val const = 1                   // Константа для подсчёта очков относительно веса
 
-    private val energyConsumptionPerUnit =
-        0.0001f * size * size * speed * fieldOfView / pointsForBreeding
+    private var energyConsumptionPerUnit =
+        0.0003f * size * size * speed * fieldOfView / pointsForBreeding
 
     private var dangle = orientation
     private var oldAngle = orientation
@@ -181,13 +181,14 @@ class PredatorV(
                     }
                 }
             }
+            resize()
         } else {
             rotate(dt)
 
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeW - 1 - size))
+                newY in (size..fieldData.fieldSizeH - 1 - size))
                 pos = Point(newX, newY)
         }
         return -1
@@ -216,5 +217,11 @@ class PredatorV(
                 orientation = oldAngle + dangle
                 needToRotate = false
             }
+    }
+
+    private fun resize() {
+        size = 2 - 1 / (currentPoints + 5.75f)
+        energyConsumptionPerUnit = 0.0003f * size * size * speed * fieldOfView / pointsForBreeding
+        rotationSpeed = baseRotationSpeed / (2 * size * size)
     }
 }

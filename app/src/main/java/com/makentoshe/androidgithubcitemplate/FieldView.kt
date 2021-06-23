@@ -1,9 +1,13 @@
 package com.makentoshe.androidgithubcitemplate
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.DragEvent
+import android.view.MotionEvent
 import android.view.View
+import java.lang.Math.sqrt
 
 class FieldView(
     context: Context,
@@ -14,19 +18,42 @@ class FieldView(
     var startX: Float = 0f
     var startY: Float = 0f
 
-    private var fieldSize: Float = 1f
+    var startXReal = startX
+    var startYReal = startY
+
+    private var zoom = 1f
+    private val scrollSpeed = 0.05f
+
+    private var fieldSizeX: Float = 1f
+    private var fieldSizeY: Float = 1f
 
     private var predatorsList = mutableListOf<PredatorV>()
     private var herbivoresList = mutableListOf<HerbivoreV>()
     private var plantsList = mutableListOf<PlantV>()
 
     fun setSize(size: Float) {
-        fieldSize = size
+        fieldSizeX = size
+    }
+
+    fun setZoom(newZoom : Float){
+        var zoomChange = newZoom / zoom
+        zoom = newZoom
+
+        var distanceX = (startX + fieldSizeX / 2) - startXReal
+        distanceX *= zoomChange
+        startXReal = fieldSizeX / 2 + startX - distanceX
+        var distanceY = (startY + fieldSizeY / 2) - startYReal
+        distanceY *= zoomChange
+        startYReal = fieldSizeY / 2 + startY - distanceY
+
+        callibrate()
     }
 
     fun setPosition(newX: Float, newY: Float) {
         startX = newX
         startY = newY
+        startXReal = startX
+        startYReal = startY
     }
 
     fun setListsToDraw(
@@ -48,64 +75,118 @@ class FieldView(
     }
 
 
-    override fun onDraw(canvas: Canvas) {
-        canvas.apply {
-            val rectWidth: Float = width * fieldSize / fieldData.fieldSizeW.toFloat()
-            val rectHeight: Float = width * fieldSize / fieldData.fieldSizeW.toFloat()
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                var changeX = fieldSizeX / 2 - (event.x / width - startX)
+                var changeY = fieldSizeY / 2 - (event.y / height - startY)
+                val change = kotlin.math.sqrt(changeX * changeX + changeY * changeY)
+                val k = change / scrollSpeed
+                changeX /= k
+                changeY /= k
 
+                startXReal += changeX
+                startYReal += changeY
+                callibrate()
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
+
+    fun callibrate(){
+        if (startXReal + fieldSizeX * zoom < startX + fieldSizeX)
+            startXReal =  startX + fieldSizeX - fieldSizeX * zoom
+        if (startXReal > startX)
+            startXReal = startX
+
+        if (startYReal + fieldSizeY * zoom < startY + fieldSizeY)
+            startYReal =  startY + fieldSizeY - fieldSizeY * zoom
+        if (startYReal > startY)
+            startYReal = startY
+    }
+
+    fun isInField(x : Float, y : Float) : Boolean{
+        var xIn1 = x / fieldData.fieldSizeW
+        var yIn1 = y / fieldData.fieldSizeH
+
+        var xOnField = xIn1 * fieldSizeX * zoom + startXReal
+        var yOnField = yIn1 * fieldSizeY * zoom + startYReal
+
+        if (xOnField < startX || xOnField > startX + fieldSizeX)
+            return false
+        if (yOnField < startY || yOnField > startY + fieldSizeY)
+            return false
+
+        return true
+    }
+
+
+    override fun onDraw(canvas: Canvas) {
+        fieldSizeY = fieldSizeX * width / height * fieldData.fieldSizeH / fieldData.fieldSizeW
+        canvas.apply {
+            val rectWidth: Float = width * fieldSizeX.toFloat() / fieldData.fieldSizeW.toFloat() * zoom
             val matrix = Matrix()
 
             painter.style = Paint.Style.STROKE
             drawRect(
                 startX * width,
                 startY * height,
-                startX * width + fieldSize * width * fieldData.fieldSizeW.toFloat() / 100,
-                startY * height + fieldSize * width * fieldData.fieldSizeH.toFloat() / 100,
+                startX * width + fieldSizeX * width,
+                startY * height + fieldSizeY * height,
                 painter
             )
             painter.color = Color.rgb(162, 195, 232)
             drawGridAt(
                 startX * width,
                 startY * height,
-                startX * width + fieldSize * width * fieldData.fieldSizeW.toFloat() / 100,
-                startY * height + fieldSize * width * fieldData.fieldSizeH.toFloat() / 100,
-                startX * width + fieldSize * width / (fieldData.fieldSizeH / 10),
-                startY * height + fieldSize * width / (fieldData.fieldSizeH / 10),
-                fieldSize * width / (fieldData.fieldSizeH / 10),
+                startX * width + fieldSizeX * width,
+                startY * height + fieldSizeY * height,
+                startXReal * width,
+                startYReal * height,
+                fieldSizeX * width / 10 * zoom,
                 canvas
             )
             painter.style = Paint.Style.FILL
 
             painter.color = Color.GREEN
             for (plant in plantsList) {
-                drawRect(
-                    startX * width + rectWidth * (plant.pos.x - plant.size),
-                    startY * height + rectWidth * (plant.pos.y - plant.size),
-                    startX * width + rectWidth * (plant.pos.x + plant.size),
-                    startY * height + rectWidth * (plant.pos.y + plant.size),
-                    painter
-                )
+                if (isInField(plant.pos.x, plant.pos.y)) {
+                    drawRect(
+                        startXReal * width + rectWidth * (plant.pos.x - plant.size),
+                        startYReal * height + rectWidth * (plant.pos.y - plant.size),
+                        startXReal * width + rectWidth * (plant.pos.x + plant.size),
+                        startYReal * height + rectWidth * (plant.pos.y + plant.size),
+                        painter
+                    )
+                }
             }
 
             painter.color = Color.BLACK
             for (herbivore in herbivoresList) {
-                matrix.reset()
-                matrix.preTranslate(
-                    startX * width + rectWidth * herbivore.pos.x,
-                    startY * height + rectHeight * herbivore.pos.y
-                )
-                matrix.preRotate(herbivore.orientation / 3.14159f * 180f + 90f)
-                drawAnimal(canvas, herbivore.size / 2, matrix)
+                if (isInField(herbivore.pos.x, herbivore.pos.y)) {
+                    matrix.reset()
+                    matrix.preTranslate(
+                        startXReal * width + rectWidth * herbivore.pos.x,
+                        startYReal * height + rectWidth * herbivore.pos.y
+                    )
+                    matrix.preRotate(herbivore.orientation / 3.14159f * 180f + 90f)
+                    drawAnimal(canvas, herbivore.size / 2, matrix)
+                }
             }
             painter.color = Color.RED
+
             for (predator in predatorsList) {
-                matrix.reset()
-                matrix.preTranslate(
-                    startX * width + rectWidth * predator.pos.x,
-                    startY * height + rectHeight * predator.pos.y
-                )
-                matrix.preRotate(predator.orientation / 3.14159f * 180f + 90f)
-                drawAnimal(canvas, predator.size / 2, matrix)
+                if (isInField(predator.pos.x, predator.pos.y)) {
+                    matrix.reset()
+                    matrix.preTranslate(
+                        startXReal * width + rectWidth * predator.pos.x,
+                        startYReal * height + rectWidth * predator.pos.y
+                    )
+                    matrix.preRotate(predator.orientation / 3.14159f * 180f + 90f)
+                    drawAnimal(canvas, predator.size / 2, matrix)
+                }
             }
 
         }
@@ -116,8 +197,8 @@ class FieldView(
         canvas.apply {
             matrix.preScale(1f / 100f, 1f / 100f)
             matrix.preScale(
-                size / fieldData.fieldSizeW.toFloat() * fieldSize * width,
-                size / fieldData.fieldSizeW.toFloat() * fieldSize * width
+                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width * zoom,
+                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width * zoom
             )
 
             val path = Path()
@@ -148,12 +229,14 @@ class FieldView(
         canvas.apply {
             var xc = startX
             var yc = startY
-            while (xc <= x2) {
-                drawLine(xc, y1, xc, y2, painter)
+            while (xc < x2) {
+                if(xc > x1)
+                    drawLine(xc, y1, xc, y2, painter)
                 xc += size
             }
-            while (yc <= y2) {
-                drawLine(x1, yc, x2, yc, painter)
+            while (yc < y2) {
+                if(yc > y1)
+                    drawLine(x1, yc, x2, yc, painter)
                 yc += size
             }
         }
