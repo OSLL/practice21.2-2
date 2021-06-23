@@ -28,16 +28,17 @@
         android:id="@+id/plot"
         style="@style/APDefacto.Light"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="280dp"
         app:domainTitle="Time"
         app:rangeTitle="N of herbivore"
         app:title="quantity of herbivores" />
+
 
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot2"
         style="@style/APDefacto.Light"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="280dp"
         app:domainTitle="time"
         app:rangeTitle="N of predator"
         app:title="quantity of predators" />

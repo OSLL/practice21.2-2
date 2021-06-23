@@ -249,12 +249,12 @@
         <Button
             android:id="@+id/BackBtn1"
 
-            android:layout_height="37sp"
+            android:layout_height="60sp"
             android:layout_marginBottom="7sp"
 
             android:layout_marginStart="7sp"
             android:layout_marginTop="30sp"
-            android:layout_width="101sp"
+            android:layout_width="120sp"
             android:text="Back"
             app:layout_constraintTop_toBottomOf="@id/PrColorBtn"
 
@@ -263,5 +263,13 @@
             tools:layout_editor_absoluteX="16sp"
             tools:layout_editor_absoluteY="680sp" />
 
+        <Button
+            android:id="@+id/AcceptBtn1"
+            android:layout_width="120sp"
+            android:layout_height="60sp"
+            app:layout_constraintStart_toEndOf="@id/BackBtn1"
+            app:layout_constraintTop_toTopOf="@id/BackBtn1"
+            android:layout_marginStart="10sp"
+            android:text="Restart with new settings"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

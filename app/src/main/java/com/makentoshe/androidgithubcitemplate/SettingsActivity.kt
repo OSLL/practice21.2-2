@@ -17,65 +17,61 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val backBtn = findViewById<Button>(R.id.BackBtn1)
-
-        backBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-
-        val sbmtBtnPredNum = findViewById<Button>(R.id.PrNumBtn)
-        val predTxt = findViewById<EditText>(R.id.editText)
-
-        val sbmtBtnHerbNum = findViewById<Button>(R.id.HNBtn)
-        val herbTxt = findViewById<EditText>(R.id.editText2)
-
-        val sbmtBtnVelEff = findViewById<Button>(R.id.VEBtn)
-        val velEffTxt = findViewById<EditText>(R.id.editText3)
-
-        val sbmtBtnPlNum = findViewById<Button>(R.id.PlNumBtn)
-        val plNumTxt= findViewById<EditText>(R.id.editText4)
-
-        //  При нажатии на сохранялку "Submit ..."(SbmtBtn...): в SharedPreferences остаются строки с числовыми параметрами со своими Ключами(тэгами)
-        //   (например: количество хищников и травоядных, коэффициент связи увеличения СКОРОСТИ и увеличения РАСХОДА ЭНЕРГИИ)
         val shPr = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val editor = shPr.edit()
-
-        //Обеспечиваем вывод в editText'ах актуальных настроек
-        predTxt.setText(shPr.getInt("PredNum", 5).toString())
-        herbTxt.setText(shPr.getInt("HerbNum", 5).toString())
-        velEffTxt.setText(shPr.getFloat("VelEff", 1f).toString())
-        plNumTxt.setText(shPr.getInt("PlNum", 20).toString())
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Настройки с полем ввода
+        val editor = shPr.edit()
+
         //Количество хищников
-        sbmtBtnPredNum.setOnClickListener{
-                editor.apply{
-                    putInt("PredNum", predTxt.text.toString().toInt())
-                }.apply()
+            //Находим нужный editText
+        val predTxt = findViewById<EditText>(R.id.editText)
+            //Обеспечиваем вывод в editText'ах актуальных настроек
+        predTxt.setText(shPr.getInt("PredNum", 5).toString())
+            //  При нажатии на 'Btn': в SharedPreferences остаются строки с числовыми параметрами со своими Ключами(тэгами). Например: количество хищников
+        findViewById<Button>(R.id.PrNumBtn).setOnClickListener{
+            editor.apply{
+                putInt("PredNum", predTxt.text.toString().toInt())
+            }.apply()
         }
 
         //Количество травоядных
-        sbmtBtnHerbNum.setOnClickListener{
+        val herbTxt = findViewById<EditText>(R.id.editText2)
+        herbTxt.setText(shPr.getInt("HerbNum", 5).toString())
+        findViewById<Button>(R.id.HNBtn).setOnClickListener{
             editor.apply{
                 putInt("HerbNum", herbTxt.text.toString().toInt())
             }.apply()
         }
 
         //Отношение изменения скорости к соответствующему изменению эффективности
-        sbmtBtnVelEff.setOnClickListener{
+        val velEffTxt = findViewById<EditText>(R.id.editText3)
+        velEffTxt.setText(shPr.getFloat("VelEff", 1f).toString())
+        findViewById<Button>(R.id.VEBtn).setOnClickListener{
             editor.apply{
                 putFloat("VelEff", velEffTxt.text.toString().toFloat())
             }.apply()
         }
+
         //Очки за съедение растения
-        sbmtBtnPlNum.setOnClickListener{
+        val plNumTxt= findViewById<EditText>(R.id.editText4)
+        plNumTxt.setText(shPr.getInt("PlNum", 20).toString())
+        findViewById<Button>(R.id.PlNumBtn).setOnClickListener{
             editor.apply{
                 putInt("PlNum", plNumTxt.text.toString().toInt())
             }.apply()
         }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Выходы с экрана настроек с перезапуском MainActivity с новыми параметрами отменой действия
+        findViewById<Button>(R.id.BackBtn1).setOnClickListener {
+            finish()
+        }
+        findViewById<Button>(R.id.AcceptBtn1).setOnClickListener {
+            fieldData.clearAll()
+            fieldData.fillLists(shPr.getInt("PredNum", 5)-1, shPr.getInt("HerbNum", 5)-1, shPr.getInt("PlNum", 5)-1)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         //Настройки с только-кнопочными интерфейсами
@@ -142,7 +138,8 @@ class SettingsActivity : AppCompatActivity() {
         //Пример доступа к полученным значениям
         //Примечания: Даже после закрытия приложения данные, сохранённые нажатием Submit, остаются в памяти до следующего изменения или перезагрузки телефона.
         //            В ЛЮБОМ МЕСТЕ в программе можно реализовать следующий код и получить значения!
-        // Важная строка в начале: [   val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)   ]
+        // Важная строка в onCreate в начале: [   val shPr = getSharedPreferences("Settings", Context.MODE_PRIVATE)   ]
+        // Важная строка+ в начале: [   val shPr = context.getSharedPreferences("Settings", MODE_PRIVATE)   ]
         Toast.makeText(this,
             "Predators:" + shPr.getInt("PredNum", 5).toString() +
             "\nHerbivores:" + shPr.getInt("HerbNum", 5).toString() +
