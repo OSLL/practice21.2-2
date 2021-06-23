@@ -85,8 +85,8 @@ class HerbivoreV(
                 val dx = speed * cos(minDst.angle) * dt
                 val dy = speed * sin(minDst.angle) * dt
 
-                if (dx + pos.x in (0f + size)..(99f - size) &&
-                    dy + pos.y in (0f + size)..(99f - size)
+                if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
+                    dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                 ) {
                     var isHerbivoreFound = false
                     for (herbivore in herbivores)
@@ -134,8 +134,8 @@ class HerbivoreV(
                     return minDst.index
                 }
 
-                if (dx + pos.x in (0f + size)..(99f - size) &&
-                    dy + pos.y in (0f + size)..(99f - size)
+                if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
+                    dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                 ) {
                     var isHerbivoreFound = false
                     for (herbivore in herbivores)
@@ -247,8 +247,8 @@ class HerbivoreV(
                 var dx = dlen * cos(angle)
                 var dy = dlen * sin(angle)
 
-                if (dx + pos.x in (0f + size)..(99f - size) &&
-                    dy + pos.y in (0f + size)..(99f - size)
+                if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
+                    dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                 ) {
                     dangle = when {
                         angle - orientation > PI -> 2 * PI.toFloat() - (angle - orientation)
@@ -270,8 +270,8 @@ class HerbivoreV(
                     dy = dlen * sin(angle)
                     System.currentTimeMillis()
 
-                    if (dx + pos.x in (0f + size)..(99f - size) &&
-                        dy + pos.y in (0f + size)..(99f - size)
+                    if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
+                        dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                     ) {
                         dangle = when {
                             angle - orientation > PI -> 2 * PI.toFloat() - (angle - orientation)
@@ -295,7 +295,8 @@ class HerbivoreV(
 
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
-            if (newX in (size..99f - size) && newY in (size..99f - size))
+            if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
+                newY in (size..fieldData.fieldSizeW - 1 - size))
                 pos = Point(newX, newY)
         }
         return -1

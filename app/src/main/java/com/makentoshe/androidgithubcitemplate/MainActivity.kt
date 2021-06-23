@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         fieldView.setPosition(0.1f, 0.1f)
         fieldView.setSize(0.8f)
-        fieldView.setPixelWidth(100)
 
         val field = Field(fieldView)
 
