@@ -4,7 +4,7 @@ import java.util.Collections.max
 
 class TimeStatistic {
     public var maxSize = 100000
-    private var maxArraySize = 1000
+    private var maxArraySize = 100
 
     public var predatorsAmount = mutableListOf<Int>()
     public var herbivoresAmount = mutableListOf<Int>()
