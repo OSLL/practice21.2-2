@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         val zoomBar = findViewById<SeekBar>(R.id.seekBar)
         speedText.text = "1.0x"
 
+
         settingsBtn.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
         zoomBar.setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar : SeekBar, progress : Int, fromUser : Boolean) {
-                fieldView.setZoom((seekBar.progress + 25f) / 25f)
+                fieldView.setZoom((progress * progress + 2500f) / 2500f)
             }
 
             override fun  onStartTrackingTouch(seekBar : SeekBar) {

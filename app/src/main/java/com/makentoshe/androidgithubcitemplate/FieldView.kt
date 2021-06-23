@@ -1,9 +1,13 @@
 package com.makentoshe.androidgithubcitemplate
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.DragEvent
+import android.view.MotionEvent
 import android.view.View
+import java.lang.Math.sqrt
 
 class FieldView(
     context: Context,
@@ -17,7 +21,8 @@ class FieldView(
     var startXReal = startX
     var startYReal = startY
 
-    private var zoom = 2f
+    private var zoom = 1f
+    private val scrollSpeed = 0.05f
 
     private var fieldSizeX: Float = 1f
     private var fieldSizeY: Float = 1f
@@ -28,6 +33,20 @@ class FieldView(
 
     fun setSize(size: Float) {
         fieldSizeX = size
+    }
+
+    fun setZoom(newZoom : Float){
+        var zoomChange = newZoom / zoom
+        zoom = newZoom
+
+        var distanceX = (startX + fieldSizeX / 2) - startXReal
+        distanceX *= zoomChange
+        startXReal = fieldSizeX / 2 + startX - distanceX
+        var distanceY = (startY + fieldSizeY / 2) - startYReal
+        distanceY *= zoomChange
+        startYReal = fieldSizeY / 2 + startY - distanceY
+
+        callibrate()
     }
 
     fun setPosition(newX: Float, newY: Float) {
@@ -55,8 +74,52 @@ class FieldView(
         strokeWidth = 2f
     }
 
-    fun setZoom(newZoom : Float){
-        zoom = newZoom
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                var changeX = fieldSizeX / 2 - (event.x / width - startX)
+                var changeY = fieldSizeY / 2 - (event.y / height - startY)
+                val change = kotlin.math.sqrt(changeX * changeX + changeY * changeY)
+                val k = change / scrollSpeed
+                changeX /= k
+                changeY /= k
+
+                startXReal += changeX
+                startYReal += changeY
+                callibrate()
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
+
+    fun callibrate(){
+        if (startXReal + fieldSizeX * zoom < startX + fieldSizeX)
+            startXReal =  startX + fieldSizeX - fieldSizeX * zoom
+        if (startXReal > startX)
+            startXReal = startX
+
+        if (startYReal + fieldSizeY * zoom < startY + fieldSizeY)
+            startYReal =  startY + fieldSizeY - fieldSizeY * zoom
+        if (startYReal > startY)
+            startYReal = startY
+    }
+
+    fun isInField(x : Float, y : Float) : Boolean{
+        var xIn1 = x / fieldData.fieldSizeW
+        var yIn1 = y / fieldData.fieldSizeH
+
+        var xOnField = xIn1 * fieldSizeX * zoom + startXReal
+        var yOnField = yIn1 * fieldSizeY * zoom + startYReal
+
+        if (xOnField < startX || xOnField > startX + fieldSizeX)
+            return false
+        if (yOnField < startY || yOnField > startY + fieldSizeY)
+            return false
+
+        return true
     }
 
 
@@ -89,35 +152,41 @@ class FieldView(
 
             painter.color = Color.GREEN
             for (plant in plantsList) {
-                drawRect(
-                    startX * width + rectWidth * (plant.pos.x - plant.size * zoom),
-                    startY * height + rectWidth * (plant.pos.y - plant.size * zoom),
-                    startX * width + rectWidth * (plant.pos.x + plant.size * zoom),
-                    startY * height + rectWidth * (plant.pos.y + plant.size * zoom),
-                    painter
-                )
+                if (isInField(plant.pos.x, plant.pos.y)) {
+                    drawRect(
+                        startXReal * width + rectWidth * (plant.pos.x - plant.size),
+                        startYReal * height + rectWidth * (plant.pos.y - plant.size),
+                        startXReal * width + rectWidth * (plant.pos.x + plant.size),
+                        startYReal * height + rectWidth * (plant.pos.y + plant.size),
+                        painter
+                    )
+                }
             }
 
             painter.color = Color.BLACK
             for (herbivore in herbivoresList) {
-                matrix.reset()
-                matrix.preTranslate(
-                    startX * width + rectWidth * herbivore.pos.x,
-                    startY * height + rectWidth * herbivore.pos.y
-                )
-                matrix.preRotate(herbivore.orientation / 3.14159f * 180f + 90f)
-                drawAnimal(canvas, herbivore.size / 2, matrix)
+                if (isInField(herbivore.pos.x, herbivore.pos.y)) {
+                    matrix.reset()
+                    matrix.preTranslate(
+                        startXReal * width + rectWidth * herbivore.pos.x,
+                        startYReal * height + rectWidth * herbivore.pos.y
+                    )
+                    matrix.preRotate(herbivore.orientation / 3.14159f * 180f + 90f)
+                    drawAnimal(canvas, herbivore.size / 2, matrix)
+                }
             }
             painter.color = Color.RED
 
             for (predator in predatorsList) {
-                matrix.reset()
-                matrix.preTranslate(
-                    startX * width + rectWidth * predator.pos.x,
-                    startY * height + rectWidth * predator.pos.y
-                )
-                matrix.preRotate(predator.orientation / 3.14159f * 180f + 90f)
-                drawAnimal(canvas, predator.size / 2, matrix)
+                if (isInField(predator.pos.x, predator.pos.y)) {
+                    matrix.reset()
+                    matrix.preTranslate(
+                        startXReal * width + rectWidth * predator.pos.x,
+                        startYReal * height + rectWidth * predator.pos.y
+                    )
+                    matrix.preRotate(predator.orientation / 3.14159f * 180f + 90f)
+                    drawAnimal(canvas, predator.size / 2, matrix)
+                }
             }
 
         }
