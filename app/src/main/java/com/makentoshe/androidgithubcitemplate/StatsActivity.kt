@@ -15,7 +15,6 @@ import java.text.FieldPosition
 import java.text.Format
 import java.text.ParsePosition
 import java.util.*
-
 class StatsActivity : AppCompatActivity() {
 
 
@@ -33,12 +32,12 @@ class StatsActivity : AppCompatActivity() {
         }
         //тестовые массивы
 
-        val time : Array<Int> = arrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
-        val h : Array<Int> = arrayOf(20, 22, 24, 23, 26, 27, 25, 24, 25, 26)
-        val p: Array<Int> = arrayOf(4, 5, 6, 8, 10, 9, 11, 8, 7, 9, 10, 8, 8)
+        val time : Array<Int> = arrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+        val h : Array<Int> = fieldData.timeStats.toArray(fieldData.timeStats.herbivoresAmount)
+        val p: Array<Int> = fieldData.timeStats.toArray(fieldData.timeStats.predatorsAmount)
 
 
-        // функция отрисовки нрафиков
+        // функция отрисовки графиков
         fun DrawGraphics(timeArray: Array<Int>, herbivoreArray: Array<Int>, predatorArray: Array<Int>) {
             //first plot
             val domainLabelsHerbivore = timeArray
@@ -47,7 +46,7 @@ class StatsActivity : AppCompatActivity() {
             val series1: XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberHerbivore), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
             val series1Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null)
             val plot1 = findViewById<XYPlot>(R.id.plot)
-            series1Format.setInterpolationParams(CatmullRomInterpolator.Params(15, CatmullRomInterpolator.Type.Centripetal))
+            series1Format.setInterpolationParams(CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal))
 
             plot1.addSeries(series1, series1Format)
             plot1.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {

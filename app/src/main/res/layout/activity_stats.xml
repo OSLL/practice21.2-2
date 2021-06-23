@@ -33,6 +33,7 @@
         app:rangeTitle="N of herbivore"
         app:title="quantity of herbivores" />
 
+
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot2"
         style="@style/APDefacto.Light"
