@@ -63,7 +63,9 @@ class FieldView (
             val matrix = Matrix()
 
             painter.style = Paint.Style.STROKE
-            drawRect(startX * width, startY * width, startX * width + fieldWidth * width, startY * height + fieldWidth * width, painter)
+            drawRect(startX * width, startY * height, startX * width + fieldWidth * width, startY * height + fieldWidth * width, painter)
+            painter.setColor(Color.rgb(162, 195, 232))
+            drawGridAt(startX * width, startY * height, startX * width + fieldWidth * width, startY * height + fieldWidth * width, startX * width + fieldWidth * width / 10, startY * height + fieldWidth * width / 10,  fieldWidth* width / 10, canvas)
             painter.style = Paint.Style.FILL
 
             painter.color = Color.GREEN
@@ -116,6 +118,21 @@ class FieldView (
             path.addCircle(0f, 0f, 200f, Path.Direction.CW)
             path.transform(matrix)
             canvas.drawPath(path, painter)
+        }
+    }
+
+    fun drawGridAt(x1 : Float, y1 : Float, x2 : Float, y2 : Float, startX : Float, startY : Float, size : Float, canvas : Canvas){
+        canvas.apply {
+            var xc = startX
+            var yc = startY
+            while(xc <= x2 - size) {
+                drawLine(xc, y1, xc, y2, painter)
+                xc += size
+            }
+            while(yc <= y2 - size) {
+                drawLine(x1, yc, x2, yc, painter)
+                yc += size
+            }
         }
     }
 }
