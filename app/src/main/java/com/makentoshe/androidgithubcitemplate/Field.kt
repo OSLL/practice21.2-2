@@ -11,7 +11,7 @@ class Field(
     private var go = true
     var speed = 1f
 
-    private var tickLength = 100f
+    private var tickLength = 50f
 
     var time = System.currentTimeMillis()
 

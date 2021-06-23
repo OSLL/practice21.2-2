@@ -16,6 +16,7 @@ class FieldData {
     private val breedingIndicesPlant = mutableListOf<Int>()
 
     private val deathFromHungerIndicesPredators = mutableListOf<Int>()
+    private var ticksPassed = 0
 
     var timeStats = TimeStatistic()
 
@@ -248,9 +249,13 @@ class FieldData {
         breedingIndicesHerbivore.clear()
         breedingIndicesPlant.clear()
 
-        timeStats.addTo(timeStats.herbivoresAmount, herbivoresList.size)
-        timeStats.addTo(timeStats.predatorsAmount, predatorsList.size)
-        timeStats.addTo(timeStats.plantsAmount, plantsList.size)
-
+        if (ticksPassed == 10) {
+            timeStats.addTo(timeStats.herbivoresAmount, herbivoresList.size)
+            timeStats.addTo(timeStats.predatorsAmount, predatorsList.size)
+            timeStats.addTo(timeStats.plantsAmount, plantsList.size)
+            ticksPassed = 0
+        }
+        else
+            ticksPassed++
     }
 }
