@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         fieldData.fillLists(prC,hC,plC)
         layout.addView(fieldView)
-        field.setTick(10f)
+        field.setTick(1f)
         field.startProcess()
     }
 }

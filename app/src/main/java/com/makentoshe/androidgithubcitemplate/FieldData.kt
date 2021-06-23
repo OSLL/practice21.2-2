@@ -59,14 +59,14 @@ class FieldData {
             )
     }
 
-    fun update(deltaTime: Long) {
+    fun update(speed: Float) {
         for (herbivore in herbivoresList) {
-            val index = herbivore.move(herbivoresList, predatorsList, plantsList, deltaTime / 1000f)
+            val index = herbivore.move(herbivoresList, predatorsList, plantsList, speed)
             if (index != -1)
                 deathPlantsIndices.add(index)
         }
         for (predator in predatorsList) {
-            val index = predator.move(herbivoresList, predatorsList, plantsList, deltaTime / 1000f)
+            val index = predator.move(herbivoresList, predatorsList, plantsList, speed)
             if (index != -1)
                 deathHerbivoresIndices.add(index)
         }

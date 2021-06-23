@@ -21,7 +21,10 @@ class Field(
 
     fun startProcess() {
         go = true
-        time = System.currentTimeMillis()
+        for (herbivore in fieldData.herbivoresList)
+            herbivore.time = System.currentTimeMillis()
+        for (predator in fieldData.predatorsList)
+            predator.time = System.currentTimeMillis()
         doFrame()
     }
 
@@ -41,10 +44,7 @@ class Field(
 
     fun doFrame() {
         Handler(Looper.getMainLooper()).postDelayed({
-            val deltaTime = System.currentTimeMillis() - time
-            time = System.currentTimeMillis()
-
-            fieldData.update((deltaTime * speed).toLong())
+            fieldData.update(speed)
 
             fieldView.setListsToDraw(fieldData.predatorsList, fieldData.herbivoresList, fieldData.plantsList)
             fieldView.invalidate()
