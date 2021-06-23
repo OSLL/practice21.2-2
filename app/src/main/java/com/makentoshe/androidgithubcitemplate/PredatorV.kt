@@ -24,7 +24,9 @@ class PredatorV(
     private var needToRotate = false
     private val criticalAngle = PI / 45
 
-    private var time = System.currentTimeMillis()
+    var time = System.currentTimeMillis()
+
+    private var rndTime = System.currentTimeMillis()
 
     /* Основная функция класса, отвечающая за поведение
      * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
@@ -33,8 +35,11 @@ class PredatorV(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
         predators: MutableList<PredatorV>,   // Список всех хищников
         plants: MutableList<PlantV>,         // Список всех растений
-        dt: Float                            // Время после прошлого перемещения
+        speed1: Float                            // Время после прошлого перемещения
     ): Int {
+        val dt = (System.currentTimeMillis() - time) / 1000f * speed1
+        time = System.currentTimeMillis()
+
         var isMoved = false
 
         val indexList = mutableListOf<MinDistanceWithIndex>()
@@ -90,17 +95,6 @@ class PredatorV(
                 if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
                     dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                 ) {
-                    var isPredatorFound = false
-                    for (predator in predators)
-                        if (length(
-                                pos.x + dx - predator.pos.x,
-                                pos.y + dy - predator.pos.y
-                            ) < size + predator.size && predator != this
-                        )
-                            isPredatorFound = true
-                    if (isPredatorFound)
-                        continue
-
                     dangle = when {
                         minDst.angle - orientation > PI -> 2 * PI.toFloat() - (minDst.angle - orientation)
                         minDst.angle - orientation < -PI -> 2 * PI.toFloat() + minDst.angle - orientation
@@ -135,8 +129,8 @@ class PredatorV(
                 var angle = orientation
                 val rndt = (900..10000).random()
 
-                if (System.currentTimeMillis() - time > rndt) {
-                    time = System.currentTimeMillis()
+                if (System.currentTimeMillis() - rndTime > rndt) {
+                    rndTime = System.currentTimeMillis()
                     angle = (-180..180).random() / 180f * PI.toFloat()
                 }
 
@@ -161,7 +155,7 @@ class PredatorV(
 
                     currentPoints -= energyConsumptionPerUnit * speed * dt
                 } else {
-                    angle = -angle
+                    angle = PI.toFloat() - angle
                     dx = dlen * cos(angle)
                     dy = dlen * sin(angle)
 
@@ -181,6 +175,9 @@ class PredatorV(
                         pos = Point(pos.x + dx, pos.y + dy)
 
                         currentPoints -= energyConsumptionPerUnit * speed * dt
+                    }
+                    else {
+                        rndTime -= 1000
                     }
                 }
             }
@@ -204,7 +201,7 @@ class PredatorV(
     }
 
     private fun rotate(dt: Float) {
-        time = System.currentTimeMillis()
+        rndTime = System.currentTimeMillis()
 
         if (orientation !in (oldAngle + dangle - 4 * PI.toFloat()..oldAngle + dangle + 4 * PI.toFloat())) {
             orientation = oldAngle + dangle

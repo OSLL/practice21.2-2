@@ -1,7 +1,7 @@
 package com.makentoshe.androidgithubcitemplate
 
 class TimeStatistic {
-    public var maxSize = 50
+    public var maxSize = 20
 
     public var predatorsAmount = mutableListOf<Int>()
     public var herbivoresAmount = mutableListOf<Int>()
@@ -10,7 +10,7 @@ class TimeStatistic {
     private val statsAmount = 3
     private var statsWasSqueezed = 0
     private var length = 1
-    private var pass = 0
+    private var pass = statsAmount
 
     fun toArray(list: MutableList<Int>): Array<Int> {
         var array = Array<Int>(list.size){0}
@@ -22,12 +22,10 @@ class TimeStatistic {
     fun addTo(list : MutableList<Int>, number : Int){
         pass++
         if (list.size < maxSize)
-            if (pass == length) {
+            if (pass % statsAmount == length) {
                 list.add(number)
-                pass = 0
+                pass = statsAmount
             }
-            else
-                pass += 3
         else
         {
             statsWasSqueezed++

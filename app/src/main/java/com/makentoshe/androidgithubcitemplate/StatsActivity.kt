@@ -30,12 +30,24 @@ class StatsActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
         //тестовые массивы
 
-        val time : Array<Int> = arrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+       // val time : Array<Int> = arrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+        //val h : Array<Int> = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 15, 14, 17, 19, 16 , 15, 13, 19, 19, 16, 13, 14, 19, 17, 19, 18, 17, 15, 11, 10, 13, 16, 17, 18)
+       // val p: Array<Int> = arrayOf(1, 3, 5, 7, 8, 9, 10, 13, 14, 14, 16, 17, 18, 19, 19, 20)
+
+        //нормальные массивы
+
         val h : Array<Int> = fieldData.timeStats.toArray(fieldData.timeStats.herbivoresAmount)
         val p: Array<Int> = fieldData.timeStats.toArray(fieldData.timeStats.predatorsAmount)
+        val time : Array<Int> = fieldData.timeStats.toArray(fieldData.timeStats.herbivoresAmount)
 
+        for (i in 0 until h.size)
+            time[i] = (i + 1)
+
+        var n1: Int = h.size
+        var n2: Int = p.size
 
         // функция отрисовки графиков
         fun DrawGraphics(timeArray: Array<Int>, herbivoreArray: Array<Int>, predatorArray: Array<Int>) {
@@ -46,7 +58,7 @@ class StatsActivity : AppCompatActivity() {
             val series1: XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberHerbivore), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
             val series1Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null)
             val plot1 = findViewById<XYPlot>(R.id.plot)
-            series1Format.setInterpolationParams(CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal))
+            series1Format.setInterpolationParams(CatmullRomInterpolator.Params(n1, CatmullRomInterpolator.Type.Centripetal))
 
             plot1.addSeries(series1, series1Format)
             plot1.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
@@ -70,7 +82,7 @@ class StatsActivity : AppCompatActivity() {
             val series2Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null)
             val plot2 = findViewById<XYPlot>(R.id.plot2)
 
-            series2Format.setInterpolationParams(CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal))
+            series2Format.setInterpolationParams(CatmullRomInterpolator.Params(n2, CatmullRomInterpolator.Type.Centripetal))
 
 
             plot2.addSeries(series2, series2Format)
@@ -90,6 +102,7 @@ class StatsActivity : AppCompatActivity() {
             }
             PanZoom.attach(plot2)
         }
+
         //Quantity of minions
 
         fun Quantity(herbivoreArray: Array<Int>, predatorArray: Array<Int>){

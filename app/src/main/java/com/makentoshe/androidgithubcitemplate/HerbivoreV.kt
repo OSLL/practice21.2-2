@@ -18,7 +18,9 @@ class HerbivoreV(
     private val energyConsumptionPerUnit =
         0.00002f * size * size * speed * fieldOfView / pointsForBreeding
 
-    private var time = System.currentTimeMillis()
+    var time = System.currentTimeMillis()
+
+    private var rndTime = System.currentTimeMillis()
 
     private var dangle = orientation
     private var oldAngle = orientation
@@ -33,8 +35,11 @@ class HerbivoreV(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
         predators: MutableList<PredatorV>,   // Список всех хищников
         plants: MutableList<PlantV>,         // Список всех растений
-        dt: Float                            // Время после прошлого перемещения
+        speed1: Float                            // Время после прошлого перемещения
     ): Int {
+        val dt = (System.currentTimeMillis() - time) / 1000f * speed1
+        time = System.currentTimeMillis()
+
         if (!needToRotate) {
             var isMoved = false
             val indexListPredator = mutableListOf<MinDistanceWithIndex>()
@@ -239,9 +244,9 @@ class HerbivoreV(
                 var angle = orientation
                 val rndt = (900..10000).random()
 
-                if (System.currentTimeMillis() - time > rndt) {
-                    time = System.currentTimeMillis()
-                    angle = (-180..180).random() / 180f * PI.toFloat()
+                if (System.currentTimeMillis() - rndTime > rndt) {
+                    rndTime = System.currentTimeMillis()
+                    angle = (-90..270).random() / 180f * PI.toFloat()
                 }
 
                 var dx = dlen * cos(angle)
@@ -268,7 +273,6 @@ class HerbivoreV(
                     angle = PI.toFloat() - angle
                     dx = dlen * cos(angle)
                     dy = dlen * sin(angle)
-                    System.currentTimeMillis()
 
                     if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
                         dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
@@ -283,10 +287,12 @@ class HerbivoreV(
                             orientation = angle
                         else
                             needToRotate = true
-
                         pos = Point(pos.x + dx, pos.y + dy)
 
                         currentPoints -= energyConsumptionPerUnit * speed * dt
+                    }
+                    else {
+                        rndTime -= 1000
                     }
                 }
             }
@@ -313,7 +319,7 @@ class HerbivoreV(
     }
 
     private fun rotate(dt: Float) {
-        time = System.currentTimeMillis()
+        rndTime = System.currentTimeMillis()
 
         if (orientation !in (oldAngle + dangle - 4 * PI.toFloat()..oldAngle + dangle + 4 * PI.toFloat())) {
             orientation = oldAngle + dangle
