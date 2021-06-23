@@ -44,7 +44,7 @@ class StatsActivity : AppCompatActivity() {
         val time : Array<Int> = fieldData.timeStats.toArray(fieldData.timeStats.herbivoresAmount)
 
         for (i in 0 until h.size)
-            time[i] = i
+            time[i] = (i + 1)
 
         var n1: Int = h.size
         var n2: Int = p.size
