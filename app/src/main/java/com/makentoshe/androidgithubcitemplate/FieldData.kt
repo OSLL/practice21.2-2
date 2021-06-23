@@ -1,6 +1,8 @@
 package com.makentoshe.androidgithubcitemplate
 
 class FieldData {
+    var fieldSizeW = 100
+    var fieldSizeH = 130
 
     val predatorsList = mutableListOf<PredatorV>()
     val herbivoresList = mutableListOf<HerbivoreV>()
@@ -16,11 +18,16 @@ class FieldData {
 
     var timeStats = TimeStatistic()
 
+    fun setFieldSize(width: Int, height: Int) {
+        fieldSizeW = width
+        fieldSizeH = height
+    }
+
     fun fillLists(predatorsCount: Int, herbivoresCount: Int, plantsCount: Int) {
         for (i in 0 until predatorsCount)
             predatorsList.add(
                 PredatorV(
-                    Point((2..97).random().toFloat(), (2..97).random().toFloat()),
+                    Point((2..fieldSizeW - 3).random().toFloat(), (2..fieldSizeH - 3).random().toFloat()),
                     (100..200).random().toFloat() / 10,
                     (50..70).random().toFloat() / 10,
                     (40..60).random().toFloat() / 10,
@@ -32,7 +39,7 @@ class FieldData {
         for (i in 0 until herbivoresCount) {
             herbivoresList.add(
                 HerbivoreV(
-                    Point((2..97).random().toFloat(), (2..97).random().toFloat()),
+                    Point((2..fieldSizeW - 3).random().toFloat(), (2..fieldSizeH - 3).random().toFloat()),
                     (100..200).random().toFloat() / 10,
                     (50..70).random().toFloat() / 10,
                     (40..60).random().toFloat() / 10,
@@ -45,7 +52,7 @@ class FieldData {
         for (i in 0 until plantsCount)
             plantsList.add(
                 PlantV(
-                    Point((2..97).random().toFloat(), (2..97).random().toFloat()),
+                    Point((2..fieldSizeW - 2).random().toFloat(), (2..fieldSizeH - 2).random().toFloat()),
                     (10..30).random().toFloat() / 20,
                     (5..30).random().toFloat() / 10
                 )
@@ -100,7 +107,7 @@ class FieldData {
 
         for (i in breedingIndicesPredator)
             predatorsList += PredatorV(
-                Point((2..97).random().toFloat(), (2..97).random().toFloat()),
+                Point((2..fieldSizeW - 3).random().toFloat(), (2..fieldSizeH - 3).random().toFloat()),
                 (100..200).random().toFloat() / 10,
                 (50..70).random().toFloat() / 10,
                 (40..60).random().toFloat() / 10,
@@ -111,7 +118,7 @@ class FieldData {
 
         for (i in breedingIndicesHerbivore)
             herbivoresList += HerbivoreV(
-                Point((2..97).random().toFloat(), (2..97).random().toFloat()),
+                Point((2..fieldSizeW - 3).random().toFloat(), (2..fieldSizeH - 3).random().toFloat()),
                 (100..200).random().toFloat() / 10,
                 (50..70).random().toFloat() / 10,
                 (40..60).random().toFloat() / 10,
