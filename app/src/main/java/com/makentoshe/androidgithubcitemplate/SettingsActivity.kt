@@ -12,8 +12,6 @@ import androidx.core.content.ContextCompat
 import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 
-//TODO: сделать настройки приятно воспринимаемыми
-
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,14 +86,16 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.PlColorBtn).setOnClickListener{
 
-            val plColorPicker = ColorPickerDialog.Builder()
+            var plColorPicker = ColorPickerDialog.Builder()
             .setInitialColor(DefaultPlColor)
             .setColorModel(ColorModel.HSV)
             .setColorModelSwitchEnabled(false)
             .setButtonOkText(android.R.string.ok)
             .setButtonCancelText(android.R.string.cancel)
             .onColorSelected { color: Int -> DefaultPlColor = color}
+
             .create()
+
             plColorPicker.show(supportFragmentManager, "PlColorPicker")
 
 
