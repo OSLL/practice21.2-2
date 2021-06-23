@@ -1,13 +1,16 @@
 package com.makentoshe.androidgithubcitemplate
 
-import kotlin.math.max
-
 class TimeStatistic {
-    public var maxSize = 10
+    public var maxSize = 50
 
     public var predatorsAmount = mutableListOf<Int>()
     public var herbivoresAmount = mutableListOf<Int>()
     public var plantsAmount = mutableListOf<Int>()
+
+    private val statsAmount = 3
+    private var statsWasSqueezed = 0
+    private var length = 1
+    private var pass = 0
 
     fun toArray(list: MutableList<Int>): Array<Int> {
         var array = Array<Int>(list.size){0}
@@ -17,10 +20,22 @@ class TimeStatistic {
     }
 
     fun addTo(list : MutableList<Int>, number : Int){
+        pass++
         if (list.size < maxSize)
-            list.add(number)
+            if (pass == length) {
+                list.add(number)
+                pass = 0
+            }
+            else
+                pass += 3
         else
         {
+            statsWasSqueezed++
+            if (statsWasSqueezed == statsAmount){
+                statsWasSqueezed = 0
+                length *= 2
+            }
+
             for (i in (0..(list.size / 2 - 1)))
                 list[i] = list[i * 2]
 
