@@ -187,7 +187,7 @@ class PredatorV(
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeW - 1 - size))
+                newY in (size..fieldData.fieldSizeH - 1 - size))
                 pos = Point(newX, newY)
         }
         return -1

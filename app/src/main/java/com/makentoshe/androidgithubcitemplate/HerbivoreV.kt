@@ -142,18 +142,6 @@ class HerbivoreV(
                 if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
                     dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                 ) {
-                    var isHerbivoreFound = false
-                    for (herbivore in herbivores)
-                        if (length(
-                                pos.x + dx - herbivore.pos.x,
-                                pos.y + dy - herbivore.pos.y
-                            ) < size + herbivore.size &&
-                            herbivore != this
-                        )
-                            isHerbivoreFound = true
-                    if (isHerbivoreFound)
-                        continue
-
                     if (length(
                             pos.x + dx - plant.pos.x,
                             pos.y + dy - plant.pos.y
@@ -302,7 +290,7 @@ class HerbivoreV(
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeW - 1 - size))
+                newY in (size..fieldData.fieldSizeH - 1 - size))
                 pos = Point(newX, newY)
         }
         return -1
