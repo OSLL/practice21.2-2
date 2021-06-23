@@ -21,6 +21,7 @@ class Field(
 
     fun startProcess() {
         go = true
+        time = System.currentTimeMillis()
         doFrame()
     }
 
