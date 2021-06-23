@@ -22,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         val sbmtBtnPredNum = findViewById<Button>(R.id.PrNumBtn)
         val predTxt = findViewById<EditText>(R.id.editText)
 
