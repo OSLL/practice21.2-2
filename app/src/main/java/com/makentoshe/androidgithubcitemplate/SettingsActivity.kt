@@ -19,6 +19,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val shPr = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val editor = shPr.edit()
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         //Количество хищников
             //Находим нужный editText
