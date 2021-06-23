@@ -15,11 +15,12 @@ class SettingsActivity : AppCompatActivity() {
 
         val shPrload = getSharedPreferences("Settings", Context.MODE_PRIVATE)
 
-        val backBtn = findViewById<Button>(R.id.BackBtn1)
-
-        backBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.BackBtn1).setOnClickListener {
+            finish()
+        }
+        findViewById<Button>(R.id.AcceptBtn1).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
         val sbmtBtnPredNum = findViewById<Button>(R.id.PrNumBtn)
