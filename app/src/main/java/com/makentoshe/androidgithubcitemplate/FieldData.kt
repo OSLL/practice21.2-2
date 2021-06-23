@@ -1,7 +1,7 @@
 package com.makentoshe.androidgithubcitemplate
 
 class FieldData {
-    var fieldSizeW = 100
+    var fieldSizeW = 120
     var fieldSizeH = 130
 
     val predatorsList = mutableListOf<PredatorV>()
@@ -17,6 +17,65 @@ class FieldData {
     private val deathFromHungerIndicesPredators = mutableListOf<Int>()
 
     var timeStats = TimeStatistic()
+
+    /* Функции очистки списков */
+
+    fun clearHerbivores() {
+        herbivoresList.clear()
+    }
+    fun clearPlants() {
+        plantsList.clear()
+    }
+    fun clearPredators() {
+        predatorsList.clear()
+    }
+    fun clearAll() {
+        clearHerbivores()
+        clearPlants()
+        clearPredators()
+    }
+
+    /* Функции добавления в списки */
+
+    fun addHerbivores(amount: Int) {
+        for (i in 0 until amount)
+            herbivoresList.add(
+                HerbivoreV(
+                    Point((2..fieldSizeW - 3).random().toFloat(), (2..fieldSizeH - 3).random().toFloat()),
+                    (100..200).random().toFloat() / 10,
+                    (50..70).random().toFloat() / 10,
+                    (40..60).random().toFloat() / 10,
+                    (20..35).random().toFloat() / 20,
+                    0F,
+                    2F
+                )
+            )
+    }
+
+    fun addPredators(amount: Int) {
+        predatorsList.add(
+            PredatorV(
+                Point((2..fieldSizeW - 3).random().toFloat(), (2..fieldSizeH - 3).random().toFloat()),
+                (100..200).random().toFloat() / 10,
+                (50..70).random().toFloat() / 10,
+                (40..60).random().toFloat() / 10,
+                (20..35).random().toFloat() / 20,
+                0F,
+                2F
+            )
+        )
+    }
+
+    fun addPlants(amount: Int) {
+        plantsList.add(
+            PlantV(
+                Point((2..fieldSizeW - 2).random().toFloat(), (2..fieldSizeH - 2).random().toFloat()),
+                (10..30).random().toFloat() / 20,
+                (5..30).random().toFloat() / 10
+            )
+        )
+    }
+
 
     fun setFieldSize(width: Int, height: Int) {
         fieldSizeW = width
