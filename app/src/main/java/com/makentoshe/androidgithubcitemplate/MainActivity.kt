@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 val fieldData = FieldData()
+var isFirst = true
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,12 +36,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        val display = windowManager.defaultDisplay
-        val metricsB = DisplayMetrics()
-        display.getMetrics(metricsB)
-        fieldData.initBaseSize(metricsB.widthPixels / 10 - 1,
-            metricsB.heightPixels * 2 / 3 / 10)
+        if (isFirst) {
+            val display = windowManager.defaultDisplay
+            val metricsB = DisplayMetrics()
+            display.getMetrics(metricsB)
+            fieldData.initBaseSize(
+                metricsB.widthPixels / 10 - 1,
+                metricsB.heightPixels * 2 / 3 / 10
+            )
+        }
 
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
         val fieldView = FieldView(this)
@@ -80,12 +84,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        val shPrLoad = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val prC = shPrLoad.getInt("PredNum", 5)
-        val hC = shPrLoad.getInt("HerbNum", 20)
-        val plC = shPrLoad.getInt("PlNum", 20)
-
-        fieldData.fillLists(prC, hC, plC)
+        if (isFirst) {
+            fieldData.fillLists(5, 5, 5)
+            isFirst = false
+        }
         layout.addView(fieldView)
         field.setTick(1f)
         field.startProcess()
