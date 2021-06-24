@@ -2,11 +2,13 @@ package com.makentoshe.androidgithubcitemplate
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.appcompat.app.AppCompatActivity
+
 
 val fieldData = FieldData()
 
@@ -32,6 +34,13 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, StatsActivity::class.java)
             startActivity(intent)
         }
+
+
+        val display = windowManager.defaultDisplay
+        val metricsB = DisplayMetrics()
+        display.getMetrics(metricsB)
+        fieldData.initBaseSize(metricsB.widthPixels / 10 - 1,
+            metricsB.heightPixels * 2 / 3 / 10)
 
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
         val fieldView = FieldView(this)
