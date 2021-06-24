@@ -7,6 +7,11 @@ class FieldData {
     var fieldSizeW = w
     var fieldSizeH = h
 
+    var startPlantsAmount = 0
+    var startHerbivoresAmount = 0
+    var startPredatorsAmount = 0
+    var startRatio = 0f
+
     var ratio = 1f
 
     fun initBaseSize(w: Int, h: Int) {

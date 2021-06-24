@@ -14,10 +14,16 @@ import vadiole.colorpicker.ColorPickerDialog
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        var prAm = fieldData.predatorsList.size
+
+        var prAm = fieldData.startPredatorsAmount
+        var plAm = fieldData.startPlantsAmount
+        var heAm = fieldData.startHerbivoresAmount
+        var fSize = fieldData.startRatio
+
+        /*var prAm = fieldData.predatorsList.size
         var plAm = fieldData.plantsList.size
         var heAm = fieldData.herbivoresList.size
-        var fSize = fieldData.ratio
+        var fSize = fieldData.ratio*/
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -51,7 +57,7 @@ class SettingsActivity : AppCompatActivity() {
         val plNumTxt = findViewById<EditText>(R.id.editText4)
         plNumTxt.setText(plAm.toString())
         findViewById<Button>(R.id.PlNumBtn).setOnClickListener {
-            plNumTxt.text.toString().toInt()
+            plAm = plNumTxt.text.toString().toInt()
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +77,10 @@ class SettingsActivity : AppCompatActivity() {
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
             fieldData.fillLists(prAm, heAm, plAm)
+            fieldData.startPredatorsAmount  = prAm
+            fieldData.startPlantsAmount = plAm
+            fieldData.startHerbivoresAmount = heAm
+            fieldData.startRatio = fSize
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
