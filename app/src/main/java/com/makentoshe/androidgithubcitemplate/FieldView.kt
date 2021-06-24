@@ -146,6 +146,7 @@ class FieldView(
         return true
     }
 
+    val shPr = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
 
     override fun onDraw(canvas: Canvas) {
         fieldSizeY = fieldSizeX * width / height * fieldData.fieldSizeH / fieldData.fieldSizeW
@@ -174,7 +175,7 @@ class FieldView(
             )
             painter.style = Paint.Style.FILL
 
-            painter.color = Color.GREEN
+            painter.color = shPr.getInt("PlColor", Color.GREEN)
             for (plant in plantsList) {
                 if (isPixelInField(plant.pos.x, plant.pos.y)) {
                     drawRect(
@@ -187,7 +188,7 @@ class FieldView(
                 }
             }
 
-            painter.color = Color.BLACK
+            painter.color = shPr.getInt("HeColor", Color.GREEN)
             for (herbivore in herbivoresList) {
                 if (isPixelInField(herbivore.pos.x, herbivore.pos.y)) {
                     matrix.reset()
@@ -199,7 +200,7 @@ class FieldView(
                     drawAnimal(canvas, herbivore.size / 2, matrix)
                 }
             }
-            painter.color = Color.RED
+            painter.color = shPr.getInt("PrColor", Color.RED)
 
             for (predator in predatorsList) {
                 if (isPixelInField(predator.pos.x, predator.pos.y)) {

@@ -4,20 +4,19 @@ import kotlin.math.*
 
 class PredatorV(
     var pos: Point,                         // Положение животного относительно левого верхнего угла поля
-    private val fieldOfView: Float,         // Область, в которой животное видит объекты (размер поля - 100)
-    private val speed: Float,               // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
-    baseRotationSpeed: Float,   // Скорость поворота
-    var size: Float,                        // Размеры животного относительно базовой модельки
+    val fieldOfView: Float,                 // Область, в которой животное видит объекты (размер поля - 100)
+    val speed: Float,                       // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
+    val baseRotationSpeed: Float,           // Скорость поворота
     var orientation: Float,                 // Угол поворота животного относительно горизонтальной оси
     val pointsForBreeding: Float            // Количество очков, необходимых для размножения
 ) {
-    private val rotationSpeed = baseRotationSpeed / size / size
+    var currentPoints = (-1..1).random().toFloat()    // Текущие очки
 
-    var currentPoints = 0F                  // Текущие очки
+    var size = 2 - 1 / (currentPoints + 5.75f)
     private val const = 1                   // Константа для подсчёта очков относительно веса
-
-    private val energyConsumptionPerUnit =
-        0.0001f * size * size * speed * fieldOfView / pointsForBreeding
+    private var rotationSpeed = baseRotationSpeed / size / size
+    private var energyConsumptionPerUnit =
+        0.0003f * size * size * speed * fieldOfView / pointsForBreeding
 
     private var dangle = orientation
     private var oldAngle = orientation
@@ -27,6 +26,7 @@ class PredatorV(
     var time = System.currentTimeMillis()
 
     private var rndTime = System.currentTimeMillis()
+    private var rndt = (fieldData.minStraightWalkTime..fieldData.maxStraightWalkTime).random()
 
     /* Основная функция класса, отвечающая за поведение
      * Возвращает координату съеденного объекта или (-1, -1), если никто не был съеден
@@ -127,7 +127,8 @@ class PredatorV(
             if (!isMoved) {
                 val dlen = speed * dt
                 var angle = orientation
-                val rndt = (900..10000).random()
+
+                rndt = (fieldData.minStraightWalkTime..fieldData.maxStraightWalkTime).random()
 
                 if (System.currentTimeMillis() - rndTime > rndt) {
                     rndTime = System.currentTimeMillis()
@@ -181,13 +182,14 @@ class PredatorV(
                     }
                 }
             }
+            resize()
         } else {
             rotate(dt)
 
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeW - 1 - size))
+                newY in (size..fieldData.fieldSizeH - 1 - size))
                 pos = Point(newX, newY)
         }
         return -1
@@ -203,8 +205,9 @@ class PredatorV(
     private fun rotate(dt: Float) {
         rndTime = System.currentTimeMillis()
 
-        if (orientation !in (oldAngle + dangle - 4 * PI.toFloat()..oldAngle + dangle + 4 * PI.toFloat())) {
-            orientation = oldAngle + dangle
+        if (orientation !in (oldAngle + dangle - 2 * PI.toFloat()..oldAngle + dangle + 2 * PI.toFloat())) {
+            orientation = 0f
+            oldAngle = 0f
             needToRotate = false
         }
 
@@ -216,5 +219,11 @@ class PredatorV(
                 orientation = oldAngle + dangle
                 needToRotate = false
             }
+    }
+
+    private fun resize() {
+        size = 2 - 1 / (currentPoints + 5.75f)
+        energyConsumptionPerUnit = 0.0003f * size * size * speed * fieldOfView / pointsForBreeding
+        rotationSpeed = baseRotationSpeed / (size * size)
     }
 }

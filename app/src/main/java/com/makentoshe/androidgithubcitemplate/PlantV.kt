@@ -6,8 +6,15 @@ package com.makentoshe.androidgithubcitemplate
 class Point(val x: Float, val y: Float)
 
 class PlantV(val pos: Point,        // Положение растения относительно левого верхнего угла
-             val size: Float,            // Размер растения (Размер поля - 100)
-             basePointsForEating: Float) // Кол-во очков, дающееся за съедение этого растения
+             var size: Float,            // Размер растения (Размер поля - 100)
+             private val basePointsForEating: Float) // Кол-во очков, дающееся за съедение этого растения
 {
-    val pointsForEating = basePointsForEating * size
+    var pointsForEating = basePointsForEating * size
+
+    var time = System.currentTimeMillis()
+    var rndTime = (1000..5000).random()
+
+    fun recalculatePoints() {
+        pointsForEating = basePointsForEating * size
+    }
 }

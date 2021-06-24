@@ -4,23 +4,23 @@ import kotlin.math.*
 
 class HerbivoreV(
     var pos: Point,                         // Положение животного относительно левого верхнего угла поля
-    private val fieldOfView: Float,         // Область, в которой животное видит объекты (размер поля - 100)
-    private val speed: Float,               // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
-    baseRotationSpeed: Float,   // Скорость поворота
-    var size: Float,                        // Размеры животного относительно базовой модельки
+    val fieldOfView: Float,                 // Область, в которой животное видит объекты (размер поля - 100)
+    val speed: Float,                       // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
+    val baseRotationSpeed: Float,           // Скорость поворота
     var orientation: Float,                 // Угол поворота животного относительно горизонтальной оси
     val pointsForBreeding: Float            // Количество очков, необходимых для размножения
 ) {
-    var currentPoints = 0F                  // Текущие очки
+    var currentPoints = (-1..1).random().toFloat()    // Текущие очки
 
-    private val rotationSpeed = baseRotationSpeed / size / size
-
-    private val energyConsumptionPerUnit =
-        0.00002f * size * size * speed * fieldOfView / pointsForBreeding
+    var size = 2 - 1 / (currentPoints + 5.75f)
+    private var rotationSpeed = baseRotationSpeed / size / size
+    private var energyConsumptionPerUnit =
+        0.0003f * size * size * speed * fieldOfView / pointsForBreeding
 
     var time = System.currentTimeMillis()
 
     private var rndTime = System.currentTimeMillis()
+    private var rndt = (fieldData.minStraightWalkTime..fieldData.maxStraightWalkTime).random()
 
     private var dangle = orientation
     private var oldAngle = orientation
@@ -35,7 +35,7 @@ class HerbivoreV(
         herbivores: MutableList<HerbivoreV>, // Список всех травоядных
         predators: MutableList<PredatorV>,   // Список всех хищников
         plants: MutableList<PlantV>,         // Список всех растений
-        speed1: Float                            // Время после прошлого перемещения
+        speed1: Float                        // Время после прошлого перемещения
     ): Int {
         val dt = (System.currentTimeMillis() - time) / 1000f * speed1
         time = System.currentTimeMillis()
@@ -93,17 +93,6 @@ class HerbivoreV(
                 if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
                     dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                 ) {
-                    var isHerbivoreFound = false
-                    for (herbivore in herbivores)
-                        if (length(
-                                pos.x + dx - herbivore.pos.x,
-                                pos.y + dy - herbivore.pos.y
-                            ) < size + herbivore.size && herbivore != this
-                        )
-                            isHerbivoreFound = true
-                    if (isHerbivoreFound)
-                        continue
-
                     minDstToPredator.len = minDst.len
                     minDstToPredator.index = minDst.index
                     minDstToPredator.angle = minDst.angle
@@ -142,18 +131,6 @@ class HerbivoreV(
                 if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
                     dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
                 ) {
-                    var isHerbivoreFound = false
-                    for (herbivore in herbivores)
-                        if (length(
-                                pos.x + dx - herbivore.pos.x,
-                                pos.y + dy - herbivore.pos.y
-                            ) < size + herbivore.size &&
-                            herbivore != this
-                        )
-                            isHerbivoreFound = true
-                    if (isHerbivoreFound)
-                        continue
-
                     if (length(
                             pos.x + dx - plant.pos.x,
                             pos.y + dy - plant.pos.y
@@ -242,7 +219,8 @@ class HerbivoreV(
             } else if (!isMoved) {
                 val dlen = speed * dt
                 var angle = orientation
-                val rndt = (900..10000).random()
+
+                rndt = (fieldData.minStraightWalkTime..fieldData.maxStraightWalkTime).random()
 
                 if (System.currentTimeMillis() - rndTime > rndt) {
                     rndTime = System.currentTimeMillis()
@@ -296,13 +274,14 @@ class HerbivoreV(
                     }
                 }
             }
+            resize()
         } else {
             rotate(dt)
 
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeW - 1 - size))
+                newY in (size..fieldData.fieldSizeH - 1 - size))
                 pos = Point(newX, newY)
         }
         return -1
@@ -321,8 +300,9 @@ class HerbivoreV(
     private fun rotate(dt: Float) {
         rndTime = System.currentTimeMillis()
 
-        if (orientation !in (oldAngle + dangle - 4 * PI.toFloat()..oldAngle + dangle + 4 * PI.toFloat())) {
-            orientation = oldAngle + dangle
+        if (orientation !in (oldAngle + dangle - 2 * PI.toFloat()..oldAngle + dangle + 2 * PI.toFloat())) {
+            orientation = 0f
+            oldAngle = 0f
             needToRotate = false
         }
 
@@ -334,5 +314,10 @@ class HerbivoreV(
                 orientation = oldAngle + dangle
                 needToRotate = false
             }
+    }
+    private fun resize() {
+        size = 2 - 1 / (currentPoints + 5.75f)
+        energyConsumptionPerUnit = 0.0003f * size * size * speed * fieldOfView / pointsForBreeding
+        rotationSpeed = baseRotationSpeed / (size * size)
     }
 }

@@ -8,9 +8,7 @@
     android:layout_width="match_parent"
     android:background="#EFB3FA">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,34 +18,23 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="78dp"
-        android:layout_height="27dp"
+        android:layout_height="35dp"
         android:text="Stats:"
-        android:textSize="20sp" />
-
-    <com.androidplot.xy.XYPlot
-        android:id="@+id/plot"
-        style="@style/APDefacto.Light"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:domainTitle="Time"
-        app:rangeTitle="N of herbivore"
-        app:title="quantity of herbivores" />
-
-
-    <com.androidplot.xy.XYPlot
-        android:id="@+id/plot2"
-        style="@style/APDefacto.Light"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:domainTitle="time"
-        app:rangeTitle="N of predator"
-        app:title="quantity of predators" />
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="29dp"
+        android:layout_height="30dp"
         android:text="Quantity of herbivores:"
+        android:textSize="20sp"
+        app:autoSizeMaxTextSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Average quantity:"
         android:textSize="20sp"
         app:autoSizeMaxTextSize="24sp" />
 
@@ -57,6 +44,36 @@
         android:layout_height="28dp"
         android:text="Quantity of predators:"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Average quantity:"
+        android:textSize="20sp"
+        app:autoSizeMaxTextSize="24sp" />
+
+
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/plot"
+        style="@style/APDefacto.Light"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        app:domainTitle="Time"
+        app:rangeTitle="N of herbivore"
+        app:title="Quantity of herbivores" />
+
+
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/plot2"
+        style="@style/APDefacto.Light"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        app:domainTitle="Time"
+        app:rangeTitle="N of predator"
+        app:title="Quantity of predators" />
+
+
 
 
     <Button

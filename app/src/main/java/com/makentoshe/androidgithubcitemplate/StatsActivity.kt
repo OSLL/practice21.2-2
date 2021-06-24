@@ -27,8 +27,7 @@ class StatsActivity : AppCompatActivity() {
 
         val backBtn = findViewById<Button>(R.id.BackBtn2)
         backBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         //тестовые массивы
@@ -44,7 +43,7 @@ class StatsActivity : AppCompatActivity() {
         val time : Array<Int> = fieldData.timeStats.toArray(fieldData.timeStats.herbivoresAmount)
 
         for (i in 0 until h.size)
-            time[i] = i
+            time[i] = (i + 1)
 
         var n1: Int = h.size
         var n2: Int = p.size
@@ -108,11 +107,17 @@ class StatsActivity : AppCompatActivity() {
         fun Quantity(herbivoreArray: Array<Int>, predatorArray: Array<Int>){
             var qntOfHerbivores : Int = herbivoreArray.last()
             var qntOfPredators : Int = predatorArray.last()
+            var averageQntH: Int = herbivoreArray.average().toInt()
+            var averageQntP : Int = predatorArray.average().toInt()
 
             var herbivores = findViewById<TextView>(R.id.textView2)
             herbivores.setText("Quantity of herbivores: $qntOfHerbivores")
             var predators = findViewById<TextView>(R.id.textView3)
             predators.setText("Quantity of predators: $qntOfPredators")
+            var average1 = findViewById<TextView>(R.id.textView4)
+            average1.setText("Average quantity: $averageQntH")
+            var average2 = findViewById<TextView>(R.id.textView5)
+            average2.setText("Average quantity: $averageQntP")
         }
 
         DrawGraphics(time, h, p)
