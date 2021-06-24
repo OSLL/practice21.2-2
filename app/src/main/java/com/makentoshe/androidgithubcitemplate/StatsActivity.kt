@@ -27,8 +27,7 @@ class StatsActivity : AppCompatActivity() {
 
         val backBtn = findViewById<Button>(R.id.BackBtn2)
         backBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         //тестовые массивы
