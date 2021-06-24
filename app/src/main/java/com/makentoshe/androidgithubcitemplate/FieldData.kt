@@ -11,8 +11,8 @@ class FieldData {
         if (ratio < 0.2)
             ratio = 0.2f
 
-        fieldSizeW = (fieldSizeW * ratio).toInt()
-        fieldSizeH = (fieldSizeH * ratio).toInt()
+        fieldSizeW = (100 * ratio).toInt()
+        fieldSizeH = (130 * ratio).toInt()
     }
 
     // Списки с животными и растениями
