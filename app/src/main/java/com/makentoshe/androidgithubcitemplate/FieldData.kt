@@ -1,7 +1,5 @@
 package com.makentoshe.androidgithubcitemplate
 
-import android.util.DisplayMetrics
-
 class FieldData {
     // Размеры поля
     private var w = 100
@@ -167,16 +165,31 @@ class FieldData {
     private var evoRatioForSpeed = 1f
     private var evoRatioForRSpeed = 1f
 
+    fun getEvolutionRatio(): Float {
+        return (evoRatioForSpeed + evoRatioForFOV + evoRatioForRSpeed) / 3
+    }
     fun setEvolutionRatio(ratio: Float) {
         setEvolutionRatioForFOV(ratio)
         setEvolutionRatioForSpeed(ratio)
         setEvolutionRatioForRSpeed(ratio)
     }
+
+    fun getEvolutionRatioForFOV(): Float {
+        return evoRatioForFOV
+    }
     fun setEvolutionRatioForFOV(ratio: Float) {
         evoRatioForFOV = ratio.coerceIn(0f..10f)
     }
+
+    fun getEvolutionRatioForSpeed(): Float {
+        return evoRatioForSpeed
+    }
     fun setEvolutionRatioForSpeed(ratio: Float) {
         evoRatioForSpeed = ratio.coerceIn(0f..10f)
+    }
+
+    fun getEvolutionRatioForRSpeed(): Float {
+        return evoRatioForRSpeed
     }
     fun setEvolutionRatioForRSpeed(ratio: Float) {
         evoRatioForRSpeed = ratio.coerceIn(0f..10f)
