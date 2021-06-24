@@ -5,14 +5,9 @@ class FieldData {
     var fieldSizeW = 100
     var fieldSizeH = 130
 
-    fun setFieldSize(newRatio: Float) {
-        var ratio = newRatio
-        
-        if (ratio < 0.2)
-            ratio = 0.2f
-
-        fieldSizeW = (100 * ratio).toInt()
-        fieldSizeH = (130 * ratio).toInt()
+    fun setFieldSize(ratio: Float) {
+        fieldSizeW = (100 * ratio.coerceAtLeast(0.2f)).toInt()
+        fieldSizeH = (130 * ratio.coerceAtLeast(0.2f)).toInt()
     }
 
     // Списки с животными и растениями
@@ -139,7 +134,7 @@ class FieldData {
 
     // Размножение растений
     private var time = System.currentTimeMillis()
-    private var SpawnTime = 1500
+    private var spawnTime = 1500
     private var maxPlantsAmount = 200
     private var spawnPlantsPerSpawnTime = 1
 
@@ -147,7 +142,7 @@ class FieldData {
         maxPlantsAmount = value.coerceIn(0..1000)
     }
     fun setSpawnTime(newTime: Int) {
-        SpawnTime = newTime.coerceAtLeast(100)
+        spawnTime = newTime.coerceAtLeast(100)
     }
     fun setPlantsPerSpawnTime(amount: Int) {
         spawnPlantsPerSpawnTime = amount.coerceIn(0..maxPlantsAmount)
@@ -273,7 +268,7 @@ class FieldData {
             )
         }
 
-        if (System.currentTimeMillis() - time > SpawnTime) {
+        if (System.currentTimeMillis() - time > spawnTime) {
             for (i in 0 until spawnPlantsPerSpawnTime) {
                 plantsList += PlantV(
                     Point(
