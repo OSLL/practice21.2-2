@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import kotlinx.android.synthetic.main.activity_settings.*
 import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 
@@ -132,5 +133,22 @@ class SettingsActivity : AppCompatActivity() {
                 .create()
                 .show(supportFragmentManager, "PrColorPicker")
         }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Размеры поля (ratio от 0 до много)
+        val fSize = findViewById<EditText>(R.id.editFSize)
+        plNumTxt.setText(shPr.getInt("fSize", 20).toString())
+        findViewById<Button>(R.id.FSizeBtn).setOnClickListener {
+            editor.apply {
+                putInt("PlNum", fSize.text.toString().toInt())
+            }.apply()
+            fieldData.setFieldSize(shPr.getInt("fSize", 20))
+        }
+
+    //TODO: 2. setStraightMovement(min, max) - устанавливает диапазон, из которого берётся случайное время, с которым животное будет двигаться непрерывно (так себе объяснил, проще просто увидеть). min и max в миллисекундах.
+    //TODO: 3. setMaxPlantAmount(value) - максимальное количество растений на поле
+    //TODO: 4. setSpawnTime(time) - на поле раз в какое-то время появляются в случайном месте растения. Функция позволяет регулировать это время
+    //TODO: 5. setPlantsPerSpawnTime(amount) - количество случайно появляющихся растений за время из п.4
+    //TODO: 6. (не функция) constantParameterAreSet - если true, то начальные животные (которые добавляются в настройках) будут иметь случайные, но одинаковые между собой характеристики
     }
 }

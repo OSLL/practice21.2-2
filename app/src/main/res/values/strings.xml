@@ -14,4 +14,6 @@
     <string name="set_predators_color">Set predators color</string>
     <string name="back">Back</string>
     <string name="restart_with_new_settings">Restart with new settings</string>
+    <string name="field_size">Field size:</string>
+    <string name="_100">100</string>
 </resources>
