@@ -54,7 +54,7 @@ class StatsActivity : AppCompatActivity() {
             val series1NumberHerbivore = herbivoreArray
 
             val series1: XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberHerbivore), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
-            val series1Format = LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null)
+            val series1Format = LineAndPointFormatter(Color.BLUE, null, null, null)
             val plot1 = findViewById<XYPlot>(R.id.plot)
 
             series1Format.setInterpolationParams(CatmullRomInterpolator.Params(n1, CatmullRomInterpolator.Type.Centripetal))
@@ -70,7 +70,7 @@ class StatsActivity : AppCompatActivity() {
                     return null
                 }
             }
-            PanZoom.attach(plot1)
+           // PanZoom.attach(plot1)
 
             //second plot
 
@@ -78,7 +78,7 @@ class StatsActivity : AppCompatActivity() {
             val series1NumberPredator = predatorArray
 
             val series2: XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberPredator), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
-            val series2Format = LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null)
+            val series2Format = LineAndPointFormatter(Color.BLUE, null, null, null)
             val plot2 = findViewById<XYPlot>(R.id.plot2)
 
             series2Format.setInterpolationParams(CatmullRomInterpolator.Params(n2, CatmullRomInterpolator.Type.Centripetal))
@@ -99,7 +99,7 @@ class StatsActivity : AppCompatActivity() {
                     return null
                 }
             }
-            PanZoom.attach(plot2)
+           // PanZoom.attach(plot2)
         }
 
         //Quantity of minions

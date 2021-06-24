@@ -387,7 +387,7 @@ class FieldData {
         breedingIndicesHerbivore.clear()
         breedingIndicesPlant.clear()
 
-        if (ticksPassed == 10) {
+        if (ticksPassed == (24f / speed).toInt()) {
             timeStats.addTo(timeStats.herbivoresAmount, herbivoresList.size)
             timeStats.addTo(timeStats.predatorsAmount, predatorsList.size)
             timeStats.addTo(timeStats.plantsAmount, plantsList.size)
