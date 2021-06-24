@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         val zoomBar = findViewById<SeekBar>(R.id.seekBar)
         speedText.text = "1.0x"
 
-
         settingsBtn.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
@@ -37,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
         val fieldView = FieldView(this)
 
-        fieldView.setPosition(0.1f, 0.1f)
-        fieldView.setSize(0.8f)
+        fieldView.setPosition(0.01f, 0.01f)
+        fieldView.setSize(0.98f)
 
         val field = Field(fieldView)
 
@@ -58,16 +57,16 @@ class MainActivity : AppCompatActivity() {
             field.speedDecrease()
             speedText.text = "${field.speed}x"
         }
-        zoomBar.setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar : SeekBar, progress : Int, fromUser : Boolean) {
+        zoomBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 fieldView.setZoom(progress.toFloat())
             }
 
-            override fun  onStartTrackingTouch(seekBar : SeekBar) {
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
 
             }
 
-            override fun onStopTrackingTouch(seekBar : SeekBar) {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
 
             }
         })
@@ -77,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         val hC = shPrLoad.getInt("HerbNum", 20)
         val plC = shPrLoad.getInt("PlNum", 20)
 
-        fieldData.fillLists(prC,hC,plC)
+        fieldData.fillLists(prC, hC, plC)
         layout.addView(fieldView)
         field.setTick(1f)
         field.startProcess()
