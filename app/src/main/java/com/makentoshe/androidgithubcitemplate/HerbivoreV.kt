@@ -18,6 +18,7 @@ class HerbivoreV(
     var time = System.currentTimeMillis()
 
     private var rndTime = System.currentTimeMillis()
+    private var rndt = (fieldData.minStraightWalkTime..fieldData.maxStraightWalkTime).random()
 
     private var energyConsumptionPerUnit =
         0.0003f * size * size * speed * fieldOfView / pointsForBreeding
@@ -230,7 +231,8 @@ class HerbivoreV(
             } else if (!isMoved) {
                 val dlen = speed * dt
                 var angle = orientation
-                val rndt = (900..10000).random()
+
+                rndt = (fieldData.minStraightWalkTime..fieldData.maxStraightWalkTime).random()
 
                 if (System.currentTimeMillis() - rndTime > rndt) {
                     rndTime = System.currentTimeMillis()
@@ -327,6 +329,6 @@ class HerbivoreV(
     private fun resize() {
         size = 2 - 1 / (currentPoints + 5.75f)
         energyConsumptionPerUnit = 0.0003f * size * size * speed * fieldOfView / pointsForBreeding
-        rotationSpeed = baseRotationSpeed / (2 * size * size)
+        rotationSpeed = baseRotationSpeed / (size * size)
     }
 }

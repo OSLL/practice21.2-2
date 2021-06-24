@@ -11,6 +11,9 @@ class PlantV(val pos: Point,        // Положение растения от�
 {
     var pointsForEating = basePointsForEating * size
 
+    var time = System.currentTimeMillis()
+    var rndTime = (1000..5000).random()
+
     fun recalculatePoints() {
         pointsForEating = basePointsForEating * size
     }
