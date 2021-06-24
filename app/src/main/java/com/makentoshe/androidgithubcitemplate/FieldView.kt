@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.DragEvent
 import android.view.MotionEvent
 import android.view.View
-import java.lang.Math.sqrt
 
 class FieldView(
     context: Context,
@@ -127,7 +126,7 @@ class FieldView(
     override fun onDraw(canvas: Canvas) {
         fieldSizeY = fieldSizeX * width / height * fieldData.fieldSizeH / fieldData.fieldSizeW
         canvas.apply {
-            val rectWidth: Float = width * fieldSizeX.toFloat() / fieldData.fieldSizeW.toFloat() * zoom
+            val rectWidth: Float = width * fieldSizeX / fieldData.fieldSizeW.toFloat() * zoom
             val matrix = Matrix()
 
             painter.style = Paint.Style.STROKE

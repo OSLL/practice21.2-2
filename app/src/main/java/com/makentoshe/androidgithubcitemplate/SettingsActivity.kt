@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 
@@ -81,7 +79,6 @@ class SettingsActivity : AppCompatActivity() {
         var defaultPlColor = shPr.getInt("PlColor", Color.GREEN)
         var defaultHeColor = shPr.getInt("HeColor", Color.BLACK)
         var defaultPrColor = shPr.getInt("PrColor", Color.RED)
-        var tmpColor: Int
 
         //Пред становка цветов View
         findViewById<View>(R.id.PlView).setBackgroundColor(defaultPlColor)
