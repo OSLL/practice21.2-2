@@ -14,9 +14,9 @@ class PredatorV(
 
     var size = 2 - 1 / (currentPoints + 5.75f)
     private val const = 1                   // Константа для подсчёта очков относительно веса
-    private var rotationSpeed = baseRotationSpeed / size / size
+    private var rotationSpeed = baseRotationSpeed / size / size / 2
     private var energyConsumptionPerUnit =
-        0.0003f * size * size * speed * fieldOfView / pointsForBreeding
+        0.0003f * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
 
     private var dangle = orientation
     private var oldAngle = orientation
@@ -223,7 +223,7 @@ class PredatorV(
 
     private fun resize() {
         size = 2 - 1 / (currentPoints + 5.75f)
-        energyConsumptionPerUnit = 0.0003f * size * size * speed * fieldOfView / pointsForBreeding
+        energyConsumptionPerUnit = 0.0003f * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
         rotationSpeed = baseRotationSpeed / (size * size)
     }
 }

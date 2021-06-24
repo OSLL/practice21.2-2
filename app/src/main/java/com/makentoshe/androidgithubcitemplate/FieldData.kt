@@ -4,8 +4,8 @@ import android.util.DisplayMetrics
 
 class FieldData {
     // Размеры поля
-    var w = 100
-    var h = 130
+    private var w = 100
+    private var h = 130
     var fieldSizeW = w
     var fieldSizeH = h
 
@@ -162,6 +162,26 @@ class FieldData {
     // Все ли будут начинать с одинаковыми параметрами
     var constastParametersAreSet = false
 
+    // Эволюционный коэффициент
+    private var evoRatioForFOV = 1f
+    private var evoRatioForSpeed = 1f
+    private var evoRatioForRSpeed = 1f
+
+    fun setEvolutionRatio(ratio: Float) {
+        setEvolutionRatioForFOV(ratio)
+        setEvolutionRatioForSpeed(ratio)
+        setEvolutionRatioForRSpeed(ratio)
+    }
+    fun setEvolutionRatioForFOV(ratio: Float) {
+        evoRatioForFOV = ratio.coerceIn(0f..10f)
+    }
+    fun setEvolutionRatioForSpeed(ratio: Float) {
+        evoRatioForSpeed = ratio.coerceIn(0f..10f)
+    }
+    fun setEvolutionRatioForRSpeed(ratio: Float) {
+        evoRatioForRSpeed = ratio.coerceIn(0f..10f)
+    }
+
     fun update(speed: Float) {
 
         // Перемещение с добавлением индексов мёртвых объектов
@@ -214,9 +234,9 @@ class FieldData {
             }
 
         for (i in breedingIndicesPredator) {
-            val newFieldOfView = (predatorsList[i].fieldOfView + (-20..20).random() / 10f).coerceIn(0f..20f)
-            val newSpeed = (predatorsList[i].speed + (-10..10).random() / 10f).coerceIn(0f..10f)
-            val newBaseRotationSpeed = (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f).coerceIn(0f..10f)
+            val newFieldOfView = (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(0f)
+            val newSpeed = (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(0f)
+            val newBaseRotationSpeed = (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(0f)
             val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
 
             predatorsList += PredatorV(
@@ -230,9 +250,9 @@ class FieldData {
         }
 
         for (i in breedingIndicesHerbivore) {
-            val newFieldOfView = (herbivoresList[i].fieldOfView + (-20..20).random() / 10f).coerceIn(0f..20f)
-            val newSpeed = (herbivoresList[i].speed + (-10..10).random() / 10f).coerceIn(0f..10f)
-            val newBaseRotationSpeed = (herbivoresList[i].baseRotationSpeed + (-9..9).random() / 10f).coerceIn(0f..10f)
+            val newFieldOfView = (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(0f)
+            val newSpeed = (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(0f)
+            val newBaseRotationSpeed = (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(0f)
             val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
 
             herbivoresList += HerbivoreV(
