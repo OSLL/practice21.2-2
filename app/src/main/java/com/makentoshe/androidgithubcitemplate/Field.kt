@@ -10,8 +10,8 @@ class Field(
 
     private var go = true
     var speed = 1f
-    private var speeds = arrayOf(0.2f, 0.5f, 1f, 1.5f, 2f, 2.5f, 3f, 4f, 6f)
-    var speedIndex = 2
+    private var speeds = arrayOf(0.5f, 1f, 1.5f, 2f, 2.5f, 3f, 4f, 5f)
+    var speedIndex = 1
 
     private var tickLength = 50f
 
@@ -39,12 +39,14 @@ class Field(
         if (speedIndex > 0)
             speedIndex--
         speed = speeds[speedIndex]
+        fieldData.ticksPassed = 0
     }
 
     fun speedIncrease() {
         if (speedIndex < speeds.size - 1)
             speedIndex++
         speed = speeds[speedIndex]
+        fieldData.ticksPassed = 0
     }
 
     fun doFrame() {
