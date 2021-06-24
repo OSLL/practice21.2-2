@@ -77,6 +77,12 @@ class SettingsActivity : AppCompatActivity() {
         var defaultPlColor = shPr.getInt("PlColor", Color.GREEN)
         var defaultHeColor = shPr.getInt("HeColor", Color.BLACK)
         var defaultPrColor = shPr.getInt("PrColor", Color.RED)
+        var tmpColor: Int
+
+        //Пред становка цветов View
+        findViewById<View>(R.id.PlView).setBackgroundColor(defaultPlColor)
+        findViewById<View>(R.id.HeView).setBackgroundColor(defaultHeColor)
+        findViewById<View>(R.id.PrView).setBackgroundColor(defaultPrColor)
 
         findViewById<Button>(R.id.PlColorBtn).setOnClickListener{
             ColorPickerDialog.Builder()
@@ -90,6 +96,7 @@ class SettingsActivity : AppCompatActivity() {
                 .show(supportFragmentManager, "PlColorPicker")
 
             editor.apply{ putInt("PlColor", defaultPlColor) }.apply()
+            findViewById<View>(R.id.PlView).setBackgroundColor(defaultPlColor)
         }
 
         findViewById<Button>(R.id.HeColorBtn).setOnClickListener{
@@ -104,6 +111,7 @@ class SettingsActivity : AppCompatActivity() {
                 .show(supportFragmentManager, "HeColorPicker")
 
             editor.apply{ putInt("HeColor", defaultHeColor) }.apply()
+            findViewById<View>(R.id.HeView).setBackgroundColor(defaultHeColor)
         }
 
         findViewById<Button>(R.id.PrColorBtn).setOnClickListener{
@@ -118,10 +126,7 @@ class SettingsActivity : AppCompatActivity() {
                 .show(supportFragmentManager, "PrColorPicker")
 
             editor.apply{ putInt("PrColor", defaultPrColor) }.apply()
+            findViewById<View>(R.id.PrView).setBackgroundColor(defaultPrColor)
         }
-        //Установка цветов View
-        findViewById<View>(R.id.PlView).setBackgroundColor(defaultPlColor)
-        findViewById<View>(R.id.HeView).setBackgroundColor(defaultHeColor)
-        findViewById<View>(R.id.PrView).setBackgroundColor(defaultPrColor)
     }
 }
