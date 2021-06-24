@@ -281,7 +281,7 @@ class FieldView(
 
             path.reset()
             path.addCircle(0f, 0f, 100f, Path.Direction.CW)
-            painter.color = Color.rgb(255, 255, 0)
+            painter.color = Color.rgb(200, 100, 0)
             path.transform(matrix)
             canvas.drawPath(path, painter)
         }
