@@ -10,6 +10,7 @@ class TimeStatistic {
     public var herbivoresAmount = mutableListOf<Int>()
     public var plantsAmount = mutableListOf<Int>()
 
+
     private val statsAmount = 3
     private var statsWasSqueezed = 0
     private var length = 1
@@ -20,8 +21,10 @@ class TimeStatistic {
         if (k == 0)
             k = 1
         var array = Array<Int>(list.size / k){0}
-        for (i in array.indices)
+        for (i in (0..(array.size - 2)))
             array[i] = list[i * k]
+
+        array[array.lastIndex] = list[list.lastIndex]
         return array
     }
 
