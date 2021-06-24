@@ -57,6 +57,7 @@ class StatsActivity : AppCompatActivity() {
             val series1: XYSeries = SimpleXYSeries(Arrays.asList(* series1NumberHerbivore), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series 1")
             val series1Format = LineAndPointFormatter(Color.BLUE, Color.RED, null, null)
             val plot1 = findViewById<XYPlot>(R.id.plot)
+
             series1Format.setInterpolationParams(CatmullRomInterpolator.Params(n1, CatmullRomInterpolator.Type.Centripetal))
 
             plot1.addSeries(series1, series1Format)
@@ -107,11 +108,17 @@ class StatsActivity : AppCompatActivity() {
         fun Quantity(herbivoreArray: Array<Int>, predatorArray: Array<Int>){
             var qntOfHerbivores : Int = herbivoreArray.last()
             var qntOfPredators : Int = predatorArray.last()
+            var averageQntH: Int = herbivoreArray.average().toInt()
+            var averageQntP : Int = predatorArray.average().toInt()
 
             var herbivores = findViewById<TextView>(R.id.textView2)
             herbivores.setText("Quantity of herbivores: $qntOfHerbivores")
             var predators = findViewById<TextView>(R.id.textView3)
             predators.setText("Quantity of predators: $qntOfPredators")
+            var average1 = findViewById<TextView>(R.id.textView4)
+            average1.setText("Average quantity: $averageQntH")
+            var average2 = findViewById<TextView>(R.id.textView5)
+            average2.setText("Average quantity: $averageQntP")
         }
 
         DrawGraphics(time, h, p)
