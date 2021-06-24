@@ -24,6 +24,23 @@
         android:text="Stats:"
         android:textSize="20sp" />
 
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Quantity of herbivores:"
+        android:textSize="20sp"
+        app:autoSizeMaxTextSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Quantity of predators:"
+        android:textSize="20sp" />
+
+
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot"
         style="@style/APDefacto.Light"
@@ -43,21 +60,6 @@
         app:rangeTitle="N of predator"
         app:title="quantity of predators" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="29dp"
-        android:text="Quantity of herbivores:"
-        android:textSize="20sp"
-        app:autoSizeMaxTextSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:text="Quantity of predators:"
-        android:textSize="20sp" />
-
 
     <Button
         android:id="@+id/BackBtn2"
@@ -70,7 +72,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
 
 </LinearLayout>
 </ScrollView>
