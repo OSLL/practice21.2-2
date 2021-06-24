@@ -53,77 +53,62 @@ class FieldData {
     }
 
     /* Функции добавления в списки */
-    fun addHerbivores(amount: Int) {
-        for (i in 0 until amount)
-            herbivoresList += HerbivoreV(
-                Point(
-                    (2..fieldSizeW - 3).random().toFloat(),
-                    (2..fieldSizeH - 3).random().toFloat()
-                ),
-                (100..200).random().toFloat() / 10,
-                (50..70).random().toFloat() / 10,
-                (40..60).random().toFloat() / 10,
-                (20..35).random().toFloat() / 20,
-                0F,
-                2F
-            )
-    }
-
-    fun addPredators(amount: Int) {
-        for (i in 0 until amount)
-            predatorsList += PredatorV(
-                Point(
-                    (2..fieldSizeW - 3).random().toFloat(),
-                    (2..fieldSizeH - 3).random().toFloat()
-                ),
-                (100..200).random().toFloat() / 10,
-                (50..70).random().toFloat() / 10,
-                (40..60).random().toFloat() / 10,
-                (20..35).random().toFloat() / 20,
-                0F,
-                2F
-            )
-    }
-
-    fun addPlants(amount: Int) {
-        for (i in 0 until amount)
-            plantsList += PlantV(
-                Point(
-                    (2..fieldSizeW - 2).random().toFloat(),
-                    (2..fieldSizeH - 2).random().toFloat()
-                ),
-                (10..30).random().toFloat() / 20,
-                (5..30).random().toFloat() / 10
-            )
-    }
-
     fun fillLists(predatorsCount: Int, herbivoresCount: Int, plantsCount: Int) {
-        for (i in 0 until predatorsCount)
-            predatorsList += PredatorV(
-                Point(
-                    (2..fieldSizeW - 3).random().toFloat(),
-                    (2..fieldSizeH - 3).random().toFloat()
-                ),
-                (100..200).random().toFloat() / 10,
-                (50..70).random().toFloat() / 10,
-                (40..60).random().toFloat() / 10,
-                (20..35).random().toFloat() / 20,
-                0F,
-                2F
-            )
-        for (i in 0 until herbivoresCount) {
-            herbivoresList += HerbivoreV(
-                Point(
-                    (2..fieldSizeW - 3).random().toFloat(),
-                    (2..fieldSizeH - 3).random().toFloat()
-                ),
-                (100..200).random().toFloat() / 10,
-                (50..70).random().toFloat() / 10,
-                (40..60).random().toFloat() / 10,
-                (20..35).random().toFloat() / 20,
-                0F,
-                2F
-            )
+        if (!constastParametersAreSet) {
+            for (i in 0 until predatorsCount)
+                predatorsList += PredatorV(
+                    Point(
+                        (2..fieldSizeW - 3).random().toFloat(),
+                        (2..fieldSizeH - 3).random().toFloat()
+                    ),
+                    (100..200).random().toFloat() / 10,
+                    (50..70).random().toFloat() / 10,
+                    (40..60).random().toFloat() / 10,
+                    ((-314159265..314159265).random() / 200000000).toFloat(),
+                    2F
+                )
+            for (i in 0 until herbivoresCount)
+                herbivoresList += HerbivoreV(
+                    Point(
+                        (2..fieldSizeW - 3).random().toFloat(),
+                        (2..fieldSizeH - 3).random().toFloat()
+                    ),
+                    (100..200).random().toFloat() / 10,
+                    (50..70).random().toFloat() / 10,
+                    (40..60).random().toFloat() / 10,
+                    ((-314159265..314159265).random() / 200000000).toFloat(),
+                    2F
+                )
+        }
+        else {
+            val fieldOfView = (100..200).random().toFloat() / 10
+            val speed = (50..70).random().toFloat() / 10
+            val baseRotationSpeed = (40..60).random().toFloat() / 10
+
+            for (i in 0 until predatorsCount)
+                predatorsList += PredatorV(
+                    Point(
+                        (2..fieldSizeW - 3).random().toFloat(),
+                        (2..fieldSizeH - 3).random().toFloat()
+                    ),
+                    (100..200).random().toFloat() / 10,
+                    (50..70).random().toFloat() / 10,
+                    (40..60).random().toFloat() / 10,
+                    ((-314159265..314159265).random() / 200000000).toFloat(),
+                    2F
+                )
+            for (i in 0 until herbivoresCount)
+                herbivoresList += HerbivoreV(
+                    Point(
+                        (2..fieldSizeW - 3).random().toFloat(),
+                        (2..fieldSizeH - 3).random().toFloat()
+                    ),
+                    (100..200).random().toFloat() / 10,
+                    (50..70).random().toFloat() / 10,
+                    (40..60).random().toFloat() / 10,
+                    ((-314159265..314159265).random() / 200000000).toFloat(),
+                    2F
+                )
         }
         for (i in 0 until plantsCount)
             plantsList += PlantV(
@@ -136,22 +121,15 @@ class FieldData {
             )
     }
 
-    /* Настраиваемые переменные */
+    /* -----------------------------Настраиваемые переменные------------------------------- */
+    // Время до подсчёта новго пути
     var minStraightWalkTime = 1000
     var maxStraightWalkTime = 3000
 
     fun setStraightMovement(min_in_ms: Int, max_in_ms: Int) {
-        var min = min_in_ms
-        var max = max_in_ms
+        var min = min_in_ms.coerceIn(100..20000)
+        val max = max_in_ms.coerceIn(100..20000)
 
-        if (min < 100)
-            min = 100
-        if (min > 20000)
-            min = 20000
-        if (max < 100)
-            max = 100
-        if (max > 20000)
-            max = 20000
         if (min > max)
             min = max
 
@@ -166,33 +144,17 @@ class FieldData {
     private var spawnPlantsPerSpawnTime = 1
 
     fun setMaxPlantsAmount(value: Int) {
-        var valueTmp = value
-
-        if (valueTmp < 0)
-            valueTmp = 0
-        if (valueTmp > 1000)
-            valueTmp = 1000
-
-        maxPlantsAmount = valueTmp
+        maxPlantsAmount = value.coerceIn(0..1000)
     }
-    fun setSpawnTime(time_in_ms: Int) {
-        var timeTmp = time_in_ms
-
-        if (timeTmp < 100)
-            timeTmp = 100
-
-        SpawnTime = timeTmp
+    fun setSpawnTime(newTime: Int) {
+        SpawnTime = newTime.coerceAtLeast(100)
     }
     fun setPlantsPerSpawnTime(amount: Int) {
-        var valueTmp = amount
-
-        if (valueTmp < 0)
-            valueTmp = 0
-        if (valueTmp >= maxPlantsAmount)
-            valueTmp = maxPlantsAmount - 1
-
-        spawnPlantsPerSpawnTime = valueTmp
+        spawnPlantsPerSpawnTime = amount.coerceIn(0..maxPlantsAmount)
     }
+
+    // Все ли будут начинать с одинаковыми параметрами
+    var constastParametersAreSet = false
 
     fun update(speed: Float) {
 
@@ -245,27 +207,37 @@ class FieldData {
                 breedingIndicesHerbivore += i
             }
 
-        for (i in breedingIndicesPredator)
+        for (i in breedingIndicesPredator) {
+            val newFieldOfView = (predatorsList[i].fieldOfView + (-20..20).random() / 10f).coerceIn(0f..20f)
+            val newSpeed = (predatorsList[i].speed + (-10..10).random() / 10f).coerceIn(0f..10f)
+            val newBaseRotationSpeed = (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f).coerceIn(0f..10f)
+            val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
+
             predatorsList += PredatorV(
                 predatorsList[i].pos,
-                (100..200).random().toFloat() / 10,
-                (50..70).random().toFloat() / 10,
-                (40..60).random().toFloat() / 10,
-                (20..35).random().toFloat() / 20,
-                0F,
+                newFieldOfView,
+                newSpeed,
+                newBaseRotationSpeed,
+                newOrientation,
                 2F
             )
+        }
 
-        for (i in breedingIndicesHerbivore)
+        for (i in breedingIndicesHerbivore) {
+            val newFieldOfView = (herbivoresList[i].fieldOfView + (-20..20).random() / 10f).coerceIn(0f..20f)
+            val newSpeed = (herbivoresList[i].speed + (-10..10).random() / 10f).coerceIn(0f..10f)
+            val newBaseRotationSpeed = (herbivoresList[i].baseRotationSpeed + (-9..9).random() / 10f).coerceIn(0f..10f)
+            val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
+
             herbivoresList += HerbivoreV(
                 herbivoresList[i].pos,
-                (100..200).random().toFloat() / 10,
-                (50..70).random().toFloat() / 10,
-                (40..60).random().toFloat() / 10,
-                (20..35).random().toFloat() / 20,
-                0F,
+                newFieldOfView,
+                newSpeed,
+                newBaseRotationSpeed,
+                newOrientation,
                 2F
             )
+        }
 
         // Рост и размножение растений
         for (i in plantsList.indices)
