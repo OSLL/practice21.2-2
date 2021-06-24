@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -118,5 +119,9 @@ class SettingsActivity : AppCompatActivity() {
 
             editor.apply{ putInt("PrColor", defaultPrColor) }.apply()
         }
+        //Установка цветов View
+        findViewById<View>(R.id.PlView).setBackgroundColor(defaultPlColor)
+        findViewById<View>(R.id.HeView).setBackgroundColor(defaultHeColor)
+        findViewById<View>(R.id.PrView).setBackgroundColor(defaultPrColor)
     }
 }

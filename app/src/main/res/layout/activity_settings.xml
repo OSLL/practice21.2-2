@@ -227,27 +227,57 @@
         //Цвет растений
         <Button
             android:id="@+id/PlColorBtn"
-            android:layout_width="match_parent"
-            android:layout_height="37sp"
+            android:layout_width="0sp"
+            android:layout_height="50sp"
             app:layout_constraintTop_toBottomOf="@+id/textView6"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="60sp"
             android:text="Set plants color"/>
+        <View
+            android:id="@+id/PlView"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/PlColorBtn"
+            android:layout_marginTop="5sp"
+            android:layout_marginEnd="5sp"/>
         //Цвет травоядных
         <Button
             android:id="@+id/HeColorBtn"
             android:layout_width="match_parent"
-            android:layout_height="37sp"
+            android:layout_height="50sp"
             app:layout_constraintTop_toBottomOf="@+id/PlColorBtn"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="60sp"
             android:text="Set herbivores color"/>
+        <View
+            android:id="@+id/HeView"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/HeColorBtn"
+            android:layout_marginTop="5sp"
+            android:layout_marginEnd="5sp"/>
         //Цвет хищников
         <Button
             android:id="@+id/PrColorBtn"
             android:layout_width="match_parent"
-            android:layout_height="37sp"
+            android:layout_height="50sp"
             app:layout_constraintTop_toBottomOf="@+id/HeColorBtn"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="60sp"
             android:text="Set predators color"/>
+        <View
+            android:id="@+id/PrView"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/PrColorBtn"
+            android:layout_marginTop="5sp"
+            android:layout_marginEnd="5sp"/>
 
         //Back button
         <Button
