@@ -1,13 +1,24 @@
 package com.makentoshe.androidgithubcitemplate
 
+import android.util.DisplayMetrics
+
 class FieldData {
     // Размеры поля
-    var fieldSizeW = 100
-    var fieldSizeH = 130
+    var w = 100
+    var h = 130
+    var fieldSizeW = w
+    var fieldSizeH = h
+
+    fun initBaseSize(w: Int, h: Int) {
+        this.w = w
+        this.h = h
+        fieldSizeW = w
+        fieldSizeH = h
+    }
 
     fun setFieldSize(ratio: Float) {
-        fieldSizeW = (100 * ratio.coerceAtLeast(0.2f)).toInt()
-        fieldSizeH = (130 * ratio.coerceAtLeast(0.2f)).toInt()
+        fieldSizeW = (w * ratio.coerceAtLeast(0.2f)).toInt()
+        fieldSizeH = (h * ratio.coerceAtLeast(0.2f)).toInt()
     }
 
     // Списки с животными и растениями
