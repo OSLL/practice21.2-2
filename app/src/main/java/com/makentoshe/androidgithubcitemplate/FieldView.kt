@@ -36,7 +36,8 @@ class FieldView(
         fieldSizeX = size
     }
 
-    fun setZoom(newZoom : Float){
+    fun setZoom(seekBarProgress : Float){
+        var newZoom = (seekBarProgress * seekBarProgress) / 10000 * (fieldData.fieldSizeH / 50) + 1
         var zoomChange = newZoom / zoom
         zoom = newZoom
 
@@ -160,7 +161,7 @@ class FieldView(
                 startY * height + fieldSizeY * height,
                 painter
             )
-            painter.color = Color.rgb(162, 195, 232)
+            painter.color = Color.rgb(220, 230, 255)
             drawGridAt(
                 startX * width,
                 startY * height,
@@ -168,7 +169,7 @@ class FieldView(
                 startY * height + fieldSizeY * height,
                 startXReal * width,
                 startYReal * height,
-                fieldSizeX * width / 10 * zoom,
+                fieldSizeX * width * zoom / (fieldData.fieldSizeH / 10),
                 canvas
             )
             painter.style = Paint.Style.FILL
@@ -252,13 +253,13 @@ class FieldView(
         canvas.apply {
             var xc = startX
             var yc = startY
-            while (xc < x2) {
-                if(xc > x1)
+            while (xc < x2 - 0.001) {
+                if(xc > x1 + 0.001)
                     drawLine(xc, y1, xc, y2, painter)
                 xc += size
             }
-            while (yc < y2) {
-                if(yc > y1)
+            while (yc < y2 - 0.001) {
+                if(yc > y1 + 0.001)
                     drawLine(x1, yc, x2, yc, painter)
                 yc += size
             }

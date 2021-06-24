@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
         zoomBar.setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar : SeekBar, progress : Int, fromUser : Boolean) {
-                fieldView.setZoom((progress * progress + 2500f) / 2500f)
+                fieldView.setZoom(progress.toFloat())
             }
 
             override fun  onStartTrackingTouch(seekBar : SeekBar) {
