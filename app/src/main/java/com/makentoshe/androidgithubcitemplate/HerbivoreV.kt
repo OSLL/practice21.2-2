@@ -281,8 +281,14 @@ class HerbivoreV(
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeH - 1 - size))
+                newY in (size..fieldData.fieldSizeH - 1 - size)) {
                 pos = Point(newX, newY)
+                for (plant in plants)
+                    if (length(newX - plant.pos.x, newY - plant.pos.y) < plant.size + size) {
+                        currentPoints += plant.pointsForEating
+                        return plants.indexOf(plant)
+                    }
+            }
         }
         return -1
     }

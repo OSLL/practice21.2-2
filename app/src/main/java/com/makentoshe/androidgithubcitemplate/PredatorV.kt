@@ -13,7 +13,7 @@ class PredatorV(
     var currentPoints = (-1..1).random().toFloat()    // Текущие очки
 
     var size = 2 - 1 / (currentPoints + 5.75f)
-    private val const = 1                   // Константа для подсчёта очков относительно веса
+    private val const = 1.5f                // Константа для подсчёта очков относительно веса
     private var rotationSpeed = baseRotationSpeed / size / size / 2
     private var energyConsumptionPerUnit =
     0.0003f * fieldData.hungerRatio * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
@@ -189,8 +189,14 @@ class PredatorV(
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeH - 1 - size))
+                newY in (size..fieldData.fieldSizeH - 1 - size)) {
                 pos = Point(newX, newY)
+                for (herbivore in herbivores)
+                    if (length(newX - herbivore.pos.x, newY - herbivore.pos.y) < herbivore.size + size) {
+                        currentPoints += herbivore.size * const
+                        return herbivores.indexOf(herbivore)
+                    }
+            }
         }
         return -1
     }
