@@ -175,29 +175,18 @@ class FieldView(
             )
             painter.style = Paint.Style.FILL
 
-            painter.color = shPr.getInt("PlColor", Color.GREEN)
             for (plant in plantsList) {
                 if (isPixelInField(plant.pos.x, plant.pos.y)) {
-                    if (isPixelInField(plant.pos.x, plant.pos.y)) {
                         matrix.reset()
                         matrix.preTranslate(
                             startXReal * width + rectWidth * plant.pos.x,
-                            startYReal * height + rectWidth * plant.pos.y
-                        )
+                            startYReal * height + rectWidth * plant.pos.y)
+
+                         painter.color = shPr.getInt("PlColor", Color.GREEN)
                         drawPlant(canvas, plant.size / 2, matrix)
                     }
-                    /*
-                    drawRect(
-                        startXReal * width + rectWidth * (plant.pos.x - plant.size),
-                        startYReal * height + rectWidth * (plant.pos.y - plant.size),
-                        startXReal * width + rectWidth * (plant.pos.x + plant.size),
-                        startYReal * height + rectWidth * (plant.pos.y + plant.size),
-                        painter
-                    )*/
-                }
             }
 
-            painter.color = shPr.getInt("HeColor", Color.GREEN)
             for (herbivore in herbivoresList) {
                 if (isPixelInField(herbivore.pos.x, herbivore.pos.y)) {
                     matrix.reset()
@@ -206,10 +195,10 @@ class FieldView(
                         startYReal * height + rectWidth * herbivore.pos.y
                     )
                     matrix.preRotate(herbivore.orientation / 3.14159f * 180f + 90f)
+                    painter.color = shPr.getInt("HeColor", Color.GREEN)
                     drawAnimal(canvas, herbivore.size / 2, matrix)
                 }
             }
-            painter.color = shPr.getInt("PrColor", Color.RED)
 
             for (predator in predatorsList) {
                 if (isPixelInField(predator.pos.x, predator.pos.y)) {
@@ -219,6 +208,7 @@ class FieldView(
                         startYReal * height + rectWidth * predator.pos.y
                     )
                     matrix.preRotate(predator.orientation / 3.14159f * 180f + 90f)
+                    painter.color = shPr.getInt("PrColor", Color.RED)
                     drawAnimal(canvas, predator.size / 2, matrix)
                 }
             }
@@ -283,7 +273,6 @@ class FieldView(
             path.addCircle(-86.6f, 50f, 100f, Path.Direction.CW)
             path.addCircle(-86.6f, -50f, 100f, Path.Direction.CW)
 
-            painter.color = Color.rgb(0, 210, 0)
             path.transform(matrix)
             canvas.drawPath(path, painter)
 
