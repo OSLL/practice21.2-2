@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 val fieldData = FieldData()
+var isFirst = true
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +37,16 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val display = windowManager.defaultDisplay
-        val metricsB = DisplayMetrics()
-        display.getMetrics(metricsB)
-        fieldData.initBaseSize(metricsB.widthPixels / 10 - 1,
-            metricsB.heightPixels * 2 / 3 / 10)
+        if (isFirst) {
+            val display = windowManager.defaultDisplay
+            val metricsB = DisplayMetrics()
+            display.getMetrics(metricsB)
+            fieldData.initBaseSize(
+                metricsB.widthPixels / 10 - 1,
+                metricsB.heightPixels * 2 / 3 / 10
+            )
+            isFirst = false
+        }
 
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
         val fieldView = FieldView(this)
