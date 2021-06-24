@@ -125,6 +125,11 @@ class FieldData {
                 (10..30).random().toFloat() / 20,
                 (5..30).random().toFloat() / 10
             )
+
+
+        timeStats.herbivoresAmount = mutableListOf<Int>()
+        timeStats.predatorsAmount = mutableListOf<Int>()
+        timeStats.plantsAmount = mutableListOf<Int>()
     }
 
     /* -----------------------------Настраиваемые переменные------------------------------- */
