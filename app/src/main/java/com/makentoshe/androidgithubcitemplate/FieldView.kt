@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.view.DragEvent
 import android.view.MotionEvent
 import android.view.View
-import java.lang.Math.sqrt
 
 class FieldView(
     context: Context,
@@ -30,6 +28,9 @@ class FieldView(
     private var predatorsList = mutableListOf<PredatorV>()
     private var herbivoresList = mutableListOf<HerbivoreV>()
     private var plantsList = mutableListOf<PlantV>()
+
+    var movingStartX = 0f
+    var movingStartY = 0f
 
     fun setSize(size: Float) {
         fieldSizeX = size
@@ -79,19 +80,41 @@ class FieldView(
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
             if (event.action == MotionEvent.ACTION_DOWN) {
-                var changeX = fieldSizeX / 2 - (event.x / width - startX)
-                var changeY = fieldSizeY / 2 - (event.y / height - startY)
-                val change = kotlin.math.sqrt(changeX * changeX + changeY * changeY)
-                val k = change / scrollSpeed
-                changeX /= k
-                changeY /= k
+                if (isPointInField(event.x, event.y)) {
+                    movingStartX = (event.x / width)
+                    movingStartY = (event.y / height)
+                }
+                else{
+                    movingStartX = -1f
+                }
+            }
 
-                startXReal += changeX
-                startYReal += changeY
+            if (event.action == MotionEvent.ACTION_MOVE){
+                if (isPointInField(event.x, event.y)) {
+                    if (movingStartX != -1f) {
+                        startXReal += event.x / width - movingStartX
+                        startYReal += event.y / height - movingStartY
+                        movingStartX = event.x / width
+                        movingStartY = event.y / height
+                    }
+                    else{
+                        movingStartX = (event.x / width)
+                        movingStartY = (event.y / height)
+                    }
+                }
+                else{
+                    movingStartX = -1f
+                }
                 callibrate()
             }
         }
-        return super.onTouchEvent(event)
+        return true
+    }
+
+    fun isPointInField(x : Float, y : Float) : Boolean{
+        if (x < startX * width || y < startY * height || x > (startX+ fieldSizeX) * width || y > (startY + fieldSizeY) * height)
+            return false
+        return true
     }
 
 
@@ -107,7 +130,7 @@ class FieldView(
             startYReal = startY
     }
 
-    fun isInField(x : Float, y : Float) : Boolean{
+    fun isPixelInField(x : Float, y : Float) : Boolean{
         var xIn1 = x / fieldData.fieldSizeW
         var yIn1 = y / fieldData.fieldSizeH
 
@@ -152,7 +175,7 @@ class FieldView(
 
             painter.color = Color.GREEN
             for (plant in plantsList) {
-                if (isInField(plant.pos.x, plant.pos.y)) {
+                if (isPixelInField(plant.pos.x, plant.pos.y)) {
                     drawRect(
                         startXReal * width + rectWidth * (plant.pos.x - plant.size),
                         startYReal * height + rectWidth * (plant.pos.y - plant.size),
@@ -165,7 +188,7 @@ class FieldView(
 
             painter.color = Color.BLACK
             for (herbivore in herbivoresList) {
-                if (isInField(herbivore.pos.x, herbivore.pos.y)) {
+                if (isPixelInField(herbivore.pos.x, herbivore.pos.y)) {
                     matrix.reset()
                     matrix.preTranslate(
                         startXReal * width + rectWidth * herbivore.pos.x,
@@ -178,7 +201,7 @@ class FieldView(
             painter.color = Color.RED
 
             for (predator in predatorsList) {
-                if (isInField(predator.pos.x, predator.pos.y)) {
+                if (isPixelInField(predator.pos.x, predator.pos.y)) {
                     matrix.reset()
                     matrix.preTranslate(
                         startXReal * width + rectWidth * predator.pos.x,
@@ -203,10 +226,10 @@ class FieldView(
 
             val path = Path()
             path.fillType = Path.FillType.EVEN_ODD
-            path.moveTo(-173f, -100f)
+            path.moveTo(-129f, -149f)
             path.lineTo(0f, -300f)
-            path.lineTo(173f, -100f)
-            path.lineTo(-173f, -100f)
+            path.lineTo(129f, -149f)
+            path.lineTo(-129f, -149f)
             path.transform(matrix)
             canvas.drawPath(path, painter)
             path.reset()
