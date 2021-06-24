@@ -6,16 +6,15 @@ class PredatorV(
     var pos: Point,                         // Положение животного относительно левого верхнего угла поля
     val fieldOfView: Float,                 // Область, в которой животное видит объекты (размер поля - 100)
     val speed: Float,                       // Скорость, с которой двигается животное (единицы в установленный промежуток) (размер поля - 100)
-    private val baseRotationSpeed: Float,   // Скорость поворота
-    var size: Float,                        // Размеры животного относительно базовой модельки
+    val baseRotationSpeed: Float,           // Скорость поворота
     var orientation: Float,                 // Угол поворота животного относительно горизонтальной оси
     val pointsForBreeding: Float            // Количество очков, необходимых для размножения
 ) {
-    private var rotationSpeed = baseRotationSpeed / size / size
+    var currentPoints = (-1..1).random().toFloat()    // Текущие очки
 
-    var currentPoints = 0F                  // Текущие очки
+    var size = 2 - 1 / (currentPoints + 5.75f)
     private val const = 1                   // Константа для подсчёта очков относительно веса
-
+    private var rotationSpeed = baseRotationSpeed / size / size
     private var energyConsumptionPerUnit =
         0.0003f * size * size * speed * fieldOfView / pointsForBreeding
 
@@ -206,8 +205,9 @@ class PredatorV(
     private fun rotate(dt: Float) {
         rndTime = System.currentTimeMillis()
 
-        if (orientation !in (oldAngle + dangle - 4 * PI.toFloat()..oldAngle + dangle + 4 * PI.toFloat())) {
-            orientation = oldAngle + dangle
+        if (orientation !in (oldAngle + dangle - 2 * PI.toFloat()..oldAngle + dangle + 2 * PI.toFloat())) {
+            orientation = 0f
+            oldAngle = 0f
             needToRotate = false
         }
 
