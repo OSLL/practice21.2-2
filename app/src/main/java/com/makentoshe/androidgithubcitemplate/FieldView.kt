@@ -155,6 +155,7 @@ class FieldView(
             val matrix = Matrix()
 
             painter.style = Paint.Style.STROKE
+            painter.color = Color.rgb(0, 0, 0)
             drawRect(
                 startX * width,
                 startY * height,
@@ -162,7 +163,7 @@ class FieldView(
                 startY * height + fieldSizeY * height,
                 painter
             )
-            painter.color = Color.rgb(220, 230, 255)
+            painter.color = Color.rgb(200, 200, 200)
             drawGridAt(
                 startX * width,
                 startY * height,
@@ -242,7 +243,7 @@ class FieldView(
             path.reset()
             path.addCircle(-100f, -100f, 50f, Path.Direction.CW)
             path.addCircle(100f, -100f, 50f, Path.Direction.CW)
-            painter.color = Color.WHITE
+            painter.color = Color.rgb(255, 255, 255)
             path.transform(matrix)
             canvas.drawPath(path, painter)
 
@@ -273,13 +274,14 @@ class FieldView(
             path.addCircle(-86.6f, 50f, 100f, Path.Direction.CW)
             path.addCircle(-86.6f, -50f, 100f, Path.Direction.CW)
 
+            painter.color = Color.rgb(0, 155, 0)
             path.transform(matrix)
             canvas.drawPath(path, painter)
 
 
             path.reset()
             path.addCircle(0f, 0f, 100f, Path.Direction.CW)
-            painter.color = Color.rgb(200, 100, 0)
+            painter.color = Color.rgb(255, 255, 0)
             path.transform(matrix)
             canvas.drawPath(path, painter)
         }

@@ -300,15 +300,15 @@ class FieldData {
 
         for (i in breedingIndicesHerbivore) {
             val newFieldOfView =
-                (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
+                (herbivoresList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
                     0f
                 )
             val newSpeed =
-                (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
+                (herbivoresList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
                     0f
                 )
             val newBaseRotationSpeed =
-                (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
+                (herbivoresList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
                     0f
                 )
             val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
