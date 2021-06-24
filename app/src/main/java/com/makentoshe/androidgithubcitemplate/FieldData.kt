@@ -5,9 +5,14 @@ class FieldData {
     var fieldSizeW = 100
     var fieldSizeH = 130
 
-    fun setFieldSize(width: Int, height: Int) {
-        fieldSizeW = width
-        fieldSizeH = height
+    fun setFieldSize(newRatio: Float) {
+        var ratio = newRatio
+        
+        if (ratio < 0.2)
+            ratio = 0.2f
+
+        fieldSizeW = (fieldSizeW * ratio).toInt()
+        fieldSizeH = (fieldSizeH * ratio).toInt()
     }
 
     // Списки с животными и растениями
