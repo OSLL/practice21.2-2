@@ -86,8 +86,7 @@ class FieldData {
                     ((-314159265..314159265).random() / 200000000).toFloat(),
                     2F
                 )
-        }
-        else {
+        } else {
             val fieldOfView = (100..200).random().toFloat() / 10
             val speed = (50..70).random().toFloat() / 10
             val baseRotationSpeed = (40..60).random().toFloat() / 10
@@ -150,24 +149,26 @@ class FieldData {
     private var maxPlantsAmount = 200
     private var spawnPlantsPerSpawnTime = 1
 
-    fun getMaxPlantAmount(): Int{
+    fun getMaxPlantAmount(): Int {
         return maxPlantsAmount
     }
 
-    fun getSpawnTime(): Int{
+    fun getSpawnTime(): Int {
         return spawnTime
     }
 
-    fun getSpawnPlantsPerSpawnTime(): Int{
+    fun getSpawnPlantsPerSpawnTime(): Int {
         return spawnPlantsPerSpawnTime
     }
 
     fun setMaxPlantsAmount(value: Int) {
         maxPlantsAmount = value.coerceIn(0..1000)
     }
+
     fun setSpawnTime(newTime: Int) {
         spawnTime = newTime.coerceAtLeast(100)
     }
+
     fun setPlantsPerSpawnTime(amount: Int) {
         spawnPlantsPerSpawnTime = amount.coerceIn(0..maxPlantsAmount)
     }
@@ -183,6 +184,7 @@ class FieldData {
     fun getEvolutionRatio(): Float {
         return (evoRatioForSpeed + evoRatioForFOV + evoRatioForRSpeed) / 3
     }
+
     fun setEvolutionRatio(ratio: Float) {
         setEvolutionRatioForFOV(ratio)
         setEvolutionRatioForSpeed(ratio)
@@ -192,6 +194,7 @@ class FieldData {
     fun getEvolutionRatioForFOV(): Float {
         return evoRatioForFOV
     }
+
     fun setEvolutionRatioForFOV(ratio: Float) {
         evoRatioForFOV = ratio.coerceIn(0f..10f)
     }
@@ -199,6 +202,7 @@ class FieldData {
     fun getEvolutionRatioForSpeed(): Float {
         return evoRatioForSpeed
     }
+
     fun setEvolutionRatioForSpeed(ratio: Float) {
         evoRatioForSpeed = ratio.coerceIn(0f..10f)
     }
@@ -206,8 +210,16 @@ class FieldData {
     fun getEvolutionRatioForRSpeed(): Float {
         return evoRatioForRSpeed
     }
+
     fun setEvolutionRatioForRSpeed(ratio: Float) {
         evoRatioForRSpeed = ratio.coerceIn(0f..10f)
+    }
+
+    // Коэффициент голода
+    var hungerRatio = 1f
+
+    fun setHungerRatiof(value: Float) {
+        hungerRatio = value.coerceAtLeast(0f)
     }
 
     fun update(speed: Float) {
@@ -262,9 +274,18 @@ class FieldData {
             }
 
         for (i in breedingIndicesPredator) {
-            val newFieldOfView = (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(0f)
-            val newSpeed = (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(0f)
-            val newBaseRotationSpeed = (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(0f)
+            val newFieldOfView =
+                (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
+                    0f
+                )
+            val newSpeed =
+                (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
+                    0f
+                )
+            val newBaseRotationSpeed =
+                (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
+                    0f
+                )
             val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
 
             predatorsList += PredatorV(
@@ -278,9 +299,18 @@ class FieldData {
         }
 
         for (i in breedingIndicesHerbivore) {
-            val newFieldOfView = (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(0f)
-            val newSpeed = (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(0f)
-            val newBaseRotationSpeed = (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(0f)
+            val newFieldOfView =
+                (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
+                    0f
+                )
+            val newSpeed =
+                (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
+                    0f
+                )
+            val newBaseRotationSpeed =
+                (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
+                    0f
+                )
             val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
 
             herbivoresList += HerbivoreV(
@@ -347,7 +377,7 @@ class FieldData {
         deathHerbivoresIndices.clear()
         deathPlantsIndices.clear()
         deathFromHungerIndicesPredators.clear()
-        
+
         breedingIndicesPredator.clear()
         breedingIndicesHerbivore.clear()
         breedingIndicesPlant.clear()
@@ -357,8 +387,7 @@ class FieldData {
             timeStats.addTo(timeStats.predatorsAmount, predatorsList.size)
             timeStats.addTo(timeStats.plantsAmount, plantsList.size)
             ticksPassed = 0
-        }
-        else
+        } else
             ticksPassed++
     }
 }

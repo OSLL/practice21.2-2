@@ -15,7 +15,7 @@ class HerbivoreV(
     var size = 2 - 1 / (currentPoints + 5.75f)
     private var rotationSpeed = baseRotationSpeed / size / size
     private var energyConsumptionPerUnit =
-        0.0003f * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
+        0.0003f * fieldData.hungerRatio * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
 
     var time = System.currentTimeMillis()
 
@@ -317,7 +317,7 @@ class HerbivoreV(
     }
     private fun resize() {
         size = 2 - 1 / (currentPoints + 5.75f)
-        energyConsumptionPerUnit = 0.0003f * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
+        energyConsumptionPerUnit = 0.0003f * fieldData.hungerRatio * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
         rotationSpeed = baseRotationSpeed / (size * size)
     }
 }
