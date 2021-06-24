@@ -7,10 +7,10 @@ class FieldData {
     var fieldSizeW = w
     var fieldSizeH = h
 
-    var startPlantsAmount = 0
-    var startHerbivoresAmount = 0
-    var startPredatorsAmount = 0
-    var startRatio = 0f
+    var startPlantsAmount = 10
+    var startHerbivoresAmount = 5
+    var startPredatorsAmount = 3
+    var startRatio = 1f
 
     var ratio = 1f
 
