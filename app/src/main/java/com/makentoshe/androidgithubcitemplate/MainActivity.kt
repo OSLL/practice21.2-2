@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         if (isFirst) {
             val display = windowManager.defaultDisplay
             val metricsB = DisplayMetrics()
@@ -45,7 +44,6 @@ class MainActivity : AppCompatActivity() {
                 metricsB.widthPixels / 10 - 1,
                 metricsB.heightPixels * 2 / 3 / 10
             )
-            isFirst = false
         }
 
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
@@ -86,12 +84,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        val shPrLoad = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val prC = shPrLoad.getInt("PredNum", 5)
-        val hC = shPrLoad.getInt("HerbNum", 20)
-        val plC = shPrLoad.getInt("PlNum", 20)
-
-        fieldData.fillLists(prC, hC, plC)
+        if (isFirst) {
+            fieldData.fillLists(5, 5, 5)
+            isFirst = false
+        }
         layout.addView(fieldView)
         field.setTick(1f)
         field.startProcess()

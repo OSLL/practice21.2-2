@@ -7,6 +7,8 @@ class FieldData {
     var fieldSizeW = w
     var fieldSizeH = h
 
+    var ratio = 1f
+
     fun initBaseSize(w: Int, h: Int) {
         this.w = w
         this.h = h
@@ -17,6 +19,7 @@ class FieldData {
     fun setFieldSize(ratio: Float) {
         fieldSizeW = (w * ratio.coerceAtLeast(0.2f)).toInt()
         fieldSizeH = (h * ratio.coerceAtLeast(0.2f)).toInt()
+        this.ratio = ratio
     }
 
     // Списки с животными и растениями
@@ -146,6 +149,18 @@ class FieldData {
     private var spawnTime = 1500
     private var maxPlantsAmount = 200
     private var spawnPlantsPerSpawnTime = 1
+
+    fun getMaxPlantAmount(): Int{
+        return maxPlantsAmount
+    }
+
+    fun getSpawnTime(): Int{
+        return spawnTime
+    }
+
+    fun getSpawnPlantsPerSpawnTime(): Int{
+        return spawnPlantsPerSpawnTime
+    }
 
     fun setMaxPlantsAmount(value: Int) {
         maxPlantsAmount = value.coerceIn(0..1000)

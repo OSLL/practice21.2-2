@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">AndroidGithubCiTemplate</string>
+    <string name="predators_number">Predators number:</string>
+    <string name="settings">SETTINGS</string>
+    <string name="submit">Submit</string>
+    <string name="_5">5</string>
+    <string name="_1_0">1.0</string>
+    <string name="velocity_efficiency">Velocity/Efficiency:</string>
+    <string name="_20">20</string>
+    <string name="plants_number">Plants number:</string>
+    <string name="set_plants_color">Set plants color</string>
+    <string name="set_herbivores_color">Set herbivores color</string>
+    <string name="herbivores_number">Herbivores number:</string>
+    <string name="set_predators_color">Set predators color</string>
+    <string name="back">Back</string>
+    <string name="restart_with_new_settings">Restart with new settings</string>
+    <string name="field_size">Field size:</string>
+    <string name="_100">100</string>
 </resources>
