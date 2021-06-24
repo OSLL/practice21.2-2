@@ -178,13 +178,22 @@ class FieldView(
             painter.color = shPr.getInt("PlColor", Color.GREEN)
             for (plant in plantsList) {
                 if (isPixelInField(plant.pos.x, plant.pos.y)) {
+                    if (isPixelInField(plant.pos.x, plant.pos.y)) {
+                        matrix.reset()
+                        matrix.preTranslate(
+                            startXReal * width + rectWidth * plant.pos.x,
+                            startYReal * height + rectWidth * plant.pos.y
+                        )
+                        drawPlant(canvas, plant.size / 2, matrix)
+                    }
+                    /*
                     drawRect(
                         startXReal * width + rectWidth * (plant.pos.x - plant.size),
                         startYReal * height + rectWidth * (plant.pos.y - plant.size),
                         startXReal * width + rectWidth * (plant.pos.x + plant.size),
                         startYReal * height + rectWidth * (plant.pos.y + plant.size),
                         painter
-                    )
+                    )*/
                 }
             }
 
@@ -234,8 +243,54 @@ class FieldView(
             path.lineTo(-129f, -149f)
             path.transform(matrix)
             canvas.drawPath(path, painter)
+
             path.reset()
             path.addCircle(0f, 0f, 200f, Path.Direction.CW)
+            path.transform(matrix)
+            canvas.drawPath(path, painter)
+
+            path.reset()
+            path.addCircle(-100f, -100f, 50f, Path.Direction.CW)
+            path.addCircle(100f, -100f, 50f, Path.Direction.CW)
+            painter.color = Color.WHITE
+            path.transform(matrix)
+            canvas.drawPath(path, painter)
+
+            path.reset()
+            path.addCircle(-100f, -125f, 25f, Path.Direction.CW)
+            path.addCircle(100f, -125f, 25f, Path.Direction.CW)
+            painter.color = Color.BLACK
+            path.transform(matrix)
+            canvas.drawPath(path, painter)
+        }
+    }
+
+    private fun drawPlant(canvas: Canvas, size: Float, matrix: Matrix) {
+
+        canvas.apply {
+            matrix.preScale(1f / 100f, 1f / 100f)
+            matrix.preScale(
+                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width * zoom,
+                size / fieldData.fieldSizeW.toFloat() * fieldSizeX * width * zoom
+            )
+
+            val path = Path()
+            path.fillType = Path.FillType.WINDING
+            path.addCircle(0f, -100f, 100f, Path.Direction.CW)
+            path.addCircle(0f, 100f, 100f, Path.Direction.CW)
+            path.addCircle(86.6f, 50f, 100f, Path.Direction.CW)
+            path.addCircle(86.6f, -50f, 100f, Path.Direction.CW)
+            path.addCircle(-86.6f, 50f, 100f, Path.Direction.CW)
+            path.addCircle(-86.6f, -50f, 100f, Path.Direction.CW)
+
+            painter.color = Color.rgb(0, 210, 0)
+            path.transform(matrix)
+            canvas.drawPath(path, painter)
+
+
+            path.reset()
+            path.addCircle(0f, 0f, 100f, Path.Direction.CW)
+            painter.color = Color.rgb(200, 100, 0)
             path.transform(matrix)
             canvas.drawPath(path, painter)
         }
