@@ -65,7 +65,11 @@ class FieldData {
     }
 
     /* Функции добавления в списки */
-    fun fillLists(predatorsCount: Int, herbivoresCount: Int, plantsCount: Int) {
+    fun fillLists(newPredatorsCount: Int, newHerbivoresCount: Int, newPlantsCount: Int) {
+        val predatorsCount = newPredatorsCount.coerceIn(0..1000)
+        val herbivoresCount = newHerbivoresCount.coerceIn(0..1000)
+        val plantsCount = newPlantsCount.coerceIn(0..maxPlantsAmount)
+
         if (!constastParametersAreSet) {
             for (i in 0 until predatorsCount)
                 predatorsList += PredatorV(
