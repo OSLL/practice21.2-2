@@ -25,4 +25,7 @@
     <string name="plants_spawn_dt_ms">Plantsspawn dt(ms):</string>
     <string name="common_evolution_ratio">Common evolution ratio:</string>
     <string name="plants_spawning_in_dt">Plants spawning in dt:</string>
+    <string name="fov_evolution_ratio">FOV evolution ratio:</string>
+    <string name="speed_evolution_ratio">Speed evolution ratio:</string>
+    <string name="rspeed_evolution_ratio">RSpeed evolution ratio:</string>
 </resources>

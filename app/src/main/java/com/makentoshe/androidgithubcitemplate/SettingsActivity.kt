@@ -24,6 +24,9 @@ class SettingsActivity : AppCompatActivity() {
         var plSpawnTime = fieldData.getSpawnTime()
         var plSpawnNum = fieldData.getSpawnPlantsPerSpawnTime()
         var comEvRatio = fieldData.getEvolutionRatio()
+        var fovEvRatio = fieldData.getEvolutionRatioForFOV()
+        var rsEvRatio = fieldData.getEvolutionRatioForRSpeed()
+        var sEvRatio = fieldData.getEvolutionRatioForSpeed()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -62,6 +65,18 @@ class SettingsActivity : AppCompatActivity() {
         //Common evolution ratio
         val ratioTxt = findViewById<EditText>(R.id.RatioEdit)
         ratioTxt.setText(comEvRatio.toString())
+
+        //FOV evolution ratio
+        val fovRatioTxt = findViewById<EditText>(R.id.FOVRatioEdit)
+        fovRatioTxt.setText(fovEvRatio.toString())
+
+        //RSpeed evolution ratio
+        val rsRatioTxt = findViewById<EditText>(R.id.RSRatioEdit)
+        rsRatioTxt.setText(rsEvRatio.toString())
+
+        //RSpeed evolution ratio
+        val sRatioTxt = findViewById<EditText>(R.id.SRatioEdit)
+        sRatioTxt.setText(sEvRatio.toString())
 
 //SeekBars' data
         var maxSWT = fieldData.maxStraightWalkTime
@@ -113,6 +128,9 @@ class SettingsActivity : AppCompatActivity() {
             plSpawnTime = plSpawnTimeTxt.text.toString().toInt()
             plSpawnNum = plSpawnNumTxt.text.toString().toInt()
             comEvRatio = ratioTxt.text.toString().toFloat()
+            fovEvRatio = fovRatioTxt.text.toString().toFloat()
+            rsEvRatio = rsRatioTxt.text.toString().toFloat()
+            sEvRatio = sRatioTxt.text.toString().toFloat()
 
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
@@ -126,6 +144,10 @@ class SettingsActivity : AppCompatActivity() {
             fieldData.setSpawnTime(plSpawnTime)
             fieldData.setPlantsPerSpawnTime(plSpawnNum)
             fieldData.setEvolutionRatio(comEvRatio)
+            fieldData.setEvolutionRatioForFOV(fovEvRatio)
+            fieldData.setEvolutionRatioForRSpeed(rsEvRatio)
+            fieldData.setEvolutionRatioForSpeed(sEvRatio)
+
 
             startActivity(Intent(this, MainActivity::class.java))
             finish()
