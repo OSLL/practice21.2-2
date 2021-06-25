@@ -1,10 +1,9 @@
 package com.makentoshe.androidgithubcitemplate
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +13,7 @@ val fieldData = FieldData()
 var isFirst = true
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
                 metricsB.widthPixels / 10 - 1,
                 metricsB.heightPixels * 2 / 3 / 10
             )
+            stopButton.isEnabled = true
+            startButton.isEnabled = false
         }
 
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
@@ -56,9 +58,13 @@ class MainActivity : AppCompatActivity() {
         val field = Field(fieldView)
 
         stopButton.setOnClickListener {
+            stopButton.isEnabled = false
+            startButton.isEnabled = true
             field.stopProcess()
         }
         startButton.setOnClickListener {
+            startButton.isEnabled = false
+            stopButton.isEnabled = true
             field.startProcess()
         }
 
