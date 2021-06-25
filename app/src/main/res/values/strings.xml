@@ -22,10 +22,12 @@
     <string name="_100ms">100ms</string>
     <string name="min_straight_walking_time_ms">Min straight walking time(ms):</string>
     <string name="max_straight_walking_time_ms">Max straight walking time(ms):</string>
-    <string name="plants_spawn_dt_ms">Plantsspawn dt(ms):</string>
+    <string name="plants_spawn_dt_ms">Plants spawn dt(ms):</string>
     <string name="common_evolution_ratio">Common evolution ratio:</string>
     <string name="plants_spawning_in_dt">Plants spawning in dt:</string>
     <string name="fov_evolution_ratio">FOV evolution ratio:</string>
     <string name="speed_evolution_ratio">Speed evolution ratio:</string>
     <string name="rspeed_evolution_ratio">RSpeed evolution ratio:</string>
+    <string name="hunger_ratio">Hunger ratio:</string>
+    <string name="creatures_will_have_the_same_parameters_on_start">Creatures will have the same parameters on start</string>
 </resources>

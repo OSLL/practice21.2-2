@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -27,6 +28,8 @@ class SettingsActivity : AppCompatActivity() {
         var fovEvRatio = fieldData.getEvolutionRatioForFOV()
         var rsEvRatio = fieldData.getEvolutionRatioForRSpeed()
         var sEvRatio = fieldData.getEvolutionRatioForSpeed()
+        var hRatio = fieldData.hungerRatio
+        var coParam = fieldData.constastParametersAreSet
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -78,6 +81,13 @@ class SettingsActivity : AppCompatActivity() {
         val sRatioTxt = findViewById<EditText>(R.id.SRatioEdit)
         sRatioTxt.setText(sEvRatio.toString())
 
+        //Hunger ratio
+        val hRatioTxt = findViewById<EditText>(R.id.HRatioEdit)
+        hRatioTxt.setText(hRatio.toString())
+
+        val coParamCB = findViewById<CheckBox>(R.id.CoParam)
+        coParamCB.setChecked(coParam)
+
 //SeekBars' data
         var maxSWT = fieldData.maxStraightWalkTime
         var minSWT = fieldData.minStraightWalkTime
@@ -114,11 +124,11 @@ class SettingsActivity : AppCompatActivity() {
         //TODO: 5. setPlantsPerSpawnTime(amount) - количество случайно появляющихся растений за время из п.4
         //TODO: 6. (не функция) constantParameterAreSet - если true, то начальные животные (которые добавляются в настройках) будут иметь случайные, но одинаковые между собой характеристики
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Выходы с экрана настроек с перезапуском MainActivity с новыми параметрами
+        // Выходы с экрана настроек с перезапуском MainActivity с отменой действия
         findViewById<Button>(R.id.BackBtn1).setOnClickListener {
             finish()
         }
-        // Выходы с экрана настроек с перезапуском MainActivity с отменой действия
+        // Выходы с экрана настроек с перезапуском MainActivity с новыми параметрами
         findViewById<Button>(R.id.AcceptBtn1).setOnClickListener {
             prAmount = predTxt.text.toString().toInt()
             heAmount = herbTxt.text.toString().toInt()
@@ -131,6 +141,8 @@ class SettingsActivity : AppCompatActivity() {
             fovEvRatio = fovRatioTxt.text.toString().toFloat()
             rsEvRatio = rsRatioTxt.text.toString().toFloat()
             sEvRatio = sRatioTxt.text.toString().toFloat()
+            hRatio = hRatioTxt.text.toString().toFloat()
+            coParam = coParamCB.isChecked
 
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
@@ -147,6 +159,8 @@ class SettingsActivity : AppCompatActivity() {
             fieldData.setEvolutionRatioForFOV(fovEvRatio)
             fieldData.setEvolutionRatioForRSpeed(rsEvRatio)
             fieldData.setEvolutionRatioForSpeed(sEvRatio)
+            fieldData.setHungerRatiof(hRatio)
+            fieldData.constastParametersAreSet = coParam
 
 
             startActivity(Intent(this, MainActivity::class.java))
