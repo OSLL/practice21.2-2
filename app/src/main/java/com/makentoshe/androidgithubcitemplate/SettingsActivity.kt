@@ -22,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         var fSize = fieldData.startRatio
         var maxPlAmount = fieldData.getMaxPlantAmount()
         var plSpawnTime = fieldData.getSpawnTime()
+        var plSpawnNum = fieldData.getSpawnPlantsPerSpawnTime()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -53,6 +54,9 @@ class SettingsActivity : AppCompatActivity() {
         val plSpawnTimeTxt = findViewById<EditText>(R.id.PlSpawnTimeEdit)
         plSpawnTimeTxt.setText(plSpawnTime.toString())
 
+        //Plants spawning in dt
+        val plSpawnNumTxt = findViewById<EditText>(R.id.PlSpawnNumEdit)
+        plSpawnNumTxt.setText(plSpawnNum.toString())
 
 //SeekBars' data
         var maxSWT = fieldData.maxStraightWalkTime
@@ -102,6 +106,7 @@ class SettingsActivity : AppCompatActivity() {
             plAmount = plNumTxt.text.toString().toInt()
             maxPlAmount = maxPlNumTxt.text.toString().toInt()
             plSpawnTime = plSpawnTimeTxt.text.toString().toInt()
+            plSpawnNum = plSpawnNumTxt.text.toString().toInt()
 
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
@@ -113,6 +118,7 @@ class SettingsActivity : AppCompatActivity() {
             fieldData.setStraightMovement(minSWT, maxSWT)
             fieldData.setMaxPlantsAmount(maxPlAmount)
             fieldData.setSpawnTime(plSpawnTime)
+            fieldData.setPlantsPerSpawnTime(plSpawnNum)
 
             startActivity(Intent(this, MainActivity::class.java))
             finish()
