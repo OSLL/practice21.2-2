@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 val fieldData = FieldData()
-var isFirst = true
+var isFirstRun = true
+var isPauseEnabled = false
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
@@ -37,7 +38,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        if (isFirst) {
+        stopButton.isEnabled = !isPauseEnabled
+        startButton.isEnabled = isPauseEnabled
+
+        if (isFirstRun) {
             val display = windowManager.defaultDisplay
             val metricsB = DisplayMetrics()
             display.getMetrics(metricsB)
@@ -45,8 +49,6 @@ class MainActivity : AppCompatActivity() {
                 metricsB.widthPixels / 10 - 1,
                 metricsB.heightPixels * 2 / 3 / 10
             )
-            stopButton.isEnabled = true
-            startButton.isEnabled = false
         }
 
         val layout = findViewById<FrameLayout>(R.id.frameLayout)
@@ -60,11 +62,13 @@ class MainActivity : AppCompatActivity() {
         stopButton.setOnClickListener {
             stopButton.isEnabled = false
             startButton.isEnabled = true
+            isPauseEnabled = true
             field.stopProcess()
         }
         startButton.setOnClickListener {
             startButton.isEnabled = false
             stopButton.isEnabled = true
+            isPauseEnabled = false
             field.startProcess()
         }
 
@@ -90,9 +94,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        if (isFirst) {
+        if (isFirstRun) {
             fieldData.fillLists(5, 5, 5)
-            isFirst = false
+            isFirstRun = false
         }
         layout.addView(fieldView)
         field.setTick(1f)
