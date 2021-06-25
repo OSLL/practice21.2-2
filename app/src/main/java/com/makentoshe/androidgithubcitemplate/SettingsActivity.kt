@@ -20,11 +20,7 @@ class SettingsActivity : AppCompatActivity() {
         var plAmount = fieldData.startPlantsAmount
         var heAmount = fieldData.startHerbivoresAmount
         var fSize = fieldData.startRatio
-
-        /*var prAmount = fieldData.predatorsList.size
-        var plAmount = fieldData.plantsList.size
-        var heAmountount = fieldData.herbivoresList.size
-        var fSize = fieldData.ratio*/
+        var maxPlAmount = fieldData.getMaxPlantAmount()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -44,9 +40,13 @@ class SettingsActivity : AppCompatActivity() {
         val fSizeTxt = findViewById<EditText>(R.id.FSEdit)
         fSizeTxt.setText(fSize.toString())
 
-        //Очки за съедение растения
+        //Количество растений
         val plNumTxt = findViewById<EditText>(R.id.PlNumEdit)
         plNumTxt.setText(plAmount.toString())
+
+        //
+        val maxPlNumTxt = findViewById<EditText>(R.id.MaxPlNumEdit)
+        maxPlNumTxt.setText(maxPlAmount.toString())
 
 
 //SeekBars' data
@@ -95,6 +95,7 @@ class SettingsActivity : AppCompatActivity() {
             heAmount = herbTxt.text.toString().toInt()
             fSize = fSizeTxt.text.toString().toFloat()
             plAmount = plNumTxt.text.toString().toInt()
+            maxPlAmount = maxPlNumTxt.text.toString().toInt()
 
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
@@ -104,6 +105,7 @@ class SettingsActivity : AppCompatActivity() {
             fieldData.startHerbivoresAmount = heAmount
             fieldData.startRatio = fSize
             fieldData.setStraightMovement(minSWT, maxSWT)
+            fieldData.setMaxPlantsAmount(maxPlAmount)
 
             startActivity(Intent(this, MainActivity::class.java))
             finish()

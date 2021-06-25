@@ -95,6 +95,21 @@
             tools:layout_editor_absoluteX="12dp"
             tools:layout_editor_absoluteY="159dp" />
 
+        //MaxPlantAmount
+        <TextView
+            android:id="@+id/MaxPlNumView"
+            android:layout_height="40dp"
+            android:layout_width="180dp"
+            android:text="@string/max_plants_number"
+            android:textColor="@color/cardview_dark_background"
+
+            android:textSize="20sp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/FSView"
+            tools:layout_editor_absoluteX="12dp"
+            tools:layout_editor_absoluteY="159dp" />
+
         //Predators number getter
         <EditText
             android:ems="10"
@@ -134,7 +149,7 @@
             tools:layout_editor_absoluteY="109dp"
             tools:ignore="Autofill,LabelFor" />
 
-        //Fsize getter
+        //FSize getter
         <EditText
             android:ems="10"
 
@@ -146,7 +161,7 @@
             android:text="@string/_1_0"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PlNumEdit"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/PlNumView"
             tools:ignore="Autofill,LabelFor" />
@@ -163,9 +178,26 @@
             android:text="@string/_20"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/HeNumEdit"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/HeNumEdit"
+            tools:ignore="Autofill,LabelFor" />
+
+        //Max plants number getter
+        <EditText
+            android:ems="10"
+
+            android:id="@+id/MaxPlNumEdit"
+            android:inputType="numberDecimal"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+
+            android:text="@string/_200"
+
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/FSEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Цвет растений
@@ -173,7 +205,7 @@
             android:id="@+id/PlColorBtn"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/FSView"
+            app:layout_constraintTop_toBottomOf="@+id/MaxPlNumView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="60dp"
@@ -230,7 +262,7 @@
             android:layout_height="61dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="4dp"
-            android:text="Max straight walking time(ms):"
+            android:text="@string/max_straight_walking_time_ms"
             android:textSize="12sp"
             android:textColor="@color/cardview_dark_background"
             app:layout_constraintStart_toStartOf="parent"
@@ -247,14 +279,14 @@
         <TextView
             android:layout_width="45dp"
             android:layout_height="20dp"
-            android:text="100ms"
+            android:text="@string/_100ms"
             app:layout_constraintTop_toBottomOf="@+id/SWTMaxSeekBar"
             app:layout_constraintStart_toStartOf="@id/SWTMaxSeekBar"/>
         <TextView
             android:layout_width="64dp"
             android:layout_height="20dp"
             android:layout_marginEnd="1dp"
-            android:text="20000ms"
+            android:text="@string/_20000ms"
             app:layout_constraintTop_toBottomOf="@+id/SWTMaxSeekBar"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -264,7 +296,7 @@
             android:layout_width="180dp"
             android:layout_height="51dp"
             android:layout_marginStart="4dp"
-            android:text="Min straight walking time(ms):"
+            android:text="@string/min_straight_walking_time_ms"
             android:textSize="12sp"
             android:textColor="@color/cardview_dark_background"
             app:layout_constraintStart_toStartOf="parent"
@@ -281,14 +313,14 @@
         <TextView
             android:layout_width="45dp"
             android:layout_height="20dp"
-            android:text="100ms"
+            android:text="@string/_100ms"
             app:layout_constraintTop_toBottomOf="@+id/SWTMinSeekBar"
             app:layout_constraintStart_toStartOf="@id/SWTMinSeekBar"/>
         <TextView
             android:layout_width="64dp"
             android:layout_height="20dp"
             android:layout_marginEnd="1dp"
-            android:text="20000ms"
+            android:text="@string/_20000ms"
             app:layout_constraintTop_toBottomOf="@+id/SWTMinSeekBar"
             app:layout_constraintEnd_toEndOf="parent"/>
 
