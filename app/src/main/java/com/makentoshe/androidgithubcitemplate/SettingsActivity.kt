@@ -171,7 +171,7 @@ class SettingsActivity : AppCompatActivity() {
         val shPr = getSharedPreferences("Settings", MODE_PRIVATE)
         val editor = shPr.edit()
 
-        var defaultPlColor = shPr.getInt("PlColor", Color.GREEN)
+        var defaultPlColor = shPr.getInt("PlColor", Color.rgb(0, 100, 0))
         var defaultHeColor = shPr.getInt("HeColor", Color.BLACK)
         var defaultPrColor = shPr.getInt("PrColor", Color.RED)
 
