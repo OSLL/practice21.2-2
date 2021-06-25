@@ -37,7 +37,7 @@
 
             android:layout_height="40dp"
             android:layout_marginTop="18dp"
-            android:layout_width="170dp"
+            android:layout_width="200dp"
             android:text="@string/predators_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -53,7 +53,7 @@
             android:id="@+id/HeNumView"
 
             android:layout_height="40dp"
-            android:layout_width="180dp"
+            android:layout_width="200dp"
             android:text="@string/herbivores_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -69,7 +69,7 @@
         <TextView
             android:id="@+id/FSView"
             android:layout_height="40dp"
-            android:layout_width="180dp"
+            android:layout_width="200dp"
             android:text="@string/field_size"
             android:textColor="@color/cardview_dark_background"
 
@@ -84,7 +84,7 @@
         <TextView
             android:id="@+id/PlNumView"
             android:layout_height="40dp"
-            android:layout_width="180dp"
+            android:layout_width="200dp"
             android:text="@string/plants_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -99,7 +99,7 @@
         <TextView
             android:id="@+id/MaxPlNumView"
             android:layout_height="40dp"
-            android:layout_width="180dp"
+            android:layout_width="200dp"
             android:text="@string/max_plants_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -107,6 +107,21 @@
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/FSView"
+            tools:layout_editor_absoluteX="12dp"
+            tools:layout_editor_absoluteY="159dp" />
+
+        //Plants spawn time
+        <TextView
+            android:id="@+id/PlSpawnTimeView"
+            android:layout_height="40dp"
+            android:layout_width="200dp"
+            android:text="@string/plants_spawn_dt_ms"
+            android:textColor="@color/cardview_dark_background"
+
+            android:textSize="20sp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/MaxPlNumView"
             tools:layout_editor_absoluteX="12dp"
             tools:layout_editor_absoluteY="159dp" />
 
@@ -200,12 +215,29 @@
             app:layout_constraintTop_toBottomOf="@+id/FSEdit"
             tools:ignore="Autofill,LabelFor" />
 
+        //Plants spawn time setter
+        <EditText
+            android:ems="10"
+
+            android:id="@+id/PlSpawnTimeEdit"
+            android:inputType="numberDecimal"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+
+            android:text="@string/_200"
+
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/MaxPlNumEdit"
+            tools:ignore="Autofill,LabelFor" />
+
         //Цвет растений
         <Button
             android:id="@+id/PlColorBtn"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/MaxPlNumView"
+            app:layout_constraintTop_toBottomOf="@+id/PlSpawnTimeView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="60dp"

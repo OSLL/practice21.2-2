@@ -21,6 +21,7 @@ class SettingsActivity : AppCompatActivity() {
         var heAmount = fieldData.startHerbivoresAmount
         var fSize = fieldData.startRatio
         var maxPlAmount = fieldData.getMaxPlantAmount()
+        var plSpawnTime = fieldData.getSpawnTime()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -44,9 +45,13 @@ class SettingsActivity : AppCompatActivity() {
         val plNumTxt = findViewById<EditText>(R.id.PlNumEdit)
         plNumTxt.setText(plAmount.toString())
 
-        //
+        //Максимальное кол-во растений
         val maxPlNumTxt = findViewById<EditText>(R.id.MaxPlNumEdit)
         maxPlNumTxt.setText(maxPlAmount.toString())
+
+        //Plants spawn dt
+        val plSpawnTimeTxt = findViewById<EditText>(R.id.PlSpawnTimeEdit)
+        plSpawnTimeTxt.setText(plSpawnTime.toString())
 
 
 //SeekBars' data
@@ -96,6 +101,7 @@ class SettingsActivity : AppCompatActivity() {
             fSize = fSizeTxt.text.toString().toFloat()
             plAmount = plNumTxt.text.toString().toInt()
             maxPlAmount = maxPlNumTxt.text.toString().toInt()
+            plSpawnTime = plSpawnTimeTxt.text.toString().toInt()
 
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
@@ -106,6 +112,7 @@ class SettingsActivity : AppCompatActivity() {
             fieldData.startRatio = fSize
             fieldData.setStraightMovement(minSWT, maxSWT)
             fieldData.setMaxPlantsAmount(maxPlAmount)
+            fieldData.setSpawnTime(plSpawnTime)
 
             startActivity(Intent(this, MainActivity::class.java))
             finish()
