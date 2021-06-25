@@ -584,7 +584,8 @@
         <Button
             android:id="@+id/AcceptBtn1"
             android:layout_width="130dp"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/BackBtn1"
             app:layout_constraintTop_toTopOf="@id/BackBtn1"
             android:layout_marginStart="10dp"
