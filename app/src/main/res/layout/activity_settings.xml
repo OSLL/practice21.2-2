@@ -551,7 +551,7 @@
         <CheckBox
             android:id="@+id/CoParam"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="60dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="1dp"
             android:layout_marginTop="20dp"
