@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="#EFB3FA">
+    android:background="#dddddd">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -20,6 +20,7 @@
         android:layout_width="78dp"
         android:layout_height="35dp"
         android:text="Stats:"
+        android:textColor="@color/design_default_color_secondary_variant"
         android:textSize="26sp" />
 
     <TextView
@@ -80,7 +81,7 @@
         android:id="@+id/BackBtn2"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/back_button_right"
+        android:background="@drawable/back_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -1,16 +1,12 @@
 package com.makentoshe.androidgithubcitemplate
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.SeekBar
-import kotlinx.android.synthetic.main.activity_settings.*
+import android.widget.*
 import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 
@@ -86,14 +82,14 @@ class SettingsActivity : AppCompatActivity() {
         hRatioTxt.setText(hRatio.toString())
 
         val coParamCB = findViewById<CheckBox>(R.id.CoParam)
-        coParamCB.setChecked(coParam)
+        coParamCB.isChecked = coParam
 
 //SeekBars' data
         var maxSWT = fieldData.maxStraightWalkTime
         var minSWT = fieldData.minStraightWalkTime
 
         val seekBarMaxSWT = findViewById<SeekBar>(R.id.SWTMaxSeekBar)
-        seekBarMaxSWT.setProgress(((maxSWT-100f)/(20000-100f)*100).toInt())
+        seekBarMaxSWT.progress = ((maxSWT-100f)/(20000-100f)*100).toInt()
         seekBarMaxSWT.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 maxSWT = (100 + (progress/100f)*(20000-100)).toInt()
@@ -105,7 +101,7 @@ class SettingsActivity : AppCompatActivity() {
         })
 
         val seekBarMinSWT = findViewById<SeekBar>(R.id.SWTMinSeekBar)
-        seekBarMinSWT.setProgress(((minSWT-100f)/(20000-100f)*100).toInt())
+        seekBarMinSWT.progress = ((minSWT-100f)/(20000-100f)*100).toInt()
         seekBarMinSWT.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 minSWT = (100 + (progress/100f)*(20000-100)).toInt()

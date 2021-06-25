@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         if (isFirstRun) {
-            fieldData.fillLists(5, 5, 5)
+            fieldData.clearAll()
             isFirstRun = false
         }
         layout.addView(fieldView)
