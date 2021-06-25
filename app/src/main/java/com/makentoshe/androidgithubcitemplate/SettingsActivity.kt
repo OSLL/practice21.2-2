@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_settings.*
 import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
@@ -15,14 +16,14 @@ import vadiole.colorpicker.ColorPickerDialog
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        var prAm = fieldData.startPredatorsAmount
-        var plAm = fieldData.startPlantsAmount
-        var heAm = fieldData.startHerbivoresAmount
+        var prAmount = fieldData.startPredatorsAmount
+        var plAmount = fieldData.startPlantsAmount
+        var heAmount = fieldData.startHerbivoresAmount
         var fSize = fieldData.startRatio
 
-        /*var prAm = fieldData.predatorsList.size
-        var plAm = fieldData.plantsList.size
-        var heAm = fieldData.herbivoresList.size
+        /*var prAmount = fieldData.predatorsList.size
+        var plAmount = fieldData.plantsList.size
+        var heAmountount = fieldData.herbivoresList.size
         var fSize = fieldData.ratio*/
 
         super.onCreate(savedInstanceState)
@@ -31,34 +32,50 @@ class SettingsActivity : AppCompatActivity() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         //Количество хищников
         //Находим нужный editText
-        val predTxt = findViewById<EditText>(R.id.editText)
+        val predTxt = findViewById<EditText>(R.id.PrNumEdit)
         //Обеспечиваем вывод в editText'ах актуальных настроек
-        predTxt.setText(prAm.toString())
-        //  При нажатии на 'Btn': в SharedPreferences остаются строки с числовыми параметрами со своими Ключами(тэгами). Например: количество хищников
-        findViewById<Button>(R.id.PrNumBtn).setOnClickListener {
-            prAm = predTxt.text.toString().toInt()
-        }
+        predTxt.setText(prAmount.toString())
 
         //Количество травоядных
-        val herbTxt = findViewById<EditText>(R.id.editText2)
-        herbTxt.setText(heAm.toString())
-        findViewById<Button>(R.id.HeNumBtn).setOnClickListener {
-            heAm = herbTxt.text.toString().toInt()
-        }
+        val herbTxt = findViewById<EditText>(R.id.HeNumEdit)
+        herbTxt.setText(heAmount.toString())
 
         //Отношение изменения скорости к соответствующему изменению эффективности
-        val fSizeTxt = findViewById<EditText>(R.id.editText3)
+        val fSizeTxt = findViewById<EditText>(R.id.FSEdit)
         fSizeTxt.setText(fSize.toString())
-        findViewById<Button>(R.id.VEBtn).setOnClickListener {
-            fSize = fSizeTxt.text.toString().toFloat()
-        }
 
         //Очки за съедение растения
-        val plNumTxt = findViewById<EditText>(R.id.editText4)
-        plNumTxt.setText(plAm.toString())
-        findViewById<Button>(R.id.PlNumBtn).setOnClickListener {
-            plAm = plNumTxt.text.toString().toInt()
-        }
+        val plNumTxt = findViewById<EditText>(R.id.PlNumEdit)
+        plNumTxt.setText(plAmount.toString())
+
+
+//SeekBars' data
+        var maxSWT = fieldData.maxStraightWalkTime
+        var minSWT = fieldData.minStraightWalkTime
+
+        val seekBarMaxSWT = findViewById<SeekBar>(R.id.SWTMaxSeekBar)
+        seekBarMaxSWT.setProgress(((maxSWT-100f)/(20000-100f)*100).toInt())
+        seekBarMaxSWT.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                maxSWT = (100 + (progress/100f)*(20000-100)).toInt()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        val seekBarMinSWT = findViewById<SeekBar>(R.id.SWTMinSeekBar)
+        seekBarMinSWT.setProgress(((minSWT-100f)/(20000-100f)*100).toInt())
+        seekBarMinSWT.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                minSWT = (100 + (progress/100f)*(20000-100)).toInt()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,13 +91,20 @@ class SettingsActivity : AppCompatActivity() {
         }
         // Выходы с экрана настроек с перезапуском MainActivity с отменой действия
         findViewById<Button>(R.id.AcceptBtn1).setOnClickListener {
+            prAmount = predTxt.text.toString().toInt()
+            heAmount = herbTxt.text.toString().toInt()
+            fSize = fSizeTxt.text.toString().toFloat()
+            plAmount = plNumTxt.text.toString().toInt()
+
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
-            fieldData.fillLists(prAm, heAm, plAm)
-            fieldData.startPredatorsAmount  = prAm
-            fieldData.startPlantsAmount = plAm
-            fieldData.startHerbivoresAmount = heAm
+            fieldData.fillLists(prAmount, heAmount, plAmount)
+            fieldData.startPredatorsAmount  = prAmount
+            fieldData.startPlantsAmount = plAmount
+            fieldData.startHerbivoresAmount = heAmount
             fieldData.startRatio = fSize
+            fieldData.setStraightMovement(minSWT, maxSWT)
+
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
