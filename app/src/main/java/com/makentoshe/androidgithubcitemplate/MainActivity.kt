@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
         val statsBtn = findViewById<Button>(R.id.StatsBtn)
         val speedPlusBtn = findViewById<Button>(R.id.SpeedBtn2)
         val speedMinusBtn = findViewById<Button>(R.id.SpeedBtn1)
-        val stopButton = findViewById<ToggleButton>(R.id.StartBtn)
+        val stopButton = findViewById<Button>(R.id.StopBtn)
+        val startButton = findViewById<Button>(R.id.StartBtn)
         val speedText = findViewById<TextView>(R.id.speedText)
         val zoomBar = findViewById<SeekBar>(R.id.seekBar)
         speedText.text = "1.0x"
@@ -55,11 +56,10 @@ class MainActivity : AppCompatActivity() {
         val field = Field(fieldView)
 
         stopButton.setOnClickListener {
-            Log.d("aaa", "${stopButton.isActivated}")
-            if (stopButton.text == "Start")
-                field.stopProcess()
-            else
-                field.startProcess()
+            field.stopProcess()
+        }
+        startButton.setOnClickListener {
+            field.startProcess()
         }
 
         speedPlusBtn.setOnClickListener {

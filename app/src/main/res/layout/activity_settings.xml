@@ -9,19 +9,20 @@
     android:background="#EFB3FA">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="#EFB3FA"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EFB3FA"
         tools:context=".SettingsActivity"
         tools:ignore="ExtraText">
 
         //Settings title
+
         <TextView
             android:id="@+id/SetView"
 
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
             android:text="@string/settings"
             android:textColor="@color/design_default_color_secondary_variant"
             android:textSize="20sp"
@@ -32,12 +33,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         //"Predators number:" textview
+
         <TextView
             android:id="@+id/PrNumView"
 
+            android:layout_width="220dp"
             android:layout_height="60dp"
             android:layout_marginTop="18dp"
-            android:layout_width="220dp"
             android:text="@string/predators_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -49,11 +51,12 @@
             tools:layout_editor_absoluteY="82dp" />
 
         //"Herbivores number:" text
+
         <TextView
             android:id="@+id/HeNumView"
 
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/herbivores_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -66,10 +69,11 @@
             tools:layout_editor_absoluteY="125dp" />
 
         //"FSize:" text
+
         <TextView
             android:id="@+id/FSView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/field_size"
             android:textColor="@color/cardview_dark_background"
 
@@ -81,10 +85,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //"Points for plant:" text
+
         <TextView
             android:id="@+id/PlNumView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/plants_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -96,10 +101,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //MaxPlantAmount
+
         <TextView
             android:id="@+id/MaxPlNumView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/max_plants_number"
             android:textColor="@color/cardview_dark_background"
 
@@ -111,10 +117,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //Plants spawn time
+
         <TextView
             android:id="@+id/PlSpawnTimeView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/plants_spawn_dt_ms"
             android:textColor="@color/cardview_dark_background"
 
@@ -126,10 +133,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //Amount of spawning plants
+
         <TextView
             android:id="@+id/PlSpawnNumView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/plants_spawning_in_dt"
             android:textColor="@color/cardview_dark_background"
 
@@ -141,10 +149,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //Common evolution ratio
+
         <TextView
             android:id="@+id/RatioView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/common_evolution_ratio"
             android:textColor="@color/cardview_dark_background"
 
@@ -156,10 +165,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //FOV evolution ratio
+
         <TextView
             android:id="@+id/FOVRatioView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/fov_evolution_ratio"
             android:textColor="@color/cardview_dark_background"
 
@@ -171,10 +181,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //RSpeed evolution ratio
+
         <TextView
             android:id="@+id/RSRatioView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/rspeed_evolution_ratio"
             android:textColor="@color/cardview_dark_background"
 
@@ -186,10 +197,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //Speed evolution ratio
+
         <TextView
             android:id="@+id/SRatioView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/speed_evolution_ratio"
             android:textColor="@color/cardview_dark_background"
 
@@ -201,10 +213,11 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //Speed evolution ratio
+
         <TextView
             android:id="@+id/HRatioView"
-            android:layout_height="60dp"
             android:layout_width="220dp"
+            android:layout_height="60dp"
             android:text="@string/hunger_ratio"
             android:textColor="@color/cardview_dark_background"
 
@@ -216,379 +229,407 @@
             tools:layout_editor_absoluteY="159dp" />
 
         //Predators number getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/PrNumEdit"
-            android:inputType="numberDecimal"
+
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
-            android:layout_width="0dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+
+            android:inputType="numberDecimal"
 
             android:text="@string/_5"
-
             android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/PrNumView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/PrNumView"
             app:layout_constraintTop_toBottomOf="@+id/SetView"
-            android:importantForAutofill="no"
             tools:ignore="LabelFor" />
 
         //Herbivores number getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/HeNumEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_5"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/PrNumEdit"
+            tools:ignore="Autofill,LabelFor"
             tools:layout_editor_absoluteX="156dp"
-            tools:layout_editor_absoluteY="109dp"
-            tools:ignore="Autofill,LabelFor" />
+            tools:layout_editor_absoluteY="109dp" />
 
         //FSize getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/FSEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_1_0"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/PlNumEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Plants number getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/PlNumEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_20"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/HeNumEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Max plants number getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/MaxPlNumEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/FSEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Plants spawn time setter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/PlSpawnTimeEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/MaxPlNumEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Plants spawning in dt getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/PlSpawnNumEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/PlSpawnTimeEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Common evolution ratio getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/RatioEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/PlSpawnNumEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //FOV ratio getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/FOVRatioEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/RatioEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //RSpeed ratio getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/RSRatioEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/FOVRatioEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Speed ratio getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/SRatioEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/RSRatioEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Hunger ratio getter
-        <EditText
-            android:ems="10"
 
+        <EditText
             android:id="@+id/HRatioEdit"
-            android:inputType="numberDecimal"
-            android:layout_height="60dp"
+
             android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
 
             android:text="@string/_200"
 
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/PrNumEdit"
             app:layout_constraintTop_toBottomOf="@+id/SRatioEdit"
             tools:ignore="Autofill,LabelFor" />
 
         //Цвет растений
+
         <Button
             android:id="@+id/PlColorBtn"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/HRatioView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="60dp"
-            android:text="@string/set_plants_color"/>
+            android:text="@string/set_plants_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HRatioView" />
+
         <View
             android:id="@+id/PlView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/PlColorBtn"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/PlColorBtn" />
         //Цвет травоядных
+
         <Button
             android:id="@+id/HeColorBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/PlColorBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="60dp"
-            android:text="@string/set_herbivores_color"/>
+            android:text="@string/set_herbivores_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PlColorBtn" />
+
         <View
             android:id="@+id/HeView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/HeColorBtn"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/HeColorBtn" />
         //Цвет хищников
+
         <Button
             android:id="@+id/PrColorBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/HeColorBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="60dp"
-            android:text="@string/set_predators_color"/>
+            android:text="@string/set_predators_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HeColorBtn" />
+
         <View
             android:id="@+id/PrView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/PrColorBtn"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/PrColorBtn" />
 
         //Max SWT SeekBar
+
         <TextView
             android:id="@+id/SWTMaxView"
             android:layout_width="180dp"
             android:layout_height="61dp"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
             android:text="@string/max_straight_walking_time_ms"
-            android:textSize="12sp"
             android:textColor="@color/cardview_dark_background"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/PrColorBtn"/>
+            app:layout_constraintTop_toBottomOf="@+id/PrColorBtn" />
+
         <SeekBar
             android:id="@+id/SWTMaxSeekBar"
             android:layout_width="0dp"
             android:layout_height="28dp"
             android:layout_marginEnd="10dp"
             android:max="100"
-            app:layout_constraintStart_toEndOf="@+id/SWTMaxView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/SWTMaxView"/>
+            app:layout_constraintStart_toEndOf="@+id/SWTMaxView"
+            app:layout_constraintTop_toTopOf="@+id/SWTMaxView" />
+
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:text="@string/_100ms"
-            app:layout_constraintTop_toBottomOf="@+id/SWTMaxSeekBar"
-            app:layout_constraintStart_toStartOf="@id/SWTMaxSeekBar"/>
+            app:layout_constraintStart_toStartOf="@id/SWTMaxSeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/SWTMaxSeekBar" />
+
         <TextView
+            android:id="@+id/textView7"
             android:layout_width="70dp"
             android:layout_height="20dp"
             android:layout_marginEnd="1dp"
             android:text="@string/_20000ms"
-            app:layout_constraintTop_toBottomOf="@+id/SWTMaxSeekBar"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SWTMaxSeekBar" />
 
         //Min SWT SeekBar
+
         <TextView
             android:id="@+id/SWTMinView"
             android:layout_width="180dp"
             android:layout_height="51dp"
             android:layout_marginStart="4dp"
             android:text="@string/min_straight_walking_time_ms"
-            android:textSize="12sp"
             android:textColor="@color/cardview_dark_background"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SWTMaxView"/>
+            app:layout_constraintTop_toBottomOf="@+id/SWTMaxView" />
+
         <SeekBar
             android:id="@+id/SWTMinSeekBar"
             android:layout_width="0dp"
             android:layout_height="28dp"
             android:layout_marginEnd="10dp"
             android:max="100"
-            app:layout_constraintStart_toEndOf="@+id/SWTMinView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/SWTMinView"/>
+            app:layout_constraintStart_toEndOf="@+id/SWTMinView"
+            app:layout_constraintTop_toTopOf="@+id/SWTMinView" />
+
         <TextView
+            android:id="@+id/textView8"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:text="@string/_100ms"
-            app:layout_constraintTop_toBottomOf="@+id/SWTMinSeekBar"
-            app:layout_constraintStart_toStartOf="@id/SWTMinSeekBar"/>
+            app:layout_constraintStart_toStartOf="@id/SWTMinSeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/SWTMinSeekBar" />
+
         <TextView
+            android:id="@+id/textView9"
             android:layout_width="70dp"
             android:layout_height="20dp"
             android:layout_marginEnd="1dp"
             android:text="@string/_20000ms"
-            app:layout_constraintTop_toBottomOf="@+id/SWTMinSeekBar"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SWTMinSeekBar" />
 
         <CheckBox
             android:id="@+id/CoParam"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="1dp"
             android:layout_marginTop="20dp"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@+id/SWTMinView"
-            android:text="@string/creatures_will_have_the_same_parameters_on_start"
+            android:layout_marginEnd="1dp"
             android:button="@null"
-            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"/>
+            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+            android:text="@string/creatures_will_have_the_same_parameters_on_start"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/SWTMinView" />
 
 
         //Back button
-        <Button
-            android:id="@+id/BackBtn1"
-
-            android:layout_height="60dp"
-            android:layout_width="130dp"
-            android:layout_marginBottom="7dp"
-
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/back"
-            app:layout_constraintTop_toBottomOf="@id/CoParam"
-
-            app:layout_constraintStart_toStartOf="parent"
-
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="680dp" />
 
         //Accept Button
+
+        <Button
+            android:id="@+id/BackBtn1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/back_button"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/CoParam"
+
+            />
+
         <Button
             android:id="@+id/AcceptBtn1"
-            android:layout_width="130dp"
+            android:layout_width="70dp"
             android:layout_height="70dp"
-            android:textSize="12sp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/restart_button"
             app:layout_constraintStart_toEndOf="@id/BackBtn1"
-            app:layout_constraintTop_toTopOf="@id/BackBtn1"
-            android:layout_marginStart="10dp"
-            android:text="@string/restart_with_new_settings"/>
+            app:layout_constraintTop_toTopOf="@id/BackBtn1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

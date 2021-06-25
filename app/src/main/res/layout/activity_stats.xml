@@ -78,9 +78,9 @@
 
     <Button
         android:id="@+id/BackBtn2"
-        android:layout_width="110dp"
+        android:layout_width="60dp"
         android:layout_height="60dp"
-        android:text="Back"
+        android:background="@drawable/back_button_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
