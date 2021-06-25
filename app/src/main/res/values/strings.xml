@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">AndroidGithubCiTemplate</string>
+    <string name="predators_number">Predators number:</string>
+    <string name="settings">SETTINGS</string>
+    <string name="submit">Submit</string>
+    <string name="_5">5</string>
+    <string name="_1_0">1.0</string>
+    <string name="velocity_efficiency">Velocity/Efficiency:</string>
+    <string name="_20">20</string>
+    <string name="plants_number">Plants number:</string>
+    <string name="set_plants_color">Set plants color</string>
+    <string name="set_herbivores_color">Set herbivores color</string>
+    <string name="herbivores_number">Herbivores number:</string>
+    <string name="set_predators_color">Set predators color</string>
+    <string name="back">Back</string>
+    <string name="restart_with_new_settings">Restart with new settings</string>
+    <string name="field_size">Field size:</string>
+    <string name="_100">100</string>
+    <string name="_200">200</string>
+    <string name="max_plants_number">Max plants number:</string>
+    <string name="_20000ms">20000ms</string>
+    <string name="_100ms">100ms</string>
+    <string name="min_straight_walking_time_ms">Min straight walking time(ms):</string>
+    <string name="max_straight_walking_time_ms">Max straight walking time(ms):</string>
+    <string name="plants_spawn_dt_ms">Plants spawn dt(ms):</string>
+    <string name="common_evolution_ratio">Common evolution ratio:</string>
+    <string name="plants_spawning_in_dt">Plants spawning in dt:</string>
+    <string name="fov_evolution_ratio">FOV evolution ratio:</string>
+    <string name="speed_evolution_ratio">Speed evolution ratio:</string>
+    <string name="rspeed_evolution_ratio">RSpeed evolution ratio:</string>
+    <string name="hunger_ratio">Hunger ratio:</string>
+    <string name="creatures_will_have_the_same_parameters_on_start">Creatures will have the same parameters on start</string>
 </resources>
