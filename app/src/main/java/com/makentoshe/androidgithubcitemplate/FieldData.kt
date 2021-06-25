@@ -102,9 +102,9 @@ class FieldData {
                         (2..fieldSizeW - 3).random().toFloat(),
                         (2..fieldSizeH - 3).random().toFloat()
                     ),
-                    (100..200).random().toFloat() / 10,
-                    (50..70).random().toFloat() / 10,
-                    (40..60).random().toFloat() / 10,
+                    fieldOfView,
+                    speed,
+                    baseRotationSpeed,
                     ((-314159265..314159265).random() / 200000000).toFloat(),
                     2F
                 )
@@ -114,9 +114,9 @@ class FieldData {
                         (2..fieldSizeW - 3).random().toFloat(),
                         (2..fieldSizeH - 3).random().toFloat()
                     ),
-                    (100..200).random().toFloat() / 10,
-                    (50..70).random().toFloat() / 10,
-                    (40..60).random().toFloat() / 10,
+                    fieldOfView,
+                    speed,
+                    baseRotationSpeed,
                     ((-314159265..314159265).random() / 200000000).toFloat(),
                     2F
                 )

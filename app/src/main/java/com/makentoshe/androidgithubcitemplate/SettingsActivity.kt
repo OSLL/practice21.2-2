@@ -146,6 +146,7 @@ class SettingsActivity : AppCompatActivity() {
 
             fieldData.clearAll()
             fieldData.setFieldSize(fSize)
+            fieldData.constastParametersAreSet = coParam
             fieldData.fillLists(prAmount, heAmount, plAmount)
             fieldData.startPredatorsAmount  = prAmount
             fieldData.startPlantsAmount = plAmount
@@ -160,7 +161,6 @@ class SettingsActivity : AppCompatActivity() {
             fieldData.setEvolutionRatioForRSpeed(rsEvRatio)
             fieldData.setEvolutionRatioForSpeed(sEvRatio)
             fieldData.setHungerRatiof(hRatio)
-            fieldData.constastParametersAreSet = coParam
 
 
             startActivity(Intent(this, MainActivity::class.java))
