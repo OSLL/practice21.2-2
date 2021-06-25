@@ -22,5 +22,7 @@
     <string name="_100ms">100ms</string>
     <string name="min_straight_walking_time_ms">Min straight walking time(ms):</string>
     <string name="max_straight_walking_time_ms">Max straight walking time(ms):</string>
-    <string name="plants_spawn_dt_ms">plants_spawn_dt(ms):</string>
+    <string name="plants_spawn_dt_ms">Plantsspawn dt(ms):</string>
+    <string name="common_evolution_ratio">Common evolution ratio:</string>
+    <string name="plants_spawning_in_dt">Plants spawning in dt:</string>
 </resources>
