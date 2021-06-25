@@ -64,10 +64,13 @@ class FieldData {
         clearPredators()
     }
 
+    private val maxHerbivoresAmount = 1000
+    private val maxPredatorsAmount = 1000
+
     /* Функции добавления в списки */
     fun fillLists(newPredatorsCount: Int, newHerbivoresCount: Int, newPlantsCount: Int) {
-        val predatorsCount = newPredatorsCount.coerceIn(0..1000)
-        val herbivoresCount = newHerbivoresCount.coerceIn(0..1000)
+        val predatorsCount = newPredatorsCount.coerceIn(0..maxPredatorsAmount)
+        val herbivoresCount = newHerbivoresCount.coerceIn(0..maxHerbivoresAmount)
         val plantsCount = newPlantsCount.coerceIn(0..maxPlantsAmount)
 
         if (!constastParametersAreSet) {
@@ -287,55 +290,57 @@ class FieldData {
                 breedingIndicesHerbivore += i
             }
 
-        for (i in breedingIndicesPredator) {
-            val newFieldOfView =
-                (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
-                    0f
-                )
-            val newSpeed =
-                (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
-                    0f
-                )
-            val newBaseRotationSpeed =
-                (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
-                    0f
-                )
-            val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
+        for (i in breedingIndicesPredator)
+            if (predatorsList.size <= maxPredatorsAmount) {
+                val newFieldOfView =
+                    (predatorsList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
+                        0f
+                    )
+                val newSpeed =
+                    (predatorsList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
+                        0f
+                    )
+                val newBaseRotationSpeed =
+                    (predatorsList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
+                        0f
+                    )
+                val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
 
-            predatorsList += PredatorV(
-                predatorsList[i].pos,
-                newFieldOfView,
-                newSpeed,
-                newBaseRotationSpeed,
-                newOrientation,
-                2F
-            )
-        }
+                predatorsList += PredatorV(
+                    predatorsList[i].pos,
+                    newFieldOfView,
+                    newSpeed,
+                    newBaseRotationSpeed,
+                    newOrientation,
+                    2F
+                )
+            }
 
-        for (i in breedingIndicesHerbivore) {
-            val newFieldOfView =
-                (herbivoresList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
-                    0f
-                )
-            val newSpeed =
-                (herbivoresList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
-                    0f
-                )
-            val newBaseRotationSpeed =
-                (herbivoresList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
-                    0f
-                )
-            val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
+        for (i in breedingIndicesHerbivore)
+            if (herbivoresList.size <= maxHerbivoresAmount) {
+                val newFieldOfView =
+                    (herbivoresList[i].fieldOfView + (-20..20).random() / 10f * evoRatioForFOV).coerceAtLeast(
+                        0f
+                    )
+                val newSpeed =
+                    (herbivoresList[i].speed + (-10..10).random() / 10f * evoRatioForSpeed).coerceAtLeast(
+                        0f
+                    )
+                val newBaseRotationSpeed =
+                    (herbivoresList[i].baseRotationSpeed + (-9..9).random() / 10f * evoRatioForRSpeed).coerceAtLeast(
+                        0f
+                    )
+                val newOrientation = ((-314159265..314159265).random() / 200000000).toFloat()
 
-            herbivoresList += HerbivoreV(
-                herbivoresList[i].pos,
-                newFieldOfView,
-                newSpeed,
-                newBaseRotationSpeed,
-                newOrientation,
-                2F
-            )
-        }
+                herbivoresList += HerbivoreV(
+                    herbivoresList[i].pos,
+                    newFieldOfView,
+                    newSpeed,
+                    newBaseRotationSpeed,
+                    newOrientation,
+                    2F
+                )
+            }
 
         // Рост и размножение растений
         for (i in plantsList.indices)
