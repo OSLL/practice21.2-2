@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         }
         layout.addView(fieldView)
         field.setTick(1f)
-        field.startProcess()
+        if (stopButton.isEnabled)
+            field.startProcess()
     }
 }
