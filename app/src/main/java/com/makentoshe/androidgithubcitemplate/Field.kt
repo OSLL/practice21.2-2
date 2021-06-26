@@ -8,7 +8,7 @@ class Field(
 ) {
     private var fieldView = fieldViewSet
 
-    private var go = true
+    private var go = !isPauseEnabled
     var speed = 1f
     private var speeds = arrayOf(0.5f, 1f, 1.5f, 2f, 2.5f, 3f, 4f, 5f)
     var speedIndex = 1
@@ -52,12 +52,12 @@ class Field(
 
     fun doFrame() {
         Handler(Looper.getMainLooper()).postDelayed({
-            if (go)
+            if (!isPauseEnabled)
                 fieldData.update(speed)
 
             fieldView.setListsToDraw(fieldData.predatorsList, fieldData.herbivoresList, fieldData.plantsList)
             fieldView.invalidate()
-            if (go)
+            if (!isPauseEnabled)
                 doFrame()
         }, (tickLength).toLong())
     }
