@@ -33,8 +33,8 @@ class FieldData {
     val plantsList = mutableListOf<PlantV>()
 
     // Индексы мёртвых животных и растений в списках
-    private val deathPlantsIndices = mutableListOf<Int>()
-    private val deathHerbivoresIndices = mutableListOf<Int>()
+    val deathPlantsIndices = mutableListOf<Int>()
+    val deathHerbivoresIndices = mutableListOf<Int>()
     private val deathFromHungerIndicesPredators = mutableListOf<Int>()
 
     // Индексы размножившихся животных и растений в списках
