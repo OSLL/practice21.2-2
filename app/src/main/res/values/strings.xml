@@ -30,4 +30,5 @@
     <string name="rspeed_evolution_ratio">RSpeed evolution ratio:</string>
     <string name="hunger_ratio">Hunger ratio:</string>
     <string name="creatures_will_have_the_same_parameters_on_start">Creatures will have the same parameters on start</string>
+    <string name="textview">TextView</string>
 </resources>

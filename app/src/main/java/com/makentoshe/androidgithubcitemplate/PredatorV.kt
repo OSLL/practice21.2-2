@@ -16,7 +16,7 @@ class PredatorV(
     private val const = 1.5f                // Константа для подсчёта очков относительно веса
     private var rotationSpeed = baseRotationSpeed / size / size / 2
     private var energyConsumptionPerUnit =
-    0.0003f * fieldData.hungerRatio * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
+        0.0003f * fieldData.hungerRatio * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
 
     private var dangle = orientation
     private var oldAngle = orientation
@@ -68,6 +68,9 @@ class PredatorV(
                 val dx = speed * cos(minDst.angle) * dt
                 val dy = speed * sin(minDst.angle) * dt
 
+                if (fieldData.deathHerbivoresIndices.any {it == minDst.index})
+                    continue
+
                 val herbivore = herbivores[minDst.index]
 
                 if (minDst.len < speed * dt) {
@@ -93,7 +96,7 @@ class PredatorV(
                 }
 
                 if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
-                    dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
+                    dy + pos.y in (size)..(fieldData.fieldSizeH - 1 - size)
                 ) {
                     dangle = when {
                         minDst.angle - orientation > PI -> 2 * PI.toFloat() - (minDst.angle - orientation)
@@ -139,7 +142,7 @@ class PredatorV(
                 var dy = dlen * sin(angle)
 
                 if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
-                    dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
+                    dy + pos.y in (size)..(fieldData.fieldSizeH - 1 - size)
                 ) {
                     dangle = when {
                         angle - orientation > PI -> 2 * PI.toFloat() - (angle - orientation)
@@ -161,7 +164,7 @@ class PredatorV(
                     dy = dlen * sin(angle)
 
                     if (dx + pos.x in (size)..(fieldData.fieldSizeW - 1 - size) &&
-                        dy + pos.y in (size)..(fieldData.fieldSizeH -1  - size)
+                        dy + pos.y in (size)..(fieldData.fieldSizeH - 1 - size)
                     ) {
                         dangle = when {
                             angle - orientation > PI -> 2 * PI.toFloat() - (angle - orientation)
@@ -176,23 +179,27 @@ class PredatorV(
                         pos = Point(pos.x + dx, pos.y + dy)
 
                         currentPoints -= energyConsumptionPerUnit * speed * dt
-                    }
-                    else {
+                    } else {
                         rndTime -= 1000
                     }
                 }
             }
             resize()
         } else {
-            rotate(dt)
+            rotate(dt, speed1)
 
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
             if (newX in (size..fieldData.fieldSizeW - 1 - size) &&
-                newY in (size..fieldData.fieldSizeH - 1 - size)) {
+                newY in (size..fieldData.fieldSizeH - 1 - size)
+            ) {
                 pos = Point(newX, newY)
                 for (herbivore in herbivores)
-                    if (length(newX - herbivore.pos.x, newY - herbivore.pos.y) < herbivore.size + size) {
+                    if (length(
+                            newX - herbivore.pos.x,
+                            newY - herbivore.pos.y
+                        ) < herbivore.size + size
+                    ) {
                         currentPoints += herbivore.size * const
                         return herbivores.indexOf(herbivore)
                     }
@@ -208,20 +215,20 @@ class PredatorV(
         return sqrt(dX * dX + dY * dY)
     }
 
-    private fun rotate(dt: Float) {
+    private fun rotate(dt: Float, speed1: Float) {
         rndTime = System.currentTimeMillis()
 
         if (orientation !in (oldAngle + dangle - 2 * PI.toFloat()..oldAngle + dangle + 2 * PI.toFloat())) {
             orientation = 0f
             oldAngle = 0f
+            dangle = 0f
             needToRotate = false
         }
 
         for (i in 0..rotationSpeed.toInt())
-            if (orientation !in (oldAngle + dangle - 2 * criticalAngle..oldAngle + dangle + 2 * criticalAngle) && needToRotate) {
+            if (orientation !in (oldAngle + dangle - 2 * criticalAngle * speed1..oldAngle + dangle + 2 * criticalAngle * speed1) && needToRotate) {
                 orientation += dangle * dt
-            }
-            else {
+            } else {
                 orientation = oldAngle + dangle
                 needToRotate = false
             }
@@ -229,7 +236,8 @@ class PredatorV(
 
     private fun resize() {
         size = 2 - 1 / (currentPoints + 5.75f)
-        energyConsumptionPerUnit = 0.0003f * fieldData.hungerRatio * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
+        energyConsumptionPerUnit =
+            0.0003f * fieldData.hungerRatio * size * size * speed * fieldOfView * rotationSpeed / pointsForBreeding
         rotationSpeed = baseRotationSpeed / (size * size)
     }
 }

@@ -104,6 +104,9 @@ class HerbivoreV(
                 val dx = speed * cos(minDst.angle) * dt
                 val dy = speed * sin(minDst.angle) * dt
 
+                if (fieldData.deathPlantsIndices.any {it == minDst.index})
+                    continue
+
                 val plant = plants[minDst.index]
 
                 if (minDst.len < speed * dt) {
@@ -276,7 +279,7 @@ class HerbivoreV(
             }
             resize()
         } else {
-            rotate(dt)
+            rotate(dt, speed1)
 
             val newX = pos.x + speed * cos(orientation) * dt
             val newY = pos.y + speed * sin(orientation) * dt
@@ -303,17 +306,18 @@ class HerbivoreV(
         return sqrt(dX * dX + dY * dY)
     }
 
-    private fun rotate(dt: Float) {
+    private fun rotate(dt: Float, speed1: Float) {
         rndTime = System.currentTimeMillis()
 
         if (orientation !in (oldAngle + dangle - 2 * PI.toFloat()..oldAngle + dangle + 2 * PI.toFloat())) {
             orientation = 0f
             oldAngle = 0f
+            dangle = 0f
             needToRotate = false
         }
 
         for (i in 0..rotationSpeed.toInt())
-            if (orientation !in (oldAngle + dangle - 2 * criticalAngle..oldAngle + dangle + 2 * criticalAngle) && needToRotate) {
+            if (orientation !in (oldAngle + dangle - 2 * criticalAngle * speed1..oldAngle + dangle + 2 * criticalAngle * speed1) && needToRotate) {
                 orientation += dangle * dt
             }
             else {

@@ -1,19 +1,20 @@
 package com.makentoshe.androidgithubcitemplate
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
 
 
 val fieldData = FieldData()
-var isFirst = true
+var isFirstRun = true
+var isPauseEnabled = false
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         val statsBtn = findViewById<Button>(R.id.StatsBtn)
         val speedPlusBtn = findViewById<Button>(R.id.SpeedBtn2)
         val speedMinusBtn = findViewById<Button>(R.id.SpeedBtn1)
-        val stopButton = findViewById<ToggleButton>(R.id.StartBtn)
+        val stopButton = findViewById<Button>(R.id.StopBtn)
+        val startButton = findViewById<Button>(R.id.StartBtn)
         val speedText = findViewById<TextView>(R.id.speedText)
         val zoomBar = findViewById<SeekBar>(R.id.seekBar)
         speedText.text = "1.0x"
@@ -36,7 +38,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        if (isFirst) {
+        stopButton.isEnabled = !isPauseEnabled
+        startButton.isEnabled = isPauseEnabled
+
+        if (isFirstRun) {
             val display = windowManager.defaultDisplay
             val metricsB = DisplayMetrics()
             display.getMetrics(metricsB)
@@ -55,11 +60,16 @@ class MainActivity : AppCompatActivity() {
         val field = Field(fieldView)
 
         stopButton.setOnClickListener {
-            Log.d("aaa", "${stopButton.isActivated}")
-            if (stopButton.text == "Start")
-                field.stopProcess()
-            else
-                field.startProcess()
+            stopButton.isEnabled = false
+            startButton.isEnabled = true
+            isPauseEnabled = true
+            field.stopProcess()
+        }
+        startButton.setOnClickListener {
+            startButton.isEnabled = false
+            stopButton.isEnabled = true
+            isPauseEnabled = false
+            field.startProcess()
         }
 
         speedPlusBtn.setOnClickListener {
@@ -84,12 +94,13 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        if (isFirst) {
-            fieldData.fillLists(5, 5, 5)
-            isFirst = false
+        if (isFirstRun) {
+            fieldData.clearAll()
+            isFirstRun = false
         }
         layout.addView(fieldView)
         field.setTick(1f)
-        field.startProcess()
+        if (!isPauseEnabled)
+            field.startProcess()
     }
 }
